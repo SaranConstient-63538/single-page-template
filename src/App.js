@@ -1,25 +1,54 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Suspense, useState, lazy} from 'react';
 
-function App() {
+import { Routes, Route, BrowserRouter }  from 'react-router-dom';
+import { Spinner,Container, Row, Col  } from 'react-bootstrap';
+
+import {AuthProvider} from './components/auth'
+import { useAuth } from './components/auth';
+import PrivateRoute from './components/PrivateRoute';
+// import Router from './components/Router';
+
+const  LoginForm = lazy(()=> import('./components/LoginForm'));
+const Topbar = lazy(()=> import('./components/topbar/Topbar'));
+const Sidebar = lazy(()=> import('./components/sidebar/Sidebar'));
+const Dashboard = lazy(()=> import('./components/pages/Dashboard'));
+const MainPage =lazy(()=> import('./components/MainPage'));
+
+
+const loading =(
+  <div className="text-center align-items-center">
+    <Spinner animation="border" variant="primary" />
+  </div>
+);
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <BrowserRouter>
+      <Suspense fallback={loading}> 
+        <Routes>   
+          {/* <PrivateRoute  exact path="/home" element={<MainPage />} restricted={false} /> */}
+          {/* <PrivateRoute exact path="/" element={<LoginForm />} restricted={true} /> */}
+          {/*  <Route exact element={<LoginForm />} path="/" name="Login Page"  />                 */}
+          <Route exact element={<LoginForm />} path="/login" name="Login Page"  />
+          <Route
+          path="/"
+          element={
+           
+              <LoginForm />
+           
+             }
+             />
+              <Route
+          path="/home"
+          element={
+            <PrivateRoute>
+              <MainPage />
+            </PrivateRoute>
+             }
+             />
+        </Routes>   
+      </Suspense>   
+    </BrowserRouter>
+  )
 }
-
 export default App;
