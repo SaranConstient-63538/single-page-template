@@ -35,7 +35,7 @@ if(isLogin())navigate('/home');
     }
     instance.post('/login',login_data).then( res =>{
       console.log(res.data.responseResult)
-      instance.defaults.headers.common['Authorization']=`Bearer ${res.data.token}`
+      // instance.defaults.headers.common['Authorization']=`Bearer ${res.data.token}`
       localStorage.setItem('token', res.data.responseResult.token)
 
       navigate('/home')      

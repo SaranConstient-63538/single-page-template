@@ -6,7 +6,7 @@ import DatePicker from "react-datepicker";
 import React,{useState, useEffect} from 'react'
 import './leave.css'
 import moment from 'moment';
-import axiosInstance from '../../service/service';
+import instance from '../../service/service';
 
 
 const SickLeave =({sick_leave})=>{
@@ -42,7 +42,7 @@ const SickLeave =({sick_leave})=>{
         
         if(startDate <= endDate){
             console.log(sick_apply);
-            axiosInstance.post('/applyLeave',sick_apply)
+            instance.post('/applyLeave',sick_apply)
             .then( res => {
                 console.log(res.data)
                 setStartdate('')

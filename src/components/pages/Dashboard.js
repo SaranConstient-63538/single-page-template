@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import {Container, Row, Col,Card, Table} from 'react-bootstrap';
+import {Container, Row, Col,Card, Table,Button} from 'react-bootstrap';
 import { CircularProgressbar} from 'react-circular-progressbar'
 import Permissionslider    from './Permissionslider';
 import axios from 'axios'
@@ -14,33 +14,33 @@ import instance from '../../service/service'
 const Dashboard = () => {
        const [sick_leave, setSick_leave]=useState('')
        const [casual_leave, setCasual_leave]=useState('')
-       const [work_from_leave, setWork_from_leave]=useState('')
+       const [work_from_home, setWork_from_home]=useState('')
+       const [userList, setUserList]=useState([])
     //    const [sick_leave, setSick_leave]=useState('')
     useEffect(()=>{
        
         instance.post('/leaveList').then(res =>{
-            // console.log( res);
+            console.log( res.data);
            for( var i=0; i< res.data.result.length;i++){
             if(res.data.result[i].id === 1){
                 setSick_leave(res.data.result[i])
             }else if(res.data.result[i].id === 2){
                 setCasual_leave(res.data.result[i])
             }else if(res.data.result[i].id === 3){
-                setWork_from_leave(res.data.result[i])
+                setWork_from_home(res.data.result[i])
             }
            }
         }).catch( err =>{
             console.log(err.message)
         })
+        instance.get('/usersLeaveList').then(res => {
+            console.log(res.data)
+            setUserList(res.data)
+        })
         
     },[])
-    useEffect(()=>{
-        instance.get('/usersLeaveList').then(res => console.log(res))
-    },[])
-<<<<<<< HEAD
-=======
- 
->>>>>>> 21619575f035c5502a3e716d7d32c4be91c58521
+
+    
 
 
 
@@ -64,7 +64,7 @@ const Dashboard = () => {
                         <CasualLeavel  casual_leave={casual_leave}/>
                     </Col>
                     <Col sm md>
-                        <WorkFromHome work_from_leave={work_from_leave}/>                  
+                        <WorkFromHome work_from_home={work_from_home}/>                  
                     </Col>
                 </Row>                
            </Col>
@@ -74,18 +74,40 @@ const Dashboard = () => {
             <Col className="px-3 mt-3 mb-3">
                 <h4 className='text-start'>User Leave List</h4>                
             </Col>
-            <Col>
+            <Col className="px-3 py-3 mt-3 mb-3">
                 <Table striped bordered hover>
                     <thead>
                         <tr>
                             <th>S.No</th>
                             <th>Type of Leave</th>
+                            <th>Leave Reason</th>
                             <th>Approval Status</th>
-                            <th>Team Leader</th>
+                            {/* <th>Team Leader</th> */}
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="overflow-auto">
+                        {
+                            userList.map((item,idx)=>{
+                                console.log(item)
+                               return(
+                                    <tr key={idx}>
+                                        <td>{idx +  1}</td>
 
+                                        <td>{item.type_of_leave === 'sick_leave'? 'Sick Leave': item.type_of_leave === 'casual_leave' ? 'Casual Leave':item.type_of_leave === 'work_from_home' ? 'Work From Home':''  }</td>                                      
+                                        <td>{item.description}</td>
+                                        <td>
+                                            {item.status === 0 ?(
+                                                <p className='fs-6' >Waiting for Approval</p>
+                                            ):(
+                                                <p>Approved</p>
+                                            )
+                                        } 
+                                        </td>
+                                        {/* <td>{}</td> */}
+                                    </tr>
+                               )
+                            })
+                        }
                     </tbody>
                     
                     

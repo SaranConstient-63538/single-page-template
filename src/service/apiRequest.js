@@ -1,7 +1,7 @@
-import axiosInstance from './service'
+import instance from './service'
 import { tokenService } from './tokenService'
 
-axiosInstance.interceptors.request.use(
+instance.interceptors.request.use(
     async config =>{
         const token = tokenService.getAccessToken()
         // if(token){
@@ -18,7 +18,7 @@ axiosInstance.interceptors.request.use(
         return Promise.reject(error)
     }
 )
-axiosInstance.interceptors.response.use(
+instance.interceptors.response.use(
     (response)=> {
         return response;
     },

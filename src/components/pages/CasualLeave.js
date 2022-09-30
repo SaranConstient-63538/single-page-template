@@ -1,28 +1,26 @@
 import {  Row, Col, Modal, Card, Button, Form} from 'react-bootstrap'
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar'
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import React,{useState} from 'react'
 import moment from 'moment'
 import { useEffect } from 'react';
+import instance from '../../service/service'
 
 
 const CasualLeavel =({casual_leave})=>{
-    const minDate = null;
-    const maxDate = null
   
     const format_date = "YYYY-MM-DD"
     const [day_count, setDaycount] = useState(0)
     const [tot_day_count, setTot_day_count]=useState(12)
 
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
-  
     const addDays = (date, period) => {
-      return date.setDate(date.getDate() + period);
-    };
+        return date.setDate(date.getDate() + period);
+      };
 
-    const [sick_reason,setSickreason]=useState('')
+    const [startDate, setStartDate] = useState(addDays(new Date(),4));
+    const [endDate, setEndDate] = useState(addDays(new Date(),4));
+
+    const [casual_reason,setCasualreason]=useState('')
     
     const [show,setShow]=useState(false)
     const handleClose = () => setShow(false);
@@ -31,21 +29,43 @@ const CasualLeavel =({casual_leave})=>{
     
 
    useEffect(()=>{
-     minDate =moment(new Date()).add(4, 'day').format('YYYY-MM-DD');
-     maxDate =moment(new Date()).add(30, 'day').format('YYYY-MM-DD');
-    console.log(minDate);
-    console.log(maxDate);
+    //  minDate =moment(new Date()).add(4, 'day').format('YYYY-MM-DD');
+    //  maxDate =moment(new Date()).add(30, 'day').format('YYYY-MM-DD');
+    // console.log(minDate);
+    // console.log(maxDate);
   
    },[])
-    const onSubmit=()=>{           
+    const onSubmit=()=>{    
+        const casual_apply ={
+            from_date: moment(startDate).format(format_date),
+            to_date: moment(endDate).format(format_date),
+            type_of_leave: casual_leave.type_of_leave,
+            description: casual_reason,
+        }
+        
         if(startDate <= endDate){
-            console.log( moment(startDate).format(format_date),moment(endDate).format(format_date),sick_reason);
+            // console.log(casual_apply);
+            instance.post('/applyLeave',casual_apply)
+            .then( res => {
+                console.log(res.data)
+                setStartDate('')
+                setEndDate('')
+                setCasualreason('')
+            }).catch( err =>{
+                console.log(err.message)
+            })
         }else{
             console.log('Please select valid date')
         }
+        
+        // if(startDate <= endDate){
+        //     console.log( moment(startDate).format(format_date),moment(endDate).format(format_date),sick_reason);
+        // }else{
+        //     console.log('Please select valid date')
+        // }
     }
-    const onSickReason = (e)=>{
-        setSickreason(e.target.value)
+    const onCasualReason = (e)=>{
+        setCasualreason(e.target.value)
     }
     return (
         <>
@@ -60,7 +80,9 @@ const CasualLeavel =({casual_leave})=>{
                         <Card.Subtitle className="mb-3 mt-4 text-secondary">Casual Leave</Card.Subtitle>
                        
                         <div className="  mt-2 mb-3 text-center ">
-                        <Button onClick={handleShow}>Apply</Button>
+                        <Button onClick={handleShow}
+                            disabled={ casual_leave.per_year > 0 && casual_leave.per_month > 0 ? false: true}
+                        >Apply</Button>
                         </div>
                     
                 </Card.Body>
@@ -74,33 +96,32 @@ const CasualLeavel =({casual_leave})=>{
                         <Row>.
                             <h6 className="mb-3 mt-1">Date:</h6>
                             <Col md sm={6} className='mb-3'>  
-                                <DatePicker
-                                    selected={startDate}    
+                                <DatePicker className='form-control'
+                                    selected={startDate}
                                     onChange={(date) => setStartDate(date)}
+                                    selectsStart
                                     startDate={startDate}
-                                    minDate={minDate}
-                                    maxDate={maxDate}
-
-                                    // minDate={addDays(new Date(),4)}
-                                    // maxDate={addDays(new Date(),30)}
-                                    dateFormat="dd-MM-yyyy"
+                                    endDate={endDate}
+                                    minDate={addDays(new Date(),4)}
+                                    maxDate={addDays(new Date(),30)}
+                                    dateFormat="dd/MM/yyyy"
                                 />
                             </Col>
                             <Col md sm={6} className='mb-3'>
-                            <DatePicker
-                                selected={endDate}
-                                onChange={(date) => setEndDate(date)}
-                                selectsEnd
-                                minDate={minDate}
-                                maxDate={maxDate}
-                                // minDate={addDays(endDate, 4)}
-                                // maxDate={addDays(new Date(), 30)}
-                                dateFormat="dd-MM-yyyy"
-                            />
+                                <DatePicker className='form-control'
+                                    selected={endDate}
+                                    onChange={(date) => setEndDate(date)}
+                                    selectsEnd
+                                    startDate={startDate}
+                                    endDate={endDate}
+                                    minDate={addDays(new Date(),4)}
+                                    maxDate={addDays(new Date(),30)}
+                                    dateFormat="dd/MM/yyyy"
+                                />
                             </Col>
                         </Row> 
                         <h6 className='mb-3 mt-3'>Reason For </h6>
-                        <Form.Control as="textarea" rows={3} className="mb-3" value={sick_reason} onChange={onSickReason}/>  
+                        <Form.Control as="textarea" rows={3} className="mb-3" value={casual_reason} onChange={onCasualReason}/>  
                         <Button onClick={onSubmit}>Submit</Button>                                                                 
                     </Col>              
                 </Modal.Body>
