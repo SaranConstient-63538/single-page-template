@@ -8,14 +8,12 @@ import instance from '../../service/service'
 import moment from 'moment'
 
 const WorkFromHome =({work_from_home})=>{
-    console.log(work_from_home)
     const format_date = "YYYY-MM-DD"
-    const [day_count, setDaycount] = useState(0)
-    const [tot_day_count, setTot_day_count]=useState(20)
+    const [tot_day_count]=useState(20)
 
     const addDays = (date, period) => {
         return date.setDate(date.getDate() + period);
-      };
+    };
 
     const [startDate, setStartDate] = useState(addDays(new Date(),4));
     const [endDate, setEndDate] = useState(addDays(new Date(),4));
@@ -34,7 +32,6 @@ const WorkFromHome =({work_from_home})=>{
         }
         
         if(startDate <= endDate){
-            console.log(work_from_home_apply);
             instance.post('/applyLeave',work_from_home_apply)
             .then( res => {
                 console.log(res.data)
@@ -79,7 +76,7 @@ const WorkFromHome =({work_from_home})=>{
                     </div>                
                 </Card.Body>
             </Card> 
-            <Modal show={show} onHide={handleClose} size="lg" centered>
+            <Modal show={show} onHide={handleClose} size="lg" centered> 
                 <Modal.Header closeButton>
                     <Modal.Title>Work From Home</Modal.Title>
                 </Modal.Header>

@@ -1,56 +1,69 @@
 import React, {useState,useEffect} from 'react';
-import {Container, Row, Col,Card, Table,Button} from 'react-bootstrap';
-import { CircularProgressbar} from 'react-circular-progressbar'
+import { Row, Col,Card, Table } from 'react-bootstrap';
 import Permissionslider    from './Permissionslider';
-import axios from 'axios'
-
 import './leave.css'
 import WorkFromHome from './WorkFromHome';
 import CasualLeavel from './CasualLeave';
 import SickLeave from './SickLeave';
 import instance from '../../service/service'
 
-
 const Dashboard = () => {
-       const [sick_leave, setSick_leave]=useState('')
-       const [casual_leave, setCasual_leave]=useState('')
-       const [work_from_home, setWork_from_home]=useState('')
-       const [userList, setUserList]=useState([])
-    //    const [sick_leave, setSick_leave]=useState('')
+    const [sick_leave, setSick_leave]=useState('')
+    const [casual_leave, setCasual_leave]=useState('')
+    const [work_from_home, setWork_from_home]=useState('')
+    const [userList, setUserList]=useState([])
+    const items = JSON.parse(localStorage.getItem('data'));
+    useEffect(()=>{       
+        if(items.role === "trainee"){
+            instance.post('/leaveList').then(res =>{
+                // console.log( res.data);
+               for( var i=0; i< res.data.result.length;i++){
+                if(res.data.result[i].id === 1){
+                    setSick_leave(res.data.result[i])
+                }else if(res.data.result[i].id === 2){
+                    setCasual_leave(res.data.result[i])
+                }else if(res.data.result[i].id === 3){
+                    setWork_from_home(res.data.result[i])
+                }
+               }
+            }).catch( err =>{
+                console.log(err.message)
+            })  
+        }else{
+            instance.post('/leaveList').then(res =>{
+                // console.log( res.data);
+               for( var i=0; i< res.data.result.length;i++){
+                if(res.data.result[i].id === 1){
+                    setSick_leave(res.data.result[i])
+                }else if(res.data.result[i].id === 2){
+                    setCasual_leave(res.data.result[i])
+                }else if(res.data.result[i].id === 3){
+                    setWork_from_home(res.data.result[i])
+                }
+               }
+            }).catch( err =>{
+                console.log(err.message)
+            })  
+        }
+              
+    },[items])
     useEffect(()=>{
-       
-        instance.post('/leaveList').then(res =>{
-            console.log( res.data);
-           for( var i=0; i< res.data.result.length;i++){
-            if(res.data.result[i].id === 1){
-                setSick_leave(res.data.result[i])
-            }else if(res.data.result[i].id === 2){
-                setCasual_leave(res.data.result[i])
-            }else if(res.data.result[i].id === 3){
-                setWork_from_home(res.data.result[i])
-            }
-           }
-        }).catch( err =>{
-            console.log(err.message)
-        })
+       if(items.role === "trainee"){
+            instance.get('/usersLeaveList').then(res => {
+                setUserList(res.data)
+            })
+       }else{
         instance.get('/usersLeaveList').then(res => {
-            console.log(res.data)
             setUserList(res.data)
         })
-        
-    },[])
-
+       }        
+    },[items])
     
-
-
-
-
-  
   return (
     <>
-        <Card className="border mt-4 mb-4 px-2 mx-3 m-auto shadow">
+        <Card className="border mt-4 mb-4 px-2 mx-3 m-auto shadow rounded-4">
             <Col className="px-3 mt-3 mb-3">
-                <h4 className='text-start'>User Name</h4>                
+                <h4 className='text-start'>Welcome to {items.username}</h4>                
             </Col>
            <Col >
                 <Row className="justify-content-around px-3 mb-3  ">              
@@ -70,7 +83,7 @@ const Dashboard = () => {
            </Col>
         
         </Card>
-        <Card>
+        <Card className="border mt-4 mb-4 px-2 mx-3 m-auto shadow-lg rounded-4">
             <Col className="px-3 mt-3 mb-3">
                 <h4 className='text-start'>User Leave List</h4>                
             </Col>
@@ -88,11 +101,9 @@ const Dashboard = () => {
                     <tbody className="overflow-auto">
                         {
                             userList.map((item,idx)=>{
-                                console.log(item)
                                return(
                                     <tr key={idx}>
                                         <td>{idx +  1}</td>
-
                                         <td>{item.type_of_leave === 'sick_leave'? 'Sick Leave': item.type_of_leave === 'casual_leave' ? 'Casual Leave':item.type_of_leave === 'work_from_home' ? 'Work From Home':''  }</td>                                      
                                         <td>{item.description}</td>
                                         <td>
@@ -108,9 +119,7 @@ const Dashboard = () => {
                                )
                             })
                         }
-                    </tbody>
-                    
-                    
+                    </tbody>   
                 </Table>
             </Col>
         </Card>

@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react";
+import React,{useEffect} from "react";
 import loginImg from "../assets/images/loginImg.png";
 import cgsimg from "../assets/images/cgslogo.png";
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -8,7 +8,6 @@ import {useNavigate} from 'react-router-dom'
 import * as Ai from 'react-icons/ai'
 import {useForm} from 'react-hook-form'
 import { Form, Container, Col, Row, InputGroup } from 'react-bootstrap'
-import axios from 'axios'
 import instance from "../service/service";
 import { isLogin } from "./isLogin";
 
@@ -18,11 +17,10 @@ const schema = yup.object({
 }).required();
 
 const LoginForm = () => {
-
 useEffect(()=>{
   // console.log(apiRequest());
 if(isLogin())navigate('/home');
-},[])
+},[navigate])
   const navigate = useNavigate();
   const { handleSubmit, register, formState:{errors}} = useForm({
     resolver: yupResolver(schema)
@@ -33,8 +31,10 @@ if(isLogin())navigate('/home');
       email:data.email,
       password:data.password
     }
-    instance.post('/login',login_data).then( res =>{
-      console.log(res.data.responseResult)
+    instance.post('/login',login_data).then( res =>{ 
+      console.log(res.data.responseResult);
+      const _data = JSON.stringify( res.data.responseResult)
+      localStorage.setItem('data',_data)
       // instance.defaults.headers.common['Authorization']=`Bearer ${res.data.token}`
       localStorage.setItem('token', res.data.responseResult.token)
 

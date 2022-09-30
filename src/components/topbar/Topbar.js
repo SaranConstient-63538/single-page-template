@@ -1,24 +1,20 @@
 import React from 'react';
-import { Navbar, Nav, Button, Dropdown, Container,DropdownButton } from 'react-bootstrap'
+import { Navbar, Nav, Button, Dropdown } from 'react-bootstrap'
 import * as Ai from 'react-icons/ai'
-// import logoImg from '../../asset/images/stickylogo.png'
 import logoImg from '../../assets/images/cgslogo.png'
 import SearchBarTop from './SearchBarTop';
-import adminLogo from '../../assets/images/admin.png';
-import { DashboardOutlined, Person2Outlined } from '@mui/icons-material';
 import './topbar.css';
 import { useNavigate } from 'react-router-dom'
-
-import {NotificationsNoneOutlined, ExitToAppOutlined, MessageOutlined} from '@mui/icons-material';
-
+import {NotificationsNoneOutlined,  MessageOutlined} from '@mui/icons-material';
 
 const Topbar = ({handleShow}) => {   
     const navigate = useNavigate();
     const Logout =()=>{
         localStorage.removeItem('token')
+        localStorage.removeItem('data')
         navigate('/');
     }
-  return (
+    return (
         <Navbar sticky="top" expand="md"  className="shadow-sm topbar bg-white py-0 px-0 mt-0 flex-row">              
             <div className='navbar-brand-wrapper '>
                 <Navbar.Brand href="#home" className="logoIcon text-center">
@@ -49,7 +45,7 @@ const Topbar = ({handleShow}) => {
                                     <Dropdown.Toggle>
                                         <Ai.AiOutlinePoweroff size={20}/>
                                     </Dropdown.Toggle>
-                                    <Dropdown.Menu  align="end" >
+                                    <Dropdown.Menu  align="end" className='position-relative'>
                                         {/* <Dropdown.Item>Active Log</Dropdown.Item> */}
                                         <Dropdown.Item> 
                                             <div onClick={Logout} className="w-100 btn-primary">Logout</div>
@@ -60,11 +56,8 @@ const Topbar = ({handleShow}) => {
                         </Nav.Item>
                     </div>  
                 </Nav>
-            </Navbar.Collapse>
-                 
-            
+            </Navbar.Collapse>  
         </Navbar>
-  )
+    )
 }
-
 export default Topbar

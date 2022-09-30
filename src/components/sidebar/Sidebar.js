@@ -1,16 +1,12 @@
 
- 
-
 import React from 'react'
 import { Nav } from 'react-bootstrap'
-import { DashboardOutlined, Person2Outlined } from '@mui/icons-material';
 import * as Ri from 'react-icons/ri'
 import * as Fi from 'react-icons/fi'
 
 import './sidebar.css'
 
 const Sidebar = ({show}) => {
-  console.log(show)
   return (    
     <>
     {

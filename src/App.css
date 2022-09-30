@@ -141,3 +141,7 @@ a#navbarScrollingDropdown, .bell-icn, .notifi-icn{
 .navsearch::placeholder{
   color: #bbdcf6 !important;
 }
+.login{
+  top:200px;
+  bottom:200px;
+}

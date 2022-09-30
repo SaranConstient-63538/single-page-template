@@ -1,15 +1,12 @@
-import React,{ useState, useEffect } from 'react';
-import { Container, Row, Col} from 'react-bootstrap';
+import React,{ useState } from 'react';
+import { Container } from 'react-bootstrap';
 import  './Mainpage.css'
 const Sidebar = React.lazy(()=> import('./sidebar/Sidebar'));
 const Topbar = React.lazy(()=> import('./topbar/Topbar'));
 const Dashboard = React.lazy(()=> import('./pages/Dashboard'));
-const LoginForm = React.lazy(()=> import('./LoginForm'));
 
 const MainPage = () => {    
   const [show,setShow]=useState(false)
-  // const [isBtn, setIsbtn]=useState(false)
-  // const handleClose = () => setShow(false);
   const handleShow = () => {
     if(show){
       setShow(!show)
@@ -18,24 +15,21 @@ const MainPage = () => {
       setShow(!show)
       console.log(show)
     }
-  }
-  
+  }  
   return (
     <div className="wrapper d-flex align-items-stretch">      
       <Container fluid className="overflow-hidden p-0">     
           <Topbar handleShow={handleShow}/>   
           <Container fluid className="page-body-wrapper py-0 px-0">
             <Sidebar show={show}/>
-            <div className='main-panel'>
+            <div className='main-panel position-absolute '>
               <div className='content-wrapper '>
                 <Dashboard /> 
               </div>
             </div>            
           </Container>   
         </Container>
-    </div>
-    
+    </div>    
   )
 }
-
 export default MainPage
