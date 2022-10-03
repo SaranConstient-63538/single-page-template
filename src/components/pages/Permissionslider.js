@@ -101,7 +101,7 @@ const Permissionslider =()=>{
                   getAriaValueText={valuetext}
                   className="mt-3 mb-3  "
                   sx={{margin:'auto',padding:'auto'}}
-                  />
+                />
               </div>
               
               <h6 className='mb-3 mt-3'>Reason For </h6>

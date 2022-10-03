@@ -25,3 +25,8 @@
     width: 100%;
     padding: 2.50rem 2.25rem;
 }
+@media screen and (max-width:786px) {
+    .main-panel{
+        position: absolute;
+    }
+}

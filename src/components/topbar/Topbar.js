@@ -45,7 +45,7 @@ const Topbar = ({handleShow}) => {
                                     <Dropdown.Toggle>
                                         <Ai.AiOutlinePoweroff size={20}/>
                                     </Dropdown.Toggle>
-                                    <Dropdown.Menu  align="end" className='position-relative'>
+                                    <Dropdown.Menu  align="end">
                                         {/* <Dropdown.Item>Active Log</Dropdown.Item> */}
                                         <Dropdown.Item> 
                                             <div onClick={Logout} className="w-100 btn-primary">Logout</div>

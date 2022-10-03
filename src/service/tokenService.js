@@ -14,7 +14,7 @@
     const removeUser =()=>{
         localStorage.removeItem('user')
     }
-    export const tokenService =  { 
+    export let tokenService =  { 
         getAccessToken,
         setUser,
         getUser,

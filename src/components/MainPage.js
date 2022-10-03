@@ -22,7 +22,7 @@ const MainPage = () => {
           <Topbar handleShow={handleShow}/>   
           <Container fluid className="page-body-wrapper py-0 px-0">
             <Sidebar show={show}/>
-            <div className='main-panel position-absolute '>
+            <div className='main-panel'>
               <div className='content-wrapper '>
                 <Dashboard /> 
               </div>

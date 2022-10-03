@@ -30,7 +30,7 @@ const SickLeave =({sick_leave})=>{
             description: sick_reason,
         }        
         if(startDate <= endDate){
-            instance.post(process.env.REACT_APP_APPLYLEAVE,sick_apply)
+            instance.post('/applyLeave',sick_apply)
             .then( res => {
                 console.log(res.data)
                 setStartdate('')
