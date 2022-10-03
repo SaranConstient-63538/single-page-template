@@ -20,7 +20,7 @@ const LoginForm = () => {
 useEffect(()=>{
   // console.log(apiRequest());
 if(isLogin())navigate('/home');
-},[navigate])
+},[])
   const navigate = useNavigate();
   const { handleSubmit, register, formState:{errors}} = useForm({
     resolver: yupResolver(schema)

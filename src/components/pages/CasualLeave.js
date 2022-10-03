@@ -25,16 +25,6 @@ const CasualLeavel =({casual_leave})=>{
     const [show,setShow]=useState(false)
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-
-    
-
-   useEffect(()=>{
-    //  minDate =moment(new Date()).add(4, 'day').format('YYYY-MM-DD');
-    //  maxDate =moment(new Date()).add(30, 'day').format('YYYY-MM-DD');
-    // console.log(minDate);
-    // console.log(maxDate);
-  
-   },[])
     const onSubmit=()=>{    
         const casual_apply ={
             from_date: moment(startDate).format(format_date),
