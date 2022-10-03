@@ -15,9 +15,9 @@ const loading =(
 );
 
 const App = () => {
-  const access_token =localStorage.getItem('token')
-  axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
-  axios.defaults.headers.common.Authorization = `Bearer ${access_token}`;
+  // const access_token =localStorage.getItem('token')
+  // axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
+  // axios.defaults.headers.common.Authorization = `Bearer ${access_token}`;
   return (
     <BrowserRouter>
       <Suspense fallback={loading}> 
