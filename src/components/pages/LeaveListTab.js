@@ -19,8 +19,8 @@ const LeaveListTab = () => {
     const index = 0
    
     useEffect(() => {
-        
-      instance.get(process.env.REACT_APP_APPROVALLIST).then( res =>{
+        // console.log(process.env.REACT_APP_APPROVALIST,process.env.REACT_APP_APPROVALUPDATE)
+      instance.get(process.env.REACT_APP_APPROVALIST).then( res =>{
         console.log(res.data.result)
         setList(res.data.result)
       })
@@ -37,16 +37,16 @@ const LeaveListTab = () => {
 
         }
         
-        console.log(appStatus);
-            // setStatus_des('')
-            // setFrom_date('')
-            console.log(process.env.REACT_APP_APPROVALUPDATE)
-            // instance.post('/approvalUpdate',appStatus)
-            // .then( res =>{
-            //     console.log(res.data, 'test');
-            // }).catch(err =>{
-            //     console.log(err.message)
-            // })
+        console.log( typeof appStatus.status,appStatus);
+            setStatus_des('')
+            setFrom_date('')
+            // console.log(process.env.REACT_APP_APPROVALUPDATE)
+            instance.post(process.env.REACT_APP_APPROVALUPDATE,appStatus)
+            .then( res =>{
+                console.log(res.data, 'test');
+            }).catch(err =>{
+                console.log(err.message)
+            })
         
         
        
@@ -108,13 +108,14 @@ const LeaveListTab = () => {
                                                         ()=>{
                                                             setShow(true)  
                                                             setId(idx)   
-                                                            console.log(id)
-                                                            if(id && item.leave_master_id){
+                                                            console.log(id && item.leave_master_id, id, item.leave_master_id)
+                                                            // if(id && item.leave_master_id){
                                                                 setBtn_status(1)
                                                                 setEmp_id(item.leave_master_id)
                                                                 setLeavetype(item.type_of_leave) 
-                                                                setFrom_date(moment().utc(item.from_date).format('YYYY-MM-DD'))
-                                                            }
+                                                                // console.log(moment.utc(item.from_date).format('YYYY-MM-DD'))
+                                                                setFrom_date(moment.utc(item.from_date).format('YYYY-MM-DD'))
+                                                            // }
                                                                                                                
                                                                                                                           
                                                         }

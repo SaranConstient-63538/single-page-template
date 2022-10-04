@@ -23,14 +23,17 @@ const SickLeave =({sick_leave})=>{
     const addDays = (date, period) =>{        
         return date.setDate(date.getDate() + period)        
     }   
+    // Math.ceil(difference / (1000 * 3600 * 24))
+    console.log(Math.ceil(endDate-startDate/(1000*3600*24)))
     const onSubmit=()=>{
+       
         const sick_apply ={
             from_date: moment(startDate).format(format_date),
             to_date: moment(endDate).format(format_date),
             type_of_leave: sick_leave.type_of_leave,
             description: sick_reason,
         }        
-        if(startDate <= endDate){
+        if(startDate < endDate){
             instance.post(process.env.REACT_APP_APPLY_LEAVE,sick_apply)
             .then( res => {
                 console.log(res.data)
