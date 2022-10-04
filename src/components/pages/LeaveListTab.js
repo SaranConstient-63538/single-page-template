@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form'
 const LeaveListTab = () => {
     const [list, setList]=useState([])
     const [id,setId]=useState('')
+    
     const [show, setShow]=useState(false)
     const [_show, _setShow]=useState(false)
     const [type_leave,setType_leave]=useState('')
@@ -19,58 +20,62 @@ const LeaveListTab = () => {
     const index = 0
    
     useEffect(() => {
-        // console.log(process.env.REACT_APP_APPROVALIST,process.env.REACT_APP_APPROVALUPDATE)
+        // console.log(process.env.REACT_APP_APPROVALIST)
       instance.get(process.env.REACT_APP_APPROVALIST).then( res =>{
-        console.log(res.data.result)
+        console.log(res.data.result);
         setList(res.data.result)
       })
     }, [])
  
 
     const onApproved =()=>{
+        console.log('approved')
         const appStatus={
             status: btn_status,
             type_of_leave: leavetype,
             status_description: status_des,
             leave_master_id: emp_id,
             from_date: frm_date,
-
         }
-        
-        console.log( typeof appStatus.status,appStatus);
-            setStatus_des('')
-            setFrom_date('')
-            // console.log(process.env.REACT_APP_APPROVALUPDATE)
+       
+        const approved = list.filter( item => item.from_date === frm_date && item.type_of_leave === leavetype)
+        console.log(leavetype,approved)
+        if(approved){
             instance.post(process.env.REACT_APP_APPROVALUPDATE,appStatus)
             .then( res =>{
-                console.log(res.data, 'test');
+                console.log(res.data);
+                setStatus_des('')
+                setFrom_date('')
             }).catch(err =>{
                 console.log(err.message)
             })
-        
-        
+        }
        
-        
     }
-    // const onRejected =()=>{
-    //     const _appStatus ={
-    //         status: btn_status,
-    //         type_of_leave: leavetype,
-    //         status_description: status_des,
-    //         leave_master_id: emp_id,
-    //         from_date: frm_date,
-    //     }
-    //     console.log(_appStatus)
-    //     if(list.type_of_leave === "casual_leave" && list.leave_master_id !== ""){
-    //         instance.post('/approvalUpdate',_appStatus)
-    //         .then( res =>{
-    //             console.log(res.data);
-    //         }).catch(err =>{
-    //             console.log(err.message)
-    //         })
-    //     }
-       
-    // }
+    const onRejected =()=>{
+        
+        const appStus={
+            status: btn_status,
+            type_of_leave: leavetype,
+            status_description: status_des,
+            leave_master_id: emp_id,
+            from_date: frm_date,
+        }       
+       const rejected = list.filter( item => item.from_date === frm_date && item.type_of_leave === leavetype)
+       console.log(rejected)
+        if(rejected){
+            console.log('rejected')
+             instance.post(process.env.REACT_APP_APPROVALUPDATE,appStus)
+            .then( res =>{
+                console.log(res.data,'test');
+                setStatus_des('')
+                setFrom_date('')
+            }).catch(err =>{
+                console.log(err.message)
+            })
+        }
+      
+    }
   return (
     <Col className="px-3 py-3 mt-3 mb-3">     
         <Tabs
@@ -101,33 +106,32 @@ const LeaveListTab = () => {
                                             <td>{moment.utc(item.to_date).format('YYYY-MM-DD')}</td>
                                             <td>{item.no_of_days}</td>
                                             <td>{item.description}</td>
-                                            <td>    
-                                            
-                                                    <>
+                                            <td>
+                                                <>
                                                     <Button className="btn-success btn btn-sm-success m-1" onClick={
                                                         ()=>{
                                                             setShow(true)  
                                                             setId(idx)   
                                                             console.log(id && item.leave_master_id, id, item.leave_master_id)
-                                                            // if(id && item.leave_master_id){
-                                                                setBtn_status(1)
-                                                                setEmp_id(item.leave_master_id)
-                                                                setLeavetype(item.type_of_leave) 
-                                                                // console.log(moment.utc(item.from_date).format('YYYY-MM-DD'))
-                                                                setFrom_date(moment.utc(item.from_date).format('YYYY-MM-DD'))
-                                                            // }
-                                                                                                               
-                                                                                                                          
+                                                            setBtn_status(1)
+                                                            setEmp_id(item.leave_master_id)
+                                                            setLeavetype(item.type_of_leave) 
+                                                            setFrom_date(moment.utc(item.from_date).format('YYYY-MM-DD'))
                                                         }
                                                     }>Approved</Button>
-                                                    {/* <Button className="btn-danger btn btn-sm-danger m-1" onClick={
+                                                    <Button className="btn-danger btn btn-sm-danger m-1" onClick={
                                                         ()=>{
+                                                            console.log('rejected',item.leave_master_id)
+                                                            
+                                                            setId(idx)   
+                                                            console.log(id && item.leave_master_id, id, item.leave_master_id)
                                                             _setShow(true)                                                                
                                                             setBtn_status(2)
                                                             setEmp_id(item.leave_master_id)
-                                                            setLeavetype(item.type_of_leave)                                                                
+                                                            setLeavetype(item.type_of_leave)  
+                                                            setFrom_date(moment.utc(item.from_date).format('YYYY-MM-DD'))                                                              
                                                         }
-                                                    }>Rejected</Button> */}
+                                                    }>Rejected</Button>
                                                 </>
                                                                                
                                                 
@@ -141,7 +145,7 @@ const LeaveListTab = () => {
                     </tbody>
                 </Table>
             </Tab>
-            {/* <Tab eventKey="Sick" title="Sick">
+            <Tab eventKey="Sick" title="Sick">
                 <Table>
                     <thead>
                         <tr>
@@ -155,7 +159,7 @@ const LeaveListTab = () => {
                     </thead>
                     <tbody>
                         {list.map((item,idx)=>{
-                            if(item.type_of_leave === "sick_leave"){
+                            if(item.type_of_leave === "sick_leave" &&  item.status === 0){
                                 return(
                                     <tr key={idx}>
                                         <td>{moment.utc(item.from_date).format('YYYY-MM-DD')}</td>
@@ -191,9 +195,9 @@ const LeaveListTab = () => {
                         })}
                     </tbody>
                 </Table>
-            </Tab> */}
-            {/* <Tab eventKey="Work" title="Work From Home">
-            <Table responsive className="overflow-scroll ">
+            </Tab>
+            <Tab eventKey="Work" title="Work From Home">
+                <Table responsive className="overflow-scroll ">
                     <thead>
                         <tr>
                             <th>From Date</th>
@@ -206,7 +210,7 @@ const LeaveListTab = () => {
                     </thead>
                     <tbody>
                         {list.map((item,idx)=>{
-                            if(item.type_of_leave === "work_from_home"){
+                            if(item.type_of_leave === "work_from_home" && item.status === 0){
                                 return(
                                     <tr key={idx}>
                                         <td>{moment.utc(item.from_date).format('YYYY-MM-DD')}</td>
@@ -241,7 +245,7 @@ const LeaveListTab = () => {
                         })}
                     </tbody>
                 </Table>
-            </Tab> */}
+            </Tab>
             <Tab eventKey="permission" title="Permission">
                 <p>Permission</p>
             </Tab>
@@ -261,18 +265,18 @@ const LeaveListTab = () => {
                     
                 </Modal.Body>
             </Modal>
-            {/* <Modal show={_show} onHide={()=> _setShow(false)}>
+            <Modal show={_show} onHide={()=> _setShow(false)}>
                 <Modal.Header closeButton></Modal.Header>
                 <Modal.Body>
                     <Form>
                         <Form.Label>Status Description</Form.Label>
                         <Form.Control value={status_des} onChange={(e)=>setStatus_des(e.target.value)} type="text"/>
                         <Form.Label>From Date</Form.Label>
-                        <Form.Control value={frm_date} onChange={(e)=>setFrom_date(e.target.value)} type="date" />
+                        <Form.Control value={frm_date} onChange={(e)=>setFrom_date(e.target.value)} type="text" />
                     </Form>
-                    <Button onSubmit={onRejected}>Save</Button>
+                    <Button onClick={onRejected}>Save</Button>
                 </Modal.Body>
-            </Modal> */}
+            </Modal>
         
         </>
         
