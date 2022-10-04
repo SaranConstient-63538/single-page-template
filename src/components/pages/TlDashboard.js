@@ -10,47 +10,67 @@ import LeaveListTab from './LeaveListTab'
 
 const TlDashboard = () => {
    
-    const [sick_leave, setSick_leave]=useState(0)
-    const [casual_leave, setCasual_leave]=useState(0)
-    const [work_from_home, setWork_from_home]=useState(0)
+    const [sick_leave, setSick_leave]=useState('')
+    const [casual_leave, setCasual_leave]=useState("")
+    const [work_from_home, setWork_from_home]=useState('')
     const [userList, setUserList]=useState([])
     const items = JSON.parse(localStorage.getItem('data'))
 
-    useEffect(()=>{   
-        // if(items.role === " team_leader")
-        // instance.post('/leaveList').then(res =>{
-
-        //     // console.log( res.data);
-        //     for( var i=0; i< res.data.result.length;i++){
-        //     if(res.data.result[i].id === 1){
-        //         setSick_leave(res.data.result[i])
-        //     }else if(res.data.result[i].id === 2){
-        //         setCasual_leave(res.data.result[i])
-        //     }else if(res.data.result[i].id === 3){
-        //         setWork_from_home(res.data.result[i])
-        //     }
-        //     }
-        // }).catch( err =>{
-        //     console.log(err.message)
-        // })  
+    useEffect(()=>{  
+        console.log(casual_leave)
+        if(items.role === "team_leader"){         
+            instance.post(process.env.REACT_APP_LEAVELIST,).then(res =>{
+                console.log( res.data);
+                for( var i=0; i< res.data.result.length;i++){
+                    if(res.data.result[i].type_of_leave === "sick_leave"){
+                        setSick_leave(res.data.result[i])
+                    }else if(res.data.result[i].type_of_leave === "casual_leave"){
+                        setCasual_leave(res.data.result[i]) 
+                    }else if(res.data.result[i].type_of_leave === "work_from_home"){
+                        setWork_from_home(res.data.result[i])
+                    }
+                }
+            }).catch( err =>{
+                console.log(err.message)
+            }) 
+        }else{
+            instance.post(process.env.REACT_APP_LEAVELIST).then(res =>{
+                // console.log( res.data);
+                for( var i=0; i< res.data.result.length;i++){
+                    if(res.data.result[i].type_of_leave === "sick_leave"){
+                        setSick_leave(res.data.result[i])
+                    }else if(res.data.result[i].type_of_leave === "casual_leave"){
+                        setCasual_leave(res.data.result[i]) 
+                    }else if(res.data.result[i].type_of_leave === "work_from_home"){
+                        setWork_from_home(res.data.result[i])
+                    }
+                }
+            }).catch( err =>{
+                console.log(err.message)
+            }) 
+        }        
           
     },[])
-    // useEffect(()=>{
-    //     if(items.role === "team_leader"){
-    //         instance.get('/usersLeaveList').then(res => {
-    //             setUserList(res.data)
-    //         })
-    //     }
+    useEffect(()=>{
+        if(items.role === "team_leader"){
+            instance.get('/usersLeaveList').then(res => {
+                setUserList(res.data)
+            })
+        }else{
+            instance.get('/usersLeaveList').then(res => {
+                setUserList(res.data)
+            })
+        }
        
          
-    // },[])
+    },[])
     
     
   return (
     <>
         <Card className="border mt-4 mb-4 px-2 mx-3 m-auto shadow rounded-4">
             <Col className="px-3 mt-3 mb-3">
-                <h4 className='text-start'>Welcome to {items.username}</h4>                
+                <h4 className='text-start'>Welcome  {items.username}</h4>                
             </Col>
            <Col >
                 <Row className="justify-content-around px-3 mb-3  ">   

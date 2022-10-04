@@ -9,6 +9,7 @@ import instance from '../../service/service';
 
 
 const SickLeave =({sick_leave})=>{
+    console.log(sick_leave)
     const format_date = "YYYY-MM-DD"
     const [tot_day_count]=useState(12)
 
@@ -30,7 +31,7 @@ const SickLeave =({sick_leave})=>{
             description: sick_reason,
         }        
         if(startDate <= endDate){
-            instance.post('/applyLeave',sick_apply)
+            instance.post(process.env.REACT_APP_APPLY_LEAVE,sick_apply)
             .then( res => {
                 console.log(res.data)
                 setStartdate('')
@@ -52,7 +53,7 @@ const SickLeave =({sick_leave})=>{
                 <Card.Body >
                     <div style={{ width: 80, height: 80, marginTop:'10px',fontSize:'30px' }} 
                         className="d-flex text-center m-auto text-secondary">
-                        <CircularProgressbar value={`${sick_leave.per_year * 100 }`/`${tot_day_count}`} text={`${sick_leave.per_year}/${tot_day_count}`} styles={buildStyles({textSize: '25px',textColor: 'black',fontSize:'25px'})}/>                             
+                        <CircularProgressbar value={`${sick_leave.per_year > 0 ? sick_leave.per_year * 100 : 0}`/`${tot_day_count}`} text={`${sick_leave.per_year}/${tot_day_count}`} styles={buildStyles({textSize: '25px',textColor: 'black',fontSize:'25px'})}/>                             
                     </div>
                     <Card.Subtitle className="mb-3 mt-4 text-secondary">Sick Leave</Card.Subtitle>
         

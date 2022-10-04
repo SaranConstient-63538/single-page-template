@@ -9,7 +9,7 @@ import instance from '../../service/service';
 
 const EmpDashboard = () => {
 
-    const [sick_leave, setSick_leave]=useState(0)
+    const [sick_leave, setSick_leave]=useState('')
     const [casual_leave, setCasual_leave]=useState(0)
     const [work_from_home, setWork_from_home]=useState(0)
     const [userList, setUserList]=useState([])
@@ -20,11 +20,11 @@ const EmpDashboard = () => {
         instance.post('/leaveList').then(res =>{
             console.log( res.data);
             for( var i=0; i< res.data.result.length;i++){
-            if(res.data.result[i].id === 1){
+            if(res.data.result[i].type_of_leave === "sick_leave"){
                 setSick_leave(res.data.result[i])
-            }else if(res.data.result[i].id === 2){
+            }else if(res.data.result[i].type_of_leave === "casual_leave"){
                 setCasual_leave(res.data.result[i])
-            }else if(res.data.result[i].id === 3){
+            }else if(res.data.result[i].type_of_leave === "work_from_home"){
                 setWork_from_home(res.data.result[i])
             }
             }

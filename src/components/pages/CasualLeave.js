@@ -25,6 +25,7 @@ const CasualLeavel =({casual_leave})=>{
     const [show,setShow]=useState(false)
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    console.log(typeof  casual_leave.per_year === 'undefined')
     const onSubmit=()=>{    
         const casual_apply ={
             from_date: moment(startDate).format(format_date),
@@ -35,7 +36,7 @@ const CasualLeavel =({casual_leave})=>{
         
         if(startDate <= endDate){
             // console.log(casual_apply);
-            instance.post('/applyLeave',casual_apply)
+            instance.post(process.env.REACT_APP_APPLY_LEAVE,casual_apply)
             .then( res => {
                 console.log(res.data)
                 setStartDate('')
@@ -63,7 +64,7 @@ const CasualLeavel =({casual_leave})=>{
                 <Card.Body>
                     <div style={{ width: 80, height: 80, marginTop:'10px',fontSize:'30px' }} 
                         className="d-flex text-center m-auto text-secondary">
-                        <CircularProgressbar value={`${casual_leave.per_year * 100 }`/`${tot_day_count}`} text={`${casual_leave.per_year}/${tot_day_count}`} styles={buildStyles({textSize: '25px',textColor: 'black',fontSize:'25px'})}/>                             
+                        <CircularProgressbar value={`${typeof  casual_leave.per_year === 'undefined' ? 0: casual_leave.per_year * 100 }`/`${tot_day_count}`} text={`${casual_leave.per_year === undefined ? 0: casual_leave.per_year}/${tot_day_count}`} styles={buildStyles({textSize: '25px',textColor: 'black',fontSize:'25px'})}/>                             
                     </div>
                
                         <p className='position-absolute '></p>
@@ -71,7 +72,7 @@ const CasualLeavel =({casual_leave})=>{
                        
                         <div className="  mt-2 mb-3 text-center ">
                         <Button onClick={handleShow}
-                            disabled={ casual_leave.per_year > 0 && casual_leave.per_month > 0 ? false: true}
+                            disabled={ casual_leave.per_year > 0 && casual_leave.per_month > 0 || casual_leave.per_year === undefined ? false: true}
                         >Apply</Button>
                         </div>
                     

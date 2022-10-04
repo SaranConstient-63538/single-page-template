@@ -32,7 +32,7 @@ const WorkFromHome =({work_from_home})=>{
         }
         
         if(startDate <= endDate){
-            instance.post('/applyLeave',work_from_home_apply)
+            instance.post(process.env.REACT_APP_APPLY_LEAVE ,work_from_home_apply)
             .then( res => {
                 console.log(res.data)
                 setStartDate('')
@@ -62,7 +62,7 @@ const WorkFromHome =({work_from_home})=>{
                 <Card.Body className="text-decoration-none"> 
                     <div style={{ width: 80, height: 80, marginTop:'10px',fontSize:'30px' }} 
                         className="d-flex text-center m-auto text-secondary">
-                        <CircularProgressbar value={`${work_from_home.per_year * 100 }`/`${tot_day_count}`} text={`${work_from_home.per_year}/${tot_day_count}`} styles={buildStyles({textSize: '25px',textColor: 'black',fontSize:'25px'})}/>                             
+                        <CircularProgressbar value={`${typeof  work_from_home.per_year === 'undefined' ? 0: work_from_home.per_year * 100 }`/`${tot_day_count}`} text={`${work_from_home.per_year === undefined ? 0: work_from_home.per_year}/${tot_day_count}`} styles={buildStyles({textSize: '25px',textColor: 'black',fontSize:'25px'})}/>                             
                     </div>
                     {/* <div style={{ width: 80, height: 80, marginTop:'10px',fontSize:'30px' }} 
                         className="d-flex text-center m-auto">
@@ -72,7 +72,7 @@ const WorkFromHome =({work_from_home})=>{
                         Work Form Home
                     </Card.Subtitle>                        
                     <div className="  mt-2 mb-2 text-center ">
-                        <Button onClick={handleShow}  disabled={work_from_home.is_wfh === 0 ? true : false}>Apply</Button>
+                        <Button onClick={handleShow}  disabled={work_from_home.is_wfh === 0 && work_from_home.per_year > 0 || work_from_home.per_year !== undefined ? true : false}>Apply</Button>
                     </div>                
                 </Card.Body>
             </Card> 

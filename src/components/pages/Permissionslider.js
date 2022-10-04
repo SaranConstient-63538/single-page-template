@@ -57,12 +57,14 @@ const Permissionslider =()=>{
     const date = new Date();
     const [value,setValue] = useState([0,10])
     const [show,setShow]=useState(false)
+    const [per_reason,setPer_reason]=useState('')
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
     const handleChange =(event, newVal)=>{
         console.log(newVal)
-        setValue(newVal)
+        setValue(newVal);
     }
+    
     let permission=0;
     return(
       <>
@@ -105,8 +107,8 @@ const Permissionslider =()=>{
               </div>
               
               <h6 className='mb-3 mt-3'>Reason For </h6>
-              <Form.Control as="textarea" rows={3} className="mb-3"/>
-              <Button className="mb-3">Submit</Button>
+              <Form.Control as="textarea" rows={3} className="mb-3" value={per_reason} onChange={(event)=> setPer_reason(event.target.value)}/>
+              <Button className="mb-3" >Submit</Button>
             </Col>
             
           </Modal.Body>
