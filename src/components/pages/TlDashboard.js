@@ -17,7 +17,7 @@ const TlDashboard = () => {
     const items = JSON.parse(localStorage.getItem('data'))
 
     useEffect(()=>{  
-        console.log(casual_leave)
+        console.log(process.env)
         if(items.role === "team_leader"){         
             instance.post(process.env.REACT_APP_LEAVELIST,).then(res =>{
                 console.log( res.data);
@@ -53,11 +53,11 @@ const TlDashboard = () => {
     },[])
     useEffect(()=>{
         if(items.role === "team_leader"){
-            instance.get('/usersLeaveList').then(res => {
+            instance.get(process.env.REACT_APP_USERS_LEAVELIST).then(res => {
                 setUserList(res.data)
             })
         }else{
-            instance.get('/usersLeaveList').then(res => {
+            instance.get(process.env.REACT_APP_USERS_LEAVELIST).then(res => {
                 setUserList(res.data)
             })
         }

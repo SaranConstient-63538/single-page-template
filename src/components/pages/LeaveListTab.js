@@ -17,12 +17,12 @@ const LeaveListTab = () => {
     const [emp_id, setEmp_id]=useState('') //emp id 
 
     const index = 0
-    console.log(process.env.REACT_APP_APPROVALLIST, process.env)
+   
     useEffect(() => {
         
-      instance.get('/approvalList').then( res =>{
-        console.log(res.data)
-
+      instance.get(process.env.REACT_APP_APPROVALLIST).then( res =>{
+        console.log(res.data.result)
+        setList(res.data.result)
       })
     }, [])
  
@@ -37,10 +37,10 @@ const LeaveListTab = () => {
 
         }
         
-        console.log(appStatus)
+        console.log(appStatus);
             // setStatus_des('')
             // setFrom_date('')
-        
+            console.log(process.env.REACT_APP_APPROVALUPDATE)
             // instance.post('/approvalUpdate',appStatus)
             // .then( res =>{
             //     console.log(res.data, 'test');
@@ -113,7 +113,7 @@ const LeaveListTab = () => {
                                                                 setBtn_status(1)
                                                                 setEmp_id(item.leave_master_id)
                                                                 setLeavetype(item.type_of_leave) 
-                                                                setFrom_date(moment.utc(item.from_date).format('YYYY-MM-DD'))
+                                                                setFrom_date(moment().utc(item.from_date).format('YYYY-MM-DD'))
                                                             }
                                                                                                                
                                                                                                                           
