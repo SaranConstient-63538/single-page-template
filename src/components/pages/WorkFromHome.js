@@ -72,7 +72,7 @@ const WorkFromHome =({work_from_home})=>{
                         Work Form Home
                     </Card.Subtitle>                        
                     <div className="  mt-2 mb-2 text-center ">
-                        <Button onClick={handleShow}  disabled={work_from_home.is_wfh === 0 && work_from_home.per_year > 0 || work_from_home.per_year !== undefined ? true : false}>Apply</Button>
+                        <Button onClick={handleShow}  disabled={work_from_home.is_wfh === 0 && work_from_home.per_year > 0 ? true : false}>Apply</Button>
                     </div>                
                 </Card.Body>
             </Card> 

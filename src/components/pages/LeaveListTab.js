@@ -17,9 +17,12 @@ const LeaveListTab = () => {
     const [emp_id, setEmp_id]=useState('') //emp id 
 
     const index = 0
+    console.log(process.env.REACT_APP_APPROVALLIST, process.env)
     useEffect(() => {
-      instance.get(process.env.REACT_APP_APPR_LIST).then( res =>{
+        
+      instance.get('/approvalList').then( res =>{
         console.log(res.data)
+
       })
     }, [])
  

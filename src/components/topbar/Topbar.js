@@ -28,13 +28,13 @@ const Topbar = ({handleShow}) => {
                 <SearchBarTop />
                 <Nav className="ms-auto flex-sm-column flex-md-row">                     
                     <div className='d-flex justify-content-between py-2 px-4'>
-                        <Nav.Item>
+                        <Nav.Item className="p-2">
                             <Nav.Link href="#link">
                                 <MessageOutlined />
                             </Nav.Link>
                         </Nav.Item>
                         
-                        <Nav.Item>
+                        <Nav.Item className="p-2"   >
                             <Nav.Link href="#link">
                                 <NotificationsNoneOutlined  className="dropdown-toggle"/>
                             </Nav.Link>

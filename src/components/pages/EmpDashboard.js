@@ -10,14 +10,14 @@ import instance from '../../service/service';
 const EmpDashboard = () => {
 
     const [sick_leave, setSick_leave]=useState('')
-    const [casual_leave, setCasual_leave]=useState(0)
-    const [work_from_home, setWork_from_home]=useState(0)
+    const [casual_leave, setCasual_leave]=useState('')
+    const [work_from_home, setWork_from_home]=useState('')
     const [userList, setUserList]=useState([])
     
     const items = JSON.parse(localStorage.getItem('data'))
 
     useEffect(()=>{   
-        instance.post('/leaveList').then(res =>{
+        instance.post(process.env.REACT_APP_LEAVELIST).then(res =>{
             console.log( res.data);
             for( var i=0; i< res.data.result.length;i++){
             if(res.data.result[i].type_of_leave === "sick_leave"){

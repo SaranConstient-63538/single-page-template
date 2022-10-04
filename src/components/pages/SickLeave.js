@@ -53,7 +53,7 @@ const SickLeave =({sick_leave})=>{
                 <Card.Body >
                     <div style={{ width: 80, height: 80, marginTop:'10px',fontSize:'30px' }} 
                         className="d-flex text-center m-auto text-secondary">
-                        <CircularProgressbar value={`${sick_leave.per_year > 0 ? sick_leave.per_year * 100 : 0}`/`${tot_day_count}`} text={`${sick_leave.per_year}/${tot_day_count}`} styles={buildStyles({textSize: '25px',textColor: 'black',fontSize:'25px'})}/>                             
+                        <CircularProgressbar value={`${ typeof  sick_leave.per_year !== 'undefined' || sick_leave.per_year > 0 ? sick_leave.per_year * 100 : 0}`/`${tot_day_count}`} text={`${sick_leave.per_year}/${tot_day_count}`} styles={buildStyles({textSize: '25px',textColor: 'black',fontSize:'25px'})}/>                             
                     </div>
                     <Card.Subtitle className="mb-3 mt-4 text-secondary">Sick Leave</Card.Subtitle>
         

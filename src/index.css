@@ -1,6 +1,17 @@
+
+@font-face {
+  font-family: NotoRegular;
+  src: url('./assets/font/Noto_font/NotoSans-Regular.ttf');
+}
+@font-face {
+  font-family: NotoBold;
+  src: url('./assets/font/Noto_font/NotoSans-Bold.ttf');
+}
+
+
 *{
   margin:0px;
   padding: 0px;
-  font-family: 'Roboto';
+  font-family: NotoRegular;
   box-sizing: border-box;
 }
