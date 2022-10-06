@@ -12,21 +12,23 @@ const EmpDashboard = () => {
     const [sick_leave, setSick_leave]=useState('')
     const [casual_leave, setCasual_leave]=useState('')
     const [work_from_home, setWork_from_home]=useState('')
+    const [permission, setPermission]=useState('')
     const [userList, setUserList]=useState([])
     
     const items = JSON.parse(localStorage.getItem('data'))
+    console.log(process.env.REACT_APP_LEAVELIST)
 
     useEffect(()=>{   
         instance.post(process.env.REACT_APP_LEAVELIST).then(res =>{
-            console.log( res.data);
+            console.log( res.data,'emp');
             for( var i=0; i< res.data.result.length;i++){
-            if(res.data.result[i].type_of_leave === "sick_leave"){
-                setSick_leave(res.data.result[i])
-            }else if(res.data.result[i].type_of_leave === "casual_leave"){
-                setCasual_leave(res.data.result[i])
-            }else if(res.data.result[i].type_of_leave === "work_from_home"){
-                setWork_from_home(res.data.result[i])
-            }
+                if(res.data.result[i].type_of_leave === "sick_leave"){
+                    setSick_leave(res.data.result[i])
+                }else if(res.data.result[i].type_of_leave === "casual_leave"){
+                    setCasual_leave(res.data.result[i])
+                }else if(res.data.result[i].type_of_leave === "work_from_home"){
+                    setWork_from_home(res.data.result[i])
+                }
             }
         }).catch( err =>{
             console.log(err.message)
