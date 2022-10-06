@@ -6,6 +6,7 @@ import { Modal,Card, Button, Form, Col,Row } from 'react-bootstrap';
 import DatePicker from 'react-datepicker'
 import moment from 'moment';
 import instance from '../../service/service';
+import { SettingsPhoneRounded } from '@mui/icons-material';
 
 function valuetext(value){
     return `${value}`;
@@ -61,7 +62,10 @@ const Permissionslider =()=>{
   const format_time = "h:mm"
     const [date,setDate]=useState(new Date())
     const [startDate,setStartDate]=useState(new Date())
-    const [endDate,setEndDate]=useState(new Date())
+    const [startTime, setStartTime]=useState(new Date())
+    const [endTime, setEndTime]=useState(new Date())
+    let start_time = moment(startTime).format(format_time)
+    let end_time = moment(endTime).format(format_time)
     const [value,setValue] = useState([0,10])
     const [show,setShow]=useState(false)
     const [per_reason,setPer_reason]=useState('')
@@ -71,25 +75,50 @@ const Permissionslider =()=>{
         console.log(newVal)
         setValue(newVal);
     }
+    // console.log(startTime.toLocaleTimeString('en-US', { hour12: false, 
+    //   hour: "numeric", 
+    //   minute: "numeric"}))
+    
+    
+    console.log(moment(startTime).startOf('hour'))
+    // console.log(moment().endOf('hour').fromNow())
+
     const onPermission =()=>{
+      console.log(startDate,startTime,endTime)
       let _permission ={
         from_date: moment(startDate).format(format_date),  
-        to_date: moment(endDate).format(format_date),
-        start_time:moment(startDate).format(format_time), 
-        end_time:moment(endDate).format(format_time),
+        // start_time:parseInt(start_time), 
+        // end_time:parseInt(end_time),
         type_of_leave:'permission',
         description: per_reason,
       }
-      console.log(_permission, process.env)
-      instance.post(process.env.REACT_APP_PERMISSION, _permission)
-      .then(res =>{
-        console.log(res.data, 'success')
-        setStartDate('')
-        setEndDate('')
-        setPer_reason('')
-      }).catch( err =>{
-        console.log(err.message)
-      })
+      console.log(_permission)
+      const user = JSON.parse(localStorage.getItem('data'));
+      
+      if(user.role === "trainee"){
+        console.log('trainee')
+        // instance.post(process.env.REACT_APP_PERMISSION, _permission)
+        // .then(res =>{
+        //   console.log(res.data, 'success')
+        //   setStartDate('')
+        //   setEndDate('')
+        //   setPer_reason('')
+        // }).catch( err =>{
+        //   console.log(err.message)
+        // })
+      }else{
+        console.log("team leader")
+        // instance.post(process.env.REACT_APP_PERMISSION, _permission)
+        // .then(res =>{
+        //   console.log(res.data, 'success')
+        //   setStartDate('')
+        //   // setEndDate('')
+        //   setPer_reason('')
+        // }).catch( err =>{
+        //   console.log(err.message)
+        // })
+      }
+      
     } 
   
 
@@ -118,33 +147,53 @@ const Permissionslider =()=>{
               {/* </Card.Link> */}
           </Card.Body>
         </Card>
-        <Modal show={show} onHide={handleClose} size="xl" centered>
+        <Modal show={show} onHide={handleClose} size="lg" centered>
           <Modal.Header closeButton>
               <Modal.Title>Permission Leave</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Col xs >
+            <Col xs="12" >
               <Row>
-                <Col sm={6}>
+                <Col sm={6} className="mb-3">
                   <DatePicker
                       selected={startDate}
                       className='form-control'  
                       onChange={(date)=>setStartDate(date)}
-                      minDate={addDays(new Date(), 0)}
-                      dateFormat="yyyy-MM-dd hh:mm aa"
-                      timeInputLabel="Time:"
-                      showTimeInput
+                      minDate={new Date()}                      
+                      dateFormat="yyyy-MM-dd"
                     />
                 </Col>
-                <Col sm={6}>
+                
+              </Row>
+              <Row>
+                <h6> Time:</h6>
+                <Col >
                   <DatePicker
-                      selected={endDate}
-                      className='form-control'  
-                      onChange={(date)=>setEndDate(date)}
-                      minDate={addDays(new Date(), 0)}
-                      dateFormat="yyyy-MM-dd hh:mm aa"
-                      timeInputLabel="Time:"
-                      showTimeInput
+                    selected={startTime}
+                    onChange={date => setStartTime(date)}
+                    startTime={startTime.getTime()}
+                    endTime={endTime}
+                    
+                    showTimeSelect
+                    showTimeSelectOnly
+                    timeIntervals={60}                    
+                    dateFormat="h:mm a"
+                    timeCaption="Time"
+                  />                  
+                </Col>
+                <Col className="text-center">-</Col>
+                <Col >                 
+                    <DatePicker
+                    selected={endTime}
+                    onChange={date => setEndTime(date)}
+                    endTime={endTime}
+                    startTime={startTime}
+                  
+                    showTimeSelect
+                    showTimeSelectOnly
+                    timeIntervals={60}
+                    dateFormat="h:mm a"
+                    timeCaption="Time"
                     />
                 </Col>
               </Row>

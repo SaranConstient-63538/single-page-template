@@ -11,7 +11,8 @@ const CasualLeavel =({casual_leave})=>{
   
     const format_date = "YYYY-MM-DD"
     const [day_count, setDaycount] = useState(0)
-    const [tot_day_count, setTot_day_count]=useState(12)
+    const [tot_day_count, setTot_day_count]=useState(12)  
+    
 
     const addDays = (date, period) => {
         return date.setDate(date.getDate() + period);
@@ -21,39 +22,72 @@ const CasualLeavel =({casual_leave})=>{
     const [endDate, setEndDate] = useState(addDays(new Date(),4));
 
     const [casual_reason,setCasualreason]=useState('')
-    
     const [show,setShow]=useState(false)
+    const [casual_show, setCasual_show]=useState(false)
+
+    
+
+    const casual_handleShow =()=> {
+        setCasual_show(true);
+        console.log(casual_show);
+    }
+    const casual_handleClose =()=> setCasual_show(false)
+    const start = moment(startDate);
+    const end = moment(endDate)
+    console.log(end.day() - start.day())
+    const casual_apply ={
+        from_date: moment(startDate).format(format_date),
+        to_date: moment(endDate).format(format_date),
+        type_of_leave: casual_leave.type_of_leave,
+        description: casual_reason,
+    }
+    console.log(endDate - startDate)
+    const onCancel =()=>{
+        console.log('cancel')
+        setStartDate('')
+        setEndDate('')
+        setCasualreason('')
+    }
+    const item = JSON.parse(localStorage.getItem('data'))
+    console.log(item)
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     console.log(typeof  casual_leave.per_year === 'undefined')
-    const onSubmit=()=>{    
-        const casual_apply ={
-            from_date: moment(startDate).format(format_date),
-            to_date: moment(endDate).format(format_date),
-            type_of_leave: casual_leave.type_of_leave,
-            description: casual_reason,
-        }
-        
-        if(startDate <= endDate){
-            // console.log(casual_apply);
-            instance.post(process.env.REACT_APP_APPLY_LEAVE,casual_apply)
-            .then( res => {
-                console.log(res.data)
-                setStartDate('')
-                setEndDate('')
-                setCasualreason('')
-            }).catch( err =>{
-                console.log(err.message)
-            })
+
+    const onSubmit=()=>{   
+       
+        if(item.role === "trainee" && item.token !== null){
+            if(startDate < endDate){
+                // console.log(casual_apply);
+                instance.post(process.env.REACT_APP_APPLY_LEAVE,casual_apply)
+                .then( res => {
+                    console.log(res.data)
+                    setStartDate('')
+                    setEndDate('')
+                    setCasualreason('')
+                }).catch( err =>{
+                    console.log(err.message)
+                })
+            }else{
+                console.log('Please select valid date')
+            }
+
         }else{
-            console.log('Please select valid date')
+            if(startDate < endDate){
+                // console.log(casual_apply);
+                instance.post(process.env.REACT_APP_APPLY_LEAVE,casual_apply)
+                .then( res => {
+                    console.log(res.data)
+                    setStartDate('')
+                    setEndDate('')
+                    setCasualreason('')
+                }).catch( err =>{
+                    console.log(err.message)
+                })
+            }else{
+                console.log('Please select valid date')
+            }
         }
-        
-        // if(startDate <= endDate){
-        //     console.log( moment(startDate).format(format_date),moment(endDate).format(format_date),sick_reason);
-        // }else{
-        //     console.log('Please select valid date')
-        // }
     }
     const onCasualReason = (e)=>{
         setCasualreason(e.target.value)
@@ -113,10 +147,20 @@ const CasualLeavel =({casual_leave})=>{
                         </Row> 
                         <h6 className='mb-3 mt-3'>Reason For </h6>
                         <Form.Control as="textarea" rows={3} className="mb-3" value={casual_reason} onChange={onCasualReason}/>  
-                        <Button onClick={onSubmit}>Submit</Button>                                                                 
+                        <Button onClick={casual_handleShow}>Submit</Button>                                                                 
                     </Col>              
                 </Modal.Body>
-            </Modal>        
+            </Modal>   
+            <Modal show={casual_show} onHide={casual_handleClose} size="md" centered>
+                <Modal.Header closeButton>
+                    Are you sure ?                
+                </Modal.Header>
+                <Modal.Body>      
+                    <p>To apply {end.day() - start.day()}  day of Sick leave From ({casual_apply.from_date}) To ({casual_apply.to_date}) </p>                  
+                    <Button className="btn btn-danger px-2 m-2" onClick={onCancel}>Cancel</Button>
+                    <Button onSubmit={onSubmit} className="btn btn-success px-2">Save</Button>
+                </Modal.Body>
+            </Modal>      
         </>      
        
     )

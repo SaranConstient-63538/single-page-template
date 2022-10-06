@@ -19,28 +19,28 @@ const EmpDashboard = () => {
     console.log(process.env.REACT_APP_LEAVELIST)
 
     useEffect(()=>{   
-        instance.post(process.env.REACT_APP_LEAVELIST).then(res =>{
-            console.log( res.data,'emp');
-            for( var i=0; i< res.data.result.length;i++){
-                if(res.data.result[i].type_of_leave === "sick_leave"){
-                    setSick_leave(res.data.result[i])
-                }else if(res.data.result[i].type_of_leave === "casual_leave"){
-                    setCasual_leave(res.data.result[i])
-                }else if(res.data.result[i].type_of_leave === "work_from_home"){
-                    setWork_from_home(res.data.result[i])
+            instance.get(process.env.REACT_APP_USERS_LEAVELIST).then(res => {
+                setUserList(res.data)
+            }) 
+
+            instance.post(process.env.REACT_APP_LEAVELIST).then(res =>{
+                console.log( res.data,'emp');
+                for( var i=0; i< res.data.result.length;i++){
+                    if(res.data.result[i].type_of_leave === "sick_leave"){
+                        setSick_leave(res.data.result[i])
+                    }else if(res.data.result[i].type_of_leave === "casual_leave"){
+                        setCasual_leave(res.data.result[i])
+                    }else if(res.data.result[i].type_of_leave === "work_from_home"){
+                        setWork_from_home(res.data.result[i])
+                    }
                 }
-            }
-        }).catch( err =>{
-            console.log(err.message)
-        })  
+            }).catch( err =>{
+                console.log(err.message)
+            })  
+        
           
     },[])
-    useEffect(()=>{
-        instance.get('/usersLeaveList').then(res => {
-            setUserList(res.data)
-        })
-         
-    },[])
+   
     
   return (
     <>
@@ -84,10 +84,11 @@ const EmpDashboard = () => {
                     <tbody className="overflow-auto">
                         {
                             userList.map((item,idx)=>{
+                                console.log(item.type_of_leave)
                                return(
                                     <tr key={idx}>
                                         <td>{idx +  1}</td>
-                                        <td>{item.type_of_leave === 'sick_leave'? 'Sick Leave': item.type_of_leave === 'casual_leave' ? 'Casual Leave':item.type_of_leave === 'work_from_home' ? 'Work From Home':''  }</td>                                      
+                                        <td>{item.type_of_leave === 'sick_leave'? 'Sick Leave': item.type_of_leave === 'casual_leave' ? 'Casual Leave':item.type_of_leave === 'work_from_home' ? 'Work From Home':item.type_of_leave === 'permission' ? 'Permission' : ''  }</td>                                      
                                         <td>{item.description}</td>
                                         <td>
                                             {item.status === 0 ?(

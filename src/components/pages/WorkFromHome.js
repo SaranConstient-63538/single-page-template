@@ -22,34 +22,65 @@ const WorkFromHome =({work_from_home})=>{
     const [show,setShow]=useState(false)
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const [wfh_show, setWfh_show]=useState(false)
+
+    
+
+    const wfh_handleShow =()=> {
+        setWfh_show(true);
+        console.log(wfh_show);
+    }
+    const wfh_handleClose =()=> setWfh_show(false)
+    const start = moment(startDate);
+    const end = moment(endDate)
+    console.log(end.day() - start.day())
+    const work_from_home_apply ={
+        from_date: moment(startDate).format(format_date),
+        to_date: moment(endDate).format(format_date),
+        type_of_leave: work_from_home.type_of_leave,
+        description: work_from_home_reason,
+    }
+    const item = JSON.parse(localStorage.getItem('data'))
+    console.log(item)
 
     const onSubmit=()=>{    
-        const work_from_home_apply ={
-            from_date: moment(startDate).format(format_date),
-            to_date: moment(endDate).format(format_date),
-            type_of_leave: work_from_home.type_of_leave,
-            description: work_from_home_reason,
-        }
-        
-        if(startDate <= endDate){
-            instance.post(process.env.REACT_APP_APPLY_LEAVE ,work_from_home_apply)
-            .then( res => {
-                console.log(res.data)
-                setStartDate('')
-                setEndDate('')
-                setWork_from_home_reason('')
-            }).catch( err =>{
-                console.log(err.message)
-            })
+
+        if(item.role === "trainee" && item.token !== null){
+            if(startDate < endDate){
+                instance.post(process.env.REACT_APP_APPLY_LEAVE ,work_from_home_apply)
+                .then( res => {
+                    console.log(res.data)
+                    setStartDate('')
+                    setEndDate('')
+                    setWork_from_home_reason('')
+                }).catch( err =>{
+                    console.log(err.message)
+                })
+            }else{
+                console.log('Please select valid date')
+            }
         }else{
-            console.log('Please select valid date')
+            if(startDate < endDate){
+                instance.post(process.env.REACT_APP_APPLY_LEAVE ,work_from_home_apply)
+                .then( res => {
+                    console.log(res.data)
+                    setStartDate('')
+                    setEndDate('')
+                    setWork_from_home_reason('')
+                }).catch( err =>{
+                    console.log(err.message)
+                })
+            }else{
+                console.log('Please select valid date')
+            }
         }
-        
-        // if(startDate <= endDate){
-        //     console.log( moment(startDate).format(format_date),moment(endDate).format(format_date),sick_reason);
-        // }else{
-        //     console.log('Please select valid date')
-        // }
+     
+    }
+    const onCancel =()=>{
+        console.log('cancel')
+        setStartDate('')
+        setEndDate('')
+        setWork_from_home_reason('')
     }
 
     const onWorkfromhome =(e)=>{
@@ -72,7 +103,7 @@ const WorkFromHome =({work_from_home})=>{
                         Work Form Home
                     </Card.Subtitle>                        
                     <div className="  mt-2 mb-2 text-center ">
-                        <Button onClick={handleShow}  disabled={work_from_home.is_wfh === 0 && work_from_home.per_year > 0 ? true : false}>Apply</Button>
+                        <Button onClick={handleShow}  disabled={work_from_home.is_wfh === 0 && work_from_home.per_year > 0 ? false: true}>Apply</Button>
                     </div>                
                 </Card.Body>
             </Card> 
@@ -111,10 +142,21 @@ const WorkFromHome =({work_from_home})=>{
                         </Row> 
                         <h6 className='mb-3 mt-3'>Reason For </h6>
                         <Form.Control as="textarea" rows={3} className="mb-3" value={work_from_home_reason} onChange={onWorkfromhome}/>
-                        <Button onClick={onSubmit}>Submit</Button>
+                        <Button onClick={wfh_handleShow}>Submit</Button>
                     </Col>                     
                 </Modal.Body>
-            </Modal>                  
+            </Modal> 
+            <Modal show={wfh_show} onHide={wfh_handleClose} size="md" centered>
+                <Modal.Header closeButton>
+                    Are you sure ?                
+                </Modal.Header>
+                <Modal.Body>      
+                    <p>To apply {end.day() - start.day()}  day of Work from Home  From ({work_from_home_apply.from_date}) To ({work_from_home_apply.to_date}) </p>                  
+                    <Button className="btn btn-danger px-2 m-2" onClick={onCancel}>Cancel</Button>
+                    <Button onSubmit={onSubmit} className="btn btn-success px-2">Save</Button>
+                </Modal.Body>
+            </Modal>   
+
         </>
     )
 }

@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import { Row, Col,Card, Table } from 'react-bootstrap';
+import { Row, Col,Card, Table, Button } from 'react-bootstrap';
 import Permissionslider    from './Permissionslider';
 import './leave.css'
 import WorkFromHome from './WorkFromHome';
@@ -15,7 +15,12 @@ const TlDashboard = () => {
     const [work_from_home, setWork_from_home]=useState('')
     const [userList, setUserList]=useState([])
     const items = JSON.parse(localStorage.getItem('data'))
+    const [btn_req, setBtn_req]=useState(false)
 
+    const onLeave =()=>{
+        setBtn_req(btn_req => !btn_req)        
+    }
+    console.log(btn_req)
     useEffect(()=>{  
         console.log(process.env)
         if(items.role === "team_leader"){         
@@ -52,88 +57,93 @@ const TlDashboard = () => {
           
     },[])
     useEffect(()=>{
+        console.log(userList)
         if(items.role === "team_leader"){
             instance.get(process.env.REACT_APP_USERS_LEAVELIST).then(res => {
                 setUserList(res.data)
             })
-        }else{
-            instance.get(process.env.REACT_APP_USERS_LEAVELIST).then(res => {
-                setUserList(res.data)
-            })
         }
-       
-         
     },[])
     
     
   return (
-    <>
-        <Card className="border mt-4 mb-4 px-2 mx-3 m-auto shadow rounded-4">
-            <Col className="px-3 mt-3 mb-3">
-                <h4 className='text-start'>Welcome  {items.username}</h4>                
-            </Col>
-           <Col >
-                <Row className="justify-content-around px-3 mb-3  ">   
-                    <Col sm md>
-                        <Permissionslider  />                    
-                    </Col>
-                    <Col sm md>
-                        <SickLeave sick_leave = {sick_leave} />
-                    </Col>
-                    <Col sm md>
-                        <CasualLeavel  casual_leave={casual_leave}/>
-                    </Col>
-                    <Col sm md>
-                        <WorkFromHome work_from_home={work_from_home}/>                  
-                    </Col>
-                </Row>                
-           </Col>
-        
-        </Card>
+    <>  
         <Card className="border mt-4 mb-4 px-2 mx-3 m-auto shadow-lg rounded-4">
-            <Col className="px-3 py-3 mt-3 mb-3">
-                <Table striped bordered hover responsive className='caption-top'>
-                    <caption>                
-                        <h4 className='text-start'>User Leave List</h4>
-                    </caption>
-                    <thead>
-                        <tr>
-                            <th>S.No</th>
-                            <th>Type of Leave</th>
-                            <th>Leave Reason</th>
-                            <th>Approval Status</th>
-                            {/* <th>Team Leader</th> */}
-                        </tr>
-                    </thead>
-                    <tbody className="overflow-auto">
-                        {
-                            userList.map((item,idx)=>{
-                               return(
-                                    <tr key={idx}>
-                                        <td>{idx +  1}</td>
-                                        <td>{item.type_of_leave === 'sick_leave'? 'Sick Leave': item.type_of_leave === 'casual_leave' ? 'Casual Leave':item.type_of_leave === 'work_from_home' ? 'Work From Home':''  }</td>                                      
-                                        <td>{item.description}</td>
-                                        <td>
-                                            {item.status === 0 ?(
-                                                <p className='fs-6' >Waiting for Approval</p>
-                                            ):(
-                                                <p>Approved</p>
-                                            )
-                                        } 
-                                        </td>
-                                        {/* <td>{}</td> */}
-                                    </tr>
-                               )
-                            })
-                        }
-                    </tbody>   
-                </Table>
-            </Col>
-        </Card>   
-        <Card className="border mt-4 mb-4 px-2 mx-3 m-auto shadow-lg rounded-4">
+            <Row>
+                <Col className="px-3 mt-3 mb-3">
+                    <h4 className='text-start'>Welcome  {items.username}</h4>                
+                </Col>
+                <Col className="px-3 mt-3 mb-3 text-end">
+                    <Button className="btn btn-primary" onClick={onLeave} >Leave Request</Button>
+                </Col>
+            </Row>            
             <LeaveListTab />
-        </Card>  
-    
+        </Card>
+        {btn_req ? (
+            <>
+                <Card className="border mt-4 mb-4 px-2 mx-3 m-auto shadow rounded-4">            
+                    <Col >
+                        <Row className="justify-content-around px-3 mb-3  ">   
+                            <Col sm md>
+                                <Permissionslider  />                    
+                            </Col>
+                            <Col sm md>
+                                <SickLeave sick_leave = {sick_leave} />
+                            </Col>
+                            <Col sm md>
+                                <CasualLeavel  casual_leave={casual_leave}/>
+                            </Col>
+                            <Col sm md>
+                                <WorkFromHome work_from_home={work_from_home}/>                  
+                            </Col>
+                        </Row>                
+                    </Col>
+                
+                </Card>
+                <Card className="border mt-4 mb-4 px-2 mx-3 m-auto shadow-lg rounded-4">
+                    <Col className="px-3 py-3 mt-3 mb-3">
+                        <Table striped bordered hover responsive className='caption-top'>
+                            <caption>                
+                                <h4 className='text-start'>Status for Applied leaves</h4>
+                            </caption>
+                            <thead>
+                                <tr>
+                                    <th>S.No</th>
+                                    <th>Type of Leave</th>
+                                    <th>Leave Reason</th>
+                                    <th>Approval Status</th>
+                                    {/* <th>Team Leader</th> */}
+                                </tr>
+                            </thead>
+                            <tbody className="overflow-auto">
+                                {
+                                    userList.map((item,idx)=>{
+                                        console.log(item)
+                                        return(
+                                            <tr key={idx}>
+                                                <td>{idx +  1}</td>
+                                                <td>{item.type_of_leave === 'sick_leave'? 'Sick Leave': item.type_of_leave === 'casual_leave' ? 'Casual Leave':item.type_of_leave === 'work_from_home' ? 'Work From Home':item.type_of_leave === 'permission' ? 'Permission': '' }</td>                                      
+                                                <td>{item.description}</td>
+                                                <td>
+                                                    {item.status === 0 ?(
+                                                        <p className='fs-6' >Waiting for Approval</p>
+                                                    ):(
+                                                        <p>Approved</p>
+                                                    )
+                                                } 
+                                                </td>
+                                                {/* <td>{}</td> */}
+                                            </tr>
+                                        )
+                                    })
+                                }
+                            </tbody>   
+                        </Table>
+                    </Col>
+                </Card>
+            
+            </>
+        ):''}
     </>
   )
 }

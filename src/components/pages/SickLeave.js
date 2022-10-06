@@ -17,35 +17,71 @@ const SickLeave =({sick_leave})=>{
     const [endDate, setEnddate]=useState(new Date())
     const [sick_reason,setSickreason]=useState('')
     const [show,setShow]=useState(false)
+    const [sick_show,setSick_show]=useState(false)
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const sick_handleShow =()=> {
+        setSick_show(true);
+        console.log(sick_show)
+    }
+    const sick_handleClose =()=> setSick_show(false)
 
     const addDays = (date, period) =>{        
         return date.setDate(date.getDate() + period)        
     }   
-    // Math.ceil(difference / (1000 * 3600 * 24))
     console.log(Math.ceil(endDate-startDate/(1000*3600*24)))
+    const item = JSON.parse(localStorage.getItem('data'))
+    console.log(item)
+    const sick_apply ={
+        from_date: moment(startDate).format(format_date),
+        to_date: moment(endDate).format(format_date),
+        type_of_leave: sick_leave.type_of_leave,
+        description: sick_reason,
+    }  
+    const start = moment(startDate);
+    const end = moment(endDate)
+    console.log(end.day() - start.day())
+    const onCancel =()=>{
+        console.log('cancel')
+        setStartdate('')
+        setEnddate('')
+        setSickreason('')
+    }
     const onSubmit=()=>{
-       
-        const sick_apply ={
-            from_date: moment(startDate).format(format_date),
-            to_date: moment(endDate).format(format_date),
-            type_of_leave: sick_leave.type_of_leave,
-            description: sick_reason,
-        }        
-        if(startDate < endDate){
-            instance.post(process.env.REACT_APP_APPLY_LEAVE,sick_apply)
-            .then( res => {
-                console.log(res.data)
-                setStartdate('')
-                setEnddate('')
-                setSickreason('')
-            }).catch( err =>{
-                console.log(err.message)
-            })
+        if(item.role === "trainee" && item.token !== null){
+            console.log('trainee')
+            if(startDate < endDate ){
+                console.log(sick_apply)
+                instance.post(process.env.REACT_APP_APPLY_LEAVE,sick_apply)
+                .then( res => {
+                    console.log(res.data)
+                    setStartdate('')
+                    setEnddate('')
+                    setSickreason('')
+                }).catch( err =>{
+                    console.log(err.message)
+                })
+            }else{
+                console.log('Please select valid date')
+            }
         }else{
-            console.log('Please select valid date')
-        }
+            console.log('team_leader')
+            if(startDate < endDate){
+                console.log(sick_apply)
+                instance.post(process.env.REACT_APP_APPLY_LEAVE,sick_apply)
+                .then( res => {
+                    console.log(res.data)
+                    setStartdate('')
+                    setEnddate('')
+                    setSickreason('')
+                }).catch( err =>{
+                    console.log(err.message)
+                })
+            }else{
+                console.log('Please select valid date')
+            }
+        }        
     }
     const onSickReason = (e)=>{
         setSickreason(e.target.value)
@@ -59,10 +95,10 @@ const SickLeave =({sick_leave})=>{
                         <CircularProgressbar value={`${ typeof  sick_leave.per_year !== 'undefined' || sick_leave.per_year > 0 ? sick_leave.per_year * 100 : 0}`/`${tot_day_count}`} text={`${sick_leave.per_year}/${tot_day_count}`} styles={buildStyles({textSize: '25px',textColor: 'black',fontSize:'25px'})}/>                             
                     </div>
                     <Card.Subtitle className="mb-3 mt-4 text-secondary">Sick Leave</Card.Subtitle>
-        
                     <div className="  mt-2 mb-2 text-center ">
-                    <Button onClick={handleShow} 
-                        disabled={ sick_leave.per_year > 0 && sick_leave.per_month > 0 ? false: true}>Apply</Button>
+                        <Button onClick={handleShow} 
+                            disabled={ sick_leave.per_year > 0 && sick_leave.per_month > 0 ? false : true}
+                        >Apply</Button>
                     </div>                   
                 </Card.Body>
             </Card>
@@ -97,10 +133,20 @@ const SickLeave =({sick_leave})=>{
                         <Form.Control as="textarea" rows={3} className="mb-3" 
                             value={sick_reason} onChange={onSickReason} 
                         />                       
-                        <Button onClick={onSubmit}>Submit</Button>                                                                 
+                        <Button onClick={sick_handleShow}>Submit</Button>                                                                 
                     </Col>              
                 </Modal.Body>
-            </Modal>        
+            </Modal>    
+            <Modal show={sick_show} onHide={sick_handleClose} size="md" centered>
+                <Modal.Header closeButton>
+                    Are you sure ?                
+                </Modal.Header>
+                <Modal.Body>      
+                    <p>To apply {end.day() - start.day()}  day of Casual leave From ({sick_apply.from_date}) To ({sick_apply.to_date}) </p>                  
+                    <Button className="btn btn-danger px-2 m-2" onClick={onCancel}>Cancel</Button>
+                    <Button onSubmit={onSubmit} className="btn btn-success px-2">Save</Button>
+                </Modal.Body>
+            </Modal>    
         </>
     )
 }
