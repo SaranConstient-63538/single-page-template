@@ -15,8 +15,8 @@ const WorkFromHome =({work_from_home})=>{
         return date.setDate(date.getDate() + period);
     };
 
-    const [startDate, setStartDate] = useState(addDays(new Date(),4));
-    const [endDate, setEndDate] = useState(addDays(new Date(),4));
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
     const [work_from_home_reason,setWork_from_home_reason]=useState('')
 
     const [show,setShow]=useState(false)
@@ -24,16 +24,31 @@ const WorkFromHome =({work_from_home})=>{
     const handleShow = () => setShow(true);
     const [wfh_show, setWfh_show]=useState(false)
 
-    
-
+    // console.log(endDate.getDay())
     const wfh_handleShow =()=> {
         setWfh_show(true);
         console.log(wfh_show);
     }
     const wfh_handleClose =()=> setWfh_show(false)
     const start = moment(startDate);
+    // console.log(startDate)
     const end = moment(endDate)
-    console.log(end.day() - start.day())
+    console.log(endDate - startDate)
+    const getDateCount=(startDate,endDate)=>{
+        var count = 0;
+        var curDate = startDate;
+        while (curDate <= endDate) {
+            var dayOfWeek = curDate.getDay();
+            var isWeekend = (dayOfWeek == 6) || (dayOfWeek == 0); 
+            if(!isWeekend)
+               count++;
+            curDate = curDate.addDays(1);
+        }
+        
+        return count;
+    }
+    const no_days = getDateCount(startDate,endDate)
+    console.log(no_days)
     const work_from_home_apply ={
         from_date: moment(startDate).format(format_date),
         to_date: moment(endDate).format(format_date),
@@ -46,35 +61,42 @@ const WorkFromHome =({work_from_home})=>{
     const onSubmit=()=>{    
 
         if(item.role === "trainee" && item.token !== null){
+            console.log('trainee')
             if(startDate < endDate){
-                instance.post(process.env.REACT_APP_APPLY_LEAVE ,work_from_home_apply)
-                .then( res => {
-                    console.log(res.data)
-                    setStartDate('')
-                    setEndDate('')
-                    setWork_from_home_reason('')
-                }).catch( err =>{
-                    console.log(err.message)
-                })
+                // instance.post(process.env.REACT_APP_APPLY_LEAVE ,work_from_home_apply)
+                // .then( res => {
+                //     console.log(res.data)
+                //     setStartDate('')
+                //     setEndDate('')
+                //     setWork_from_home_reason('')
+                // }).catch( err =>{
+                //     console.log(err.message)
+                // })
             }else{
                 console.log('Please select valid date')
             }
         }else{
+            console.log('team_leader')
             if(startDate < endDate){
-                instance.post(process.env.REACT_APP_APPLY_LEAVE ,work_from_home_apply)
-                .then( res => {
-                    console.log(res.data)
-                    setStartDate('')
-                    setEndDate('')
-                    setWork_from_home_reason('')
-                }).catch( err =>{
-                    console.log(err.message)
-                })
+                // instance.post(process.env.REACT_APP_APPLY_LEAVE ,work_from_home_apply)
+                // .then( res => {
+                //     console.log(res.data)
+                //     setStartDate('')
+                //     setEndDate('')
+                //     setWork_from_home_reason('')
+                // }).catch( err =>{
+                //     console.log(err.message)
+                // })
             }else{
                 console.log('Please select valid date')
             }
         }
      
+    }
+    const isWeekday =(date)=>{
+        const day = date.getDay()
+        console.log(day)
+        return day !== 0 && day !== 6
     }
     const onCancel =()=>{
         console.log('cancel')
@@ -82,7 +104,6 @@ const WorkFromHome =({work_from_home})=>{
         setEndDate('')
         setWork_from_home_reason('')
     }
-
     const onWorkfromhome =(e)=>{
         setWork_from_home_reason(e.target.value)
     }
@@ -114,26 +135,24 @@ const WorkFromHome =({work_from_home})=>{
                 <Modal.Body>
                     <Col xs className="text-start mt-2 mb-2 mx-2">
                         <Row>
-                            <h6 className="mb-3 mt-1">Date:</h6>
+                            
                             <Col md sm={6} className='mb-3'>  
+                                <h6 className="mb-3 mt-1">Start Date:</h6>
                                 <DatePicker className='form-control'
                                     selected={startDate}
-                                    onChange={(date) => setStartDate(date)}
-                                    selectsStart
-                                    startDate={startDate}
-                                    endDate={endDate}
+                                    onChange={(date) => {setStartDate(date)} }                                
+                                    filterDate={isWeekday}
                                     minDate={addDays(new Date(),4)}
                                     maxDate={addDays(new Date(),30)}
                                     dateFormat="dd/MM/yyyy"
                                 />
                             </Col>
                             <Col md sm={6} className='mb-3'>
+                                <h6 className="mb-3 mt-1">End Date:</h6>
                                 <DatePicker className='form-control'
                                     selected={endDate}
                                     onChange={(date) => setEndDate(date)}
-                                    selectsEnd
-                                    startDate={startDate}
-                                    endDate={endDate}
+                                    filterDate={isWeekday}                                   
                                     minDate={addDays(new Date(),4)}
                                     maxDate={addDays(new Date(),30)}
                                     dateFormat="dd/MM/yyyy"

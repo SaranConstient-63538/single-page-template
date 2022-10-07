@@ -25,8 +25,9 @@ const LeaveListTab = () => {
         console.log(res.data.result);
         setList(res.data.result)
       })
+      
     }, [])
- 
+    console.log(list)
 
     const onApproved =()=>{
         console.log('approved')
@@ -88,13 +89,13 @@ const LeaveListTab = () => {
                 <Table responsive>
                     <thead>
                         <tr>
-                            {/* <th>S.No</th> */}
+                            <th>Employee Name</th>
                             <th>From Date</th>
                             <th>To Date</th>
                             <th>No of Days</th>
                             <th>Leave of Reason</th>
                             <th>Approval Status </th>
-                            <th>Applied By</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
@@ -102,6 +103,7 @@ const LeaveListTab = () => {
                                 if( item.type_of_leave === 'casual_leave' && item.status === 0){
                                     return(
                                         <tr key={idx}>
+                                            <td>{item.updated_by}</td>
                                             <td>{moment.utc(item.from_date).format('YYYY-MM-DD')}</td>
                                             <td>{moment.utc(item.to_date).format('YYYY-MM-DD')}</td>
                                             <td>{item.no_of_days}</td>
@@ -133,10 +135,8 @@ const LeaveListTab = () => {
                                                         }
                                                     }>Rejected</Button>
                                                 </>
-                                                                               
-                                                
                                             </td>
-                                            <td>{item.updated_by}</td>
+                                            
                                         </tr>
                                     ) 
                                 }
@@ -149,12 +149,14 @@ const LeaveListTab = () => {
                 <Table>
                     <thead>
                         <tr>
+                            {/* <th>S.No</th> */}
+                            <th>Employee Name</th>
                             <th>From Date</th>
                             <th>To Date</th>
                             <th>No of Days</th>
                             <th>Leave of Reason</th>
                             <th>Approval Status </th>
-                            <th>Applied By</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
@@ -162,6 +164,8 @@ const LeaveListTab = () => {
                             if(item.type_of_leave === "sick_leave" &&  item.status === 0){
                                 return(
                                     <tr key={idx}>
+                                        {/* <td>{idx + 1}</td> */}
+                                        <td>{item.updated_by}</td>
                                         <td>{moment.utc(item.from_date).format('YYYY-MM-DD')}</td>
                                         <td>{moment.utc(item.to_date).format('YYYY-MM-DD')}</td>
                                         <td>{item.no_of_days}</td>
@@ -187,7 +191,7 @@ const LeaveListTab = () => {
                                             </>
                                             
                                         </td>
-                                        <td>{item.updated_by}</td>
+                                        
                                     </tr>
                                 )
                             }
@@ -200,12 +204,14 @@ const LeaveListTab = () => {
                 <Table responsive className="overflow-scroll ">
                     <thead>
                         <tr>
+                            {/* <th>S.No</th> */}
+                            <th>Employee Name</th>
                             <th>From Date</th>
                             <th>To Date</th>
                             <th>No of Days</th>
                             <th>Leave of Reason</th>
                             <th>Approval Status </th>
-                            <th>Applied By</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
@@ -213,6 +219,7 @@ const LeaveListTab = () => {
                             if(item.type_of_leave === "work_from_home" && item.status === 0){
                                 return(
                                     <tr key={idx}>
+                                         <td>{item.updated_by}</td>
                                         <td>{moment.utc(item.from_date).format('YYYY-MM-DD')}</td>
                                         <td>{moment.utc(item.to_date).format('YYYY-MM-DD')}</td>
                                         <td>{item.no_of_days}</td>
@@ -237,7 +244,7 @@ const LeaveListTab = () => {
                                                 }>Rejected</Button>
                                             </>
                                         </td>
-                                        <td>{item.updated_by}</td>
+                                       
                                     </tr>
                                 )
                             }
@@ -247,7 +254,35 @@ const LeaveListTab = () => {
                 </Table>
             </Tab>
             <Tab eventKey="permission" title="Permission">
-                <p>Permission</p>
+                <Table responsive>
+                    <thead>
+                        <tr>
+                            {/* <th>S.No</th> */}
+                            <th>Employee Name</th>
+                            <th>Date</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>No of Hours</th>
+                            <th>Leave of Reason</th>
+                            <th>Approval Status </th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {list.map( (item,idx) =>{
+                            if(item.type_of_leave === "permission"){
+                                return(
+                                    <tr key={idx}>
+                                        <td>{item.updated_by}</td>
+                                        <td>{item.from_date}</td>
+                                        <td></td>
+                                    </tr>
+                                )
+                            }
+                            
+                        })}
+                    </tbody>
+                </Table>
             </Tab>
         
         </Tabs>  

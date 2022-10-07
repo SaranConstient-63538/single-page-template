@@ -19,29 +19,25 @@ const EmpDashboard = () => {
     console.log(process.env.REACT_APP_LEAVELIST)
 
     useEffect(()=>{   
-            instance.get(process.env.REACT_APP_USERS_LEAVELIST).then(res => {
-                setUserList(res.data)
-            }) 
+        instance.get(process.env.REACT_APP_USERS_LEAVELIST).then(res => {
+            setUserList(res.data)
+        }) 
 
-            instance.post(process.env.REACT_APP_LEAVELIST).then(res =>{
-                console.log( res.data,'emp');
-                for( var i=0; i< res.data.result.length;i++){
-                    if(res.data.result[i].type_of_leave === "sick_leave"){
-                        setSick_leave(res.data.result[i])
-                    }else if(res.data.result[i].type_of_leave === "casual_leave"){
-                        setCasual_leave(res.data.result[i])
-                    }else if(res.data.result[i].type_of_leave === "work_from_home"){
-                        setWork_from_home(res.data.result[i])
-                    }
+        instance.post(process.env.REACT_APP_LEAVELIST).then(res =>{
+            console.log( res.data,'emp');
+            for( var i=0; i< res.data.result.length;i++){
+                if(res.data.result[i].type_of_leave === "sick_leave"){
+                    setSick_leave(res.data.result[i])
+                }else if(res.data.result[i].type_of_leave === "casual_leave"){
+                    setCasual_leave(res.data.result[i])
+                }else if(res.data.result[i].type_of_leave === "work_from_home"){
+                    setWork_from_home(res.data.result[i])
                 }
-            }).catch( err =>{
-                console.log(err.message)
-            })  
-        
-          
+            }
+        }).catch( err =>{
+            console.log(err.message)
+        })  
     },[])
-   
-    
   return (
     <>
         <Card className="border mt-4 mb-4 px-2 mx-3 m-auto shadow rounded-4">
@@ -49,8 +45,8 @@ const EmpDashboard = () => {
                 <h4 className='text-start'>Welcome to {items.username}</h4>                
             </Col>
            <Col >
-                <Row className="justify-content-around px-3 mb-3  ">   
-                    <Col sm md>
+                <Row className="justify-content-around px-3 mb-3  h-auto ">   
+                    <Col sm md >
                         <Permissionslider  />                    
                     </Col>
                     <Col sm md>
