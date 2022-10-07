@@ -172,22 +172,22 @@ const LeaveListTab = () => {
                                         <td>{item.description}</td>
                                         <td>
                                             <>
-                                                <Button className="btn-success btn btn-sm-success m-1" onClick={
+                                                <Button className="btn btn-sm btn-secondary m-2" onClick={
                                                     ()=>{
                                                         setShow(true)                                                                
                                                         setBtn_status(1)
                                                         setEmp_id(item.leave_master_id)
                                                         setLeavetype(item.type_of_leave)                                                                
                                                     }
-                                                }>Approved</Button>
-                                                <Button className="btn-danger btn btn-sm-danger m-1" onClick={
+                                                }>Approve</Button>
+                                                <Button className="btn btn-sm btn-primary m-2" onClick={
                                                     ()=>{
                                                         _setShow(true)                                                                
                                                         setBtn_status(2)
                                                         setEmp_id(item.leave_master_id)
                                                         setLeavetype(item.type_of_leave)                                                                
                                                     }
-                                                }>Rejected</Button>
+                                                }>Reject</Button>
                                             </>
                                             
                                         </td>
@@ -233,7 +233,7 @@ const LeaveListTab = () => {
                                                         setEmp_id(item.leave_master_id)
                                                         setLeavetype(item.type_of_leave)                                                                
                                                     }
-                                                }>Approved</Button>
+                                                }>Approve</Button>
                                                 <Button className="btn-danger btn btn-sm-danger m-1" onClick={
                                                     ()=>{
                                                         _setShow(true)                                                                
@@ -241,7 +241,7 @@ const LeaveListTab = () => {
                                                         setEmp_id(item.leave_master_id)
                                                         setLeavetype(item.type_of_leave)                                                                
                                                     }
-                                                }>Rejected</Button>
+                                                }>Reject</Button>
                                             </>
                                         </td>
                                        
@@ -270,12 +270,20 @@ const LeaveListTab = () => {
                     </thead>
                     <tbody>
                         {list.map( (item,idx) =>{
+                            // console.log(item.form_date.getTime())
                             if(item.type_of_leave === "permission"){
                                 return(
                                     <tr key={idx}>
                                         <td>{item.updated_by}</td>
-                                        <td>{item.from_date}</td>
-                                        <td></td>
+                                        <td>{moment.utc(item.from_date).format('YYYY-MM-DD')}</td>
+                                        <td>{moment.utc(item.from_date).format('h:mm a')}</td>
+                                        <td>{moment.utc(item.to_date).format('h:mm a')}</td>
+                                        <td>{item.no_of_hours}</td>
+                                        <td>{item.description}</td>
+                                        <td>
+                                            <Button className="btn btn-sm btn-secondary m-2">Approve</Button>
+                                            <Button className="btn btn-sm btn-primary m-2">Reject</Button>
+                                        </td>
                                     </tr>
                                 )
                             }

@@ -15,8 +15,8 @@ const WorkFromHome =({work_from_home})=>{
         return date.setDate(date.getDate() + period);
     };
 
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
+    const [startDate, setStartDate] = useState(new Date);
+    const [endDate, setEndDate] = useState(new Date);
     const [work_from_home_reason,setWork_from_home_reason]=useState('')
 
     const [show,setShow]=useState(false)
@@ -33,32 +33,21 @@ const WorkFromHome =({work_from_home})=>{
     const start = moment(startDate);
     // console.log(startDate)
     const end = moment(endDate)
-    console.log(endDate - startDate)
-    const getDateCount=(startDate,endDate)=>{
-        var count = 0;
-        var curDate = startDate;
-        while (curDate <= endDate) {
-            var dayOfWeek = curDate.getDay();
-            var isWeekend = (dayOfWeek == 6) || (dayOfWeek == 0); 
-            if(!isWeekend)
-               count++;
-            curDate = curDate.addDays(1);
-        }
-        
-        return count;
-    }
-    const no_days = getDateCount(startDate,endDate)
-    console.log(no_days)
+   const start_date = new Date()
+   const end_date = new Date()
+   console.log(start_date, end_date)
+    
     const work_from_home_apply ={
         from_date: moment(startDate).format(format_date),
         to_date: moment(endDate).format(format_date),
         type_of_leave: work_from_home.type_of_leave,
         description: work_from_home_reason,
     }
+    console.log(startDate,endDate)
     const item = JSON.parse(localStorage.getItem('data'))
     console.log(item)
 
-    const onSubmit=()=>{    
+    const onSubmit=()=>{  
 
         if(item.role === "trainee" && item.token !== null){
             console.log('trainee')
@@ -94,10 +83,15 @@ const WorkFromHome =({work_from_home})=>{
      
     }
     const isWeekday =(date)=>{
-        const day = date.getDay()
-        console.log(day)
+        const day = date.getDay(date)
         return day !== 0 && day !== 6
     }
+    // getDateCount =(startDate,endDate)=>{
+    //     var curDate = startDate.getDay()
+    //     while(curDate <= endDate){
+    //         var dofweek = curDate.getDay()
+    //     }
+    // }
     const onCancel =()=>{
         console.log('cancel')
         setStartDate('')
