@@ -6,23 +6,41 @@ import React,{useState} from 'react'
 import './leave.css'
 import moment from 'moment';
 import instance from '../../service/service';
+import { useForm, Controller } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+import {motion } from 'framer-motion'
 
+let schema =yup.object().shape({
+    startDate: yup.date().required('Please select your start date'),
+    endDate: yup.date().required('Please select your end date'),
+    sick_reason : yup.string().required('Please enter your reason'),
+})
 
 const SickLeave =({sick_leave})=>{
+    const {control,handleSubmit,formState:{errors}}=useForm({
+        resolver: yupResolver(schema)
+    })
     console.log(sick_leave)
     const format_date = "YYYY-MM-DD"
     const [tot_day_count]=useState(12)
 
-    const [startDate, setStartdate]=useState(new Date())
-    const [endDate, setEnddate]=useState(new Date())
+    const [startDate, setStartdate]=useState('')
+    const [endDate, setEnddate]=useState('')
     const [sick_reason,setSickreason]=useState('')
+    const [err_startDate,setErr_startDate]=useState(false)
+    const [err_endDate,setErr_endDate]=useState(false)
+    const [err_reason,setErr_Reason]=useState(false)
     const [show,setShow]=useState(false)
     const [sick_show,setSick_show]=useState(false)
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const sick_handleShow =()=> {
-        setSick_show(true);
+    const sick_handleShow =(data)=> {
+        // getleaveCount(startDate,endDate);
+        console.log(data)
+            setSick_show(true);
+        
         console.log(sick_show)
     }
     const sick_handleClose =()=> setSick_show(false)
@@ -33,6 +51,7 @@ const SickLeave =({sick_leave})=>{
     console.log(Math.ceil(endDate-startDate/(1000*3600*24)))
     const item = JSON.parse(localStorage.getItem('data'))
     console.log(item)
+  
     const sick_apply ={
         from_date: moment(startDate).format(format_date),
         to_date: moment(endDate).format(format_date),
@@ -42,14 +61,16 @@ const SickLeave =({sick_leave})=>{
     const start = moment(startDate);
     const end = moment(endDate)
     console.log(end.day() - start.day())
+
     const onCancel =()=>{
         console.log('cancel')
         setStartdate('')
         setEnddate('')
         setSickreason('')
     }
-    const onSubmit=()=>{
-        if(item.role === "trainee" && item.token !== null){
+    const onSubmit=(data)=>{
+        console.log(data)
+        /* if(item.role === "trainee" && item.token !== null){
             console.log('trainee')
             if(startDate < endDate ){
                 console.log(sick_apply)
@@ -81,7 +102,7 @@ const SickLeave =({sick_leave})=>{
             }else{
                 console.log('Please select valid date')
             }
-        }        
+        }       */ 
     }
     const onSickReason = (e)=>{
         setSickreason(e.target.value)
@@ -90,16 +111,17 @@ const SickLeave =({sick_leave})=>{
         <>
             <Card className='text-center leave-card mb-2 mt-2 m-auto'>
                 <Card.Body >
-                    <div style={{ width: 80, height: 80, marginTop:'10px',fontSize:'30px' }} 
+                    {/* <div style={{ width: 80, height: 80, marginTop:'10px',fontSize:'30px' }} 
                         className="d-flex text-center m-auto text-secondary">
                         <CircularProgressbar value={`${ typeof  sick_leave.per_year !== 'undefined' || sick_leave.per_year > 0 ? sick_leave.per_year * 100 : 0}`/`${tot_day_count}`} text={`${sick_leave.per_year}/${tot_day_count}`} styles={buildStyles({textSize: '25px',textColor: 'black',fontSize:'25px'})}/>                             
-                    </div>
+                    </div> */}
                     <Card.Subtitle className="mb-3 mt-4 text-secondary">Sick Leave</Card.Subtitle>
-                    <div className="  mt-2 mb-2 text-center ">
-                        <Button onClick={handleShow} 
-                            disabled={ sick_leave.per_year > 0 && sick_leave.per_month > 0 ? false : true}
+                    <motion.button className="border-0 mt-2 mb-3 text-center "  whileHover={{ scale: 1.1 }}>
+                        <Button onClick={handleShow} className="rounded-4 "
+                            // disabled={ sick_leave.per_year > 0 && sick_leave.per_month > 0 ? false : true}
                         >Apply</Button>
-                    </div>                   
+                    </motion.button>    
+                          
                 </Card.Body>
             </Card>
             <Modal show={show} onHide={handleClose} size="lg" centered>
@@ -108,32 +130,56 @@ const SickLeave =({sick_leave})=>{
                 </Modal.Header>
                 <Modal.Body>
                     <Col xs> 
-                        <Row>.
-                            <h6 className="mb-3 mt-1">Date:</h6>
-                            <Col md sm={6} className='mb-3'>  
-                                <DatePicker     className='form-control'                               
-                                   selected={startDate}
-                                   onChange={(date) => setStartdate(date)}
-                                   selectsStart
-                                   maxDate={addDays(new Date(), 0)}
-                                   dateFormat="dd-MM-yyyy"
-                                /> 
-                            </Col>
-                            <Col md sm={6} className='mb-3'>
-                                <DatePicker className='form-control'
-                                     selected={endDate}
-                                     onChange={(date) => setEnddate(date)}
-                                     selectsEnd
-                                     maxDate={addDays(new Date(), 0)}
-                                     dateFormat="dd-MM-yyyy"                                       
-                                />  
-                            </Col>
-                        </Row>   
-                        <h6 className='mb-3 mt-3'>Reason For </h6>
-                        <Form.Control as="textarea" rows={3} className="mb-3" 
-                            value={sick_reason} onChange={onSickReason} 
-                        />                       
-                        <Button onClick={sick_handleShow}>Submit</Button>                                                                 
+                        <Form onSubmit={handleSubmit(sick_handleShow)}>
+                            <Row>                                
+                                <Col md sm={6} className='mb-3'>    
+                                    <h6 className="mb-3 mt-1">Start Date:</h6>     
+                                    <Controller 
+                                        name="startDate"
+                                        control={control}
+                                        render={({field})=>(
+                                            <DatePicker  {...field}   className='form-control'                            
+                                                selected={startDate}
+                                                onChange={(date) => setStartdate(date)}
+                                                selectsStart
+                                                maxDate={addDays(new Date(), 0)}
+                                                dateFormat="dd-MM-yyyy"                                                                     
+                                            /> 
+                                        )}
+                                    
+                                    />                        
+                                    
+                                                                     
+                                    {errors.startDate && (<p>{errors.startDate?.message}</p>)}
+                                </Col>
+                                <Col md sm={6} className='mb-3'>
+                                    <h6 className="mb-3 mt-1">End Date:</h6> 
+                                    <Controller 
+                                        name="endDate"
+                                        control={control}
+                                        render={({field})=>(
+                                            <DatePicker className='form-control' {...field}
+                                                selected={endDate}
+                                                onChange={(date) => setEnddate(date)}
+                                                selectsEnd
+                                                maxDate={addDays(new Date(), 0)}
+                                                dateFormat="dd-MM-yyyy"                                       
+                                            />  
+                                        )}
+                                    
+                                    />     
+                                    
+                                     {errors.endDate && <span>{errors.endDate.message}</span>}
+                                </Col>
+                            </Row>   
+                            <h6 className='mb-3 mt-3'>Reason For </h6>
+                            <Form.Control as="textarea" rows={3} className="mb-3" 
+                                value={sick_reason} onChange={onSickReason} 
+                            />        
+                            {!err_reason && <span>Reason is required</span>}  
+                            <Form.Control value="Submit" type="submit" />   
+                            {/* <Button onClick={sick_handleShow}>Submit</Button>  */}
+                        </Form>
                     </Col>              
                 </Modal.Body>
             </Modal>    
@@ -144,7 +190,7 @@ const SickLeave =({sick_leave})=>{
                 <Modal.Body>      
                     <p>To apply {end.day() - start.day()}  day of Casual leave From ({sick_apply.from_date}) To ({sick_apply.to_date}) </p>                  
                     <Button className="btn btn-danger px-2 m-2" onClick={onCancel}>Cancel</Button>
-                    <Button onSubmit={onSubmit} className="btn btn-success px-2">Save</Button>
+                    {/* <Button onSubmit={onSubmit} className="btn btn-success px-2">Save</Button> */}
                 </Modal.Body>
             </Modal>    
         </>
