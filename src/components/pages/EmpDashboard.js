@@ -41,7 +41,6 @@ const EmpDashboard = () => {
     },[])
   return (
     <motion.div initial={{opacity: 1}} animate={{ x:[100,0], y:0}}>
-        <Card className="border mt-4 mb-4 px-2 mx-3 m-auto shadow rounded-4">
             <Col className="px-3 mt-3 mb-3">
                 <motion.h4 animate={{ x: 0, opacity:1}} transition={{duration:3}}  className='text-start'>Welcome to {items.username}</motion.h4>                
             </Col>
@@ -66,8 +65,7 @@ const EmpDashboard = () => {
                     </motion.div>
                 </Row>                
            </Col>
-        
-        </Card>
+    
         <motion.div animate={{y:[100,0]}} transition={{duration:5}}>
             <Card className="border mt-4 mb-4 px-2 mx-3 m-auto shadow-lg rounded-4">
                 <Col className="px-3 mt-3 mb-3">

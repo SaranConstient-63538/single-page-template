@@ -100,7 +100,7 @@ const TlDashboard = () => {
                     </Col>
                 
                 </Card>
-                <Card className="border mt-4 mb-4 px-2 mx-3 m-auto shadow-lg rounded-4">
+                <Card className="">
                     <Col className="px-3 py-3 mt-3 mb-3">
                         <Table striped bordered hover responsive className='caption-top'>
                             <caption>                
