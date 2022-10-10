@@ -38,7 +38,6 @@ const Permissionslider =()=>{
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-
   const per_handleShow =()=>{
     setPer_show(true)
     console.log(per_show)
