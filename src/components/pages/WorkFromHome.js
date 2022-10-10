@@ -15,8 +15,8 @@ const WorkFromHome =({work_from_home})=>{
         return date.setDate(date.getDate() + period);
     };
 
-    const [startDate, setStartDate] = useState(new Date);
-    const [endDate, setEndDate] = useState(new Date);
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
     const [work_from_home_reason,setWork_from_home_reason]=useState('')
 
     const [show,setShow]=useState(false)
@@ -24,10 +24,51 @@ const WorkFromHome =({work_from_home})=>{
     const handleShow = () => setShow(true);
     const [wfh_show, setWfh_show]=useState(false)
 
+    const [inputErrors,setInputErrors] = useState({startDate:'',endDate:'',work_from_home_reason})
+
     // console.log(endDate.getDay())
     const wfh_handleShow =()=> {
-        setWfh_show(true);
         console.log(wfh_show);
+
+        let errorCount=0
+        if(startDate==''){
+          errorCount++
+          setInputErrors((prevState)=>{
+            return{...prevState,startDate:'* Start date Is Required'}
+          })
+        }else{
+          setInputErrors((prevState)=>{
+            return{...prevState,startDate:''}
+          })
+        }
+    
+        if(endDate==''){
+          errorCount++
+          setInputErrors((prevState)=>{
+            return{...prevState,endDate:'* End date Is Required'}
+          })
+        }else{
+          setInputErrors((prevState)=>{
+            return{...prevState,endDate:''}
+          })
+        }
+    
+        if(work_from_home_reason==''){
+          errorCount++
+          setInputErrors((prevState)=>{
+            return{...prevState,work_from_home_reason:'* Reason Is Required'}
+          })
+        }else{
+          setInputErrors((prevState)=>{
+            return{...prevState,work_from_home_reason:''}
+          })
+        }
+        if(errorCount==0){
+          const applyForm = {startDate,endDate,work_from_home_reason}
+          console.log(applyForm)
+          setWfh_show(true);
+        //   per_handleShow()
+        }
     }
     const wfh_handleClose =()=> setWfh_show(false)
     const start = moment(startDate);
@@ -106,10 +147,10 @@ const WorkFromHome =({work_from_home})=>{
         <>
             <Card className='text-center leave-card mb-2 mt-2 m-auto'>
                 <Card.Body className="text-decoration-none"> 
-                    <div style={{ width: 80, height: 80, marginTop:'10px',fontSize:'30px' }} 
+                    {/* <div style={{ width: 80, height: 80, marginTop:'10px',fontSize:'30px' }} 
                         className="d-flex text-center m-auto text-secondary">
                         <CircularProgressbar value={`${typeof  work_from_home.per_year === 'undefined' ? 0: work_from_home.per_year * 100 }`/`${tot_day_count}`} text={`${work_from_home.per_year === undefined ? 0: work_from_home.per_year}/${tot_day_count}`} styles={buildStyles({textSize: '25px',textColor: 'black',fontSize:'25px'})}/>                             
-                    </div>
+                    </div> */}
                     {/* <div style={{ width: 80, height: 80, marginTop:'10px',fontSize:'30px' }} 
                         className="d-flex text-center m-auto">
                         <CircularProgressbar value={100} text="8/20" styles={buildStyles({textSize: '21px',})}/>                             
@@ -118,7 +159,9 @@ const WorkFromHome =({work_from_home})=>{
                         Work Form Home
                     </Card.Subtitle>                        
                     <div className="  mt-2 mb-2 text-center ">
-                        <Button onClick={handleShow}  disabled={work_from_home.is_wfh === 0 && work_from_home.per_year > 0 ? false: true}>Apply</Button>
+                        <Button onClick={handleShow}  
+                        // disabled={work_from_home.is_wfh === 0 && work_from_home.per_year > 0 ? false: true}
+                        >Apply</Button>
                     </div>                
                 </Card.Body>
             </Card> 
@@ -132,7 +175,7 @@ const WorkFromHome =({work_from_home})=>{
                             
                             <Col md sm={6} className='mb-3'>  
                                 <h6 className="mb-3 mt-1">Start Date:</h6>
-                                <DatePicker className='form-control'
+                                <DatePicker className='form-control mb-2'
                                     selected={startDate}
                                     onChange={(date) => {setStartDate(date)} }                                
                                     filterDate={isWeekday}
@@ -140,10 +183,11 @@ const WorkFromHome =({work_from_home})=>{
                                     maxDate={addDays(new Date(),30)}
                                     dateFormat="dd/MM/yyyy"
                                 />
+                                {inputErrors.startDate && <p className='text-danger'>{inputErrors.startDate}</p>}
                             </Col>
                             <Col md sm={6} className='mb-3'>
                                 <h6 className="mb-3 mt-1">End Date:</h6>
-                                <DatePicker className='form-control'
+                                <DatePicker className='form-control mb-2'
                                     selected={endDate}
                                     onChange={(date) => setEndDate(date)}
                                     filterDate={isWeekday}                                   
@@ -151,10 +195,12 @@ const WorkFromHome =({work_from_home})=>{
                                     maxDate={addDays(new Date(),30)}
                                     dateFormat="dd/MM/yyyy"
                                 />
+                                {inputErrors.endDate && <p className='text-danger'>{inputErrors.endDate}</p>}
                             </Col>
                         </Row> 
                         <h6 className='mb-3 mt-3'>Reason For </h6>
-                        <Form.Control as="textarea" rows={3} className="mb-3" value={work_from_home_reason} onChange={onWorkfromhome}/>
+                        <Form.Control as="textarea" rows={3} className="mb-2" value={work_from_home_reason} onChange={onWorkfromhome}/>
+                        {inputErrors.work_from_home_reason && <p className='text-danger'>{inputErrors.work_from_home_reason}</p>}
                         <Button onClick={wfh_handleShow}>Submit</Button>
                     </Col>                     
                 </Modal.Body>

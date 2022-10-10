@@ -27,6 +27,8 @@ const Permissionslider =()=>{
     const [err_endTime,setErr_endTime]=useState(false)
     const [err_perReason,setErr_perReason]=useState(false);
 
+    const [inputErrors,setInputErrors] = useState({startDate:'',startTime:'',endTime:'',per_reason:''})
+
     const onSubmit =(data)=>{
       console.log(data);
     }
@@ -43,7 +45,58 @@ const Permissionslider =()=>{
   }
   const per_handleClose =()=> setPer_show(false)
   const onSave =()=>{
-    per_handleShow()
+    // per_handleShow()
+    console.log(startDate,startTime,endTime,per_reason)
+
+    let errorCount=0
+    if(startDate==''){
+      errorCount++
+      setInputErrors((prevState)=>{
+        return{...prevState,startDate:'* Date Is Required'}
+      })
+    }else{
+      setInputErrors((prevState)=>{
+        return{...prevState,startDate:''}
+      })
+    }
+
+    if(startTime==''){
+      errorCount++
+      setInputErrors((prevState)=>{
+        return{...prevState,startTime:'* StartTime Is Required'}
+      })
+    }else{
+      setInputErrors((prevState)=>{
+        return{...prevState,startTime:''}
+      })
+    }
+
+    if(endTime==''){
+      errorCount++
+      setInputErrors((prevState)=>{
+        return{...prevState,endTime:'* EndTime Is Required'}
+      })
+    }else{
+      setInputErrors((prevState)=>{
+        return{...prevState,endTime:''}
+      })
+    }
+
+    if(per_reason==''){
+      errorCount++
+      setInputErrors((prevState)=>{
+        return{...prevState,per_reason:'* Reason Is Required'}
+      })
+    }else{
+      setInputErrors((prevState)=>{
+        return{...prevState,per_reason:''}
+      })
+    }
+    if(errorCount==0){
+      const applyForm = {startDate,startTime,endTime,per_reason}
+      console.log(applyForm)
+      per_handleShow()
+    }
   }
 
     console.log(moment(startTime).startOf('hour'))
@@ -51,7 +104,7 @@ const Permissionslider =()=>{
       const start = moment(startTime);
       const end = moment(endTime);
       console.log(endTime)
-      console.log(startTime)
+      console.log(startTime,startDate)
       
       let _permission ={
         from_date: moment(startDate).format(format_date).concat(''+ moment(startTime).format('hh:mm a') +''),  
@@ -129,17 +182,18 @@ const Permissionslider =()=>{
                     <h6>Date:</h6>
                     <DatePicker
                       selected={startDate}
-                      className='form-control'  
+                      className='form-control mb-2'  
                       onChange={(date)=>setStartDate(date)}
                       minDate={new Date()}                      
                       dateFormat="yyyy-MM-dd"
+                      value={startDate}
                     />
-                    {/* {!err_startDate && <p>Please select your Start Date</p>} */}
+                    {inputErrors.startDate && <p className='text-danger'>{inputErrors.startDate}</p>}
                   </Col>
                   <Col sm md  className="mb-3">
                   <h6>Start Time:</h6>
                   <DatePicker
-                    className="form-control"
+                    className="form-control mb-2"
                     selected={startTime}
                     onChange={date => setStartTime(date)}
                     startTime={startTime}
@@ -149,14 +203,14 @@ const Permissionslider =()=>{
                     timeIntervals={60}      
                     dateFormat="h:mm a"
                     timeCaption="Time"
+                    value={startTime}
                   />         
-                  {/* {!err_startTime && <p>Please select your start time</p>}         */}
+                    {inputErrors.startTime && <p className='text-danger'>{inputErrors.startTime}</p>}     
                 </Col>
-                
                 <Col sm md className="mb-3">          
                   <h6>End Time: </h6>       
                     <DatePicker
-                    className="form-control"
+                    className="form-control mb-2"
                     selected={endTime}
                     onChange={date => setEndTime(date)}
                     endTime={endTime}
@@ -167,17 +221,17 @@ const Permissionslider =()=>{
                     timeIntervals={60}
                     dateFormat="h:mm a"
                     timeCaption="Time"
+                    value={endTime}
                     />
-                    {/* {!err_endTime && <p>Please select your end time</p>}     */}
-                </Col>                  
+                    {inputErrors.endTime && <p className='text-danger'>{inputErrors.endTime}</p>}
+                </Col>                               
               </Row>
               <h6 className='mb-3 mt-3'>Reason For </h6>
               <Form.Control 
-                // {...register('per_reason',{required: false})}
-                as="textarea" rows={3} className="mb-3" 
+                as="textarea" rows={3} className="mb-2" 
                 value={per_reason} onChange={(event)=> setPer_reason(event.target.value)}/>
-              {/* {!err_perReason && <p>please enter your reason </p>} */}
-                {/* <input type="submit" value="Submit" className='rounded-4 btn btn-primary text-end' /> */}
+
+                {inputErrors.per_reason && <p className='text-danger'>{inputErrors.per_reason}</p>} 
                 
               <Button className="mb-3 rounded-4 ms-1" onClick={onSave}>Submit</Button>
             </Col>            
