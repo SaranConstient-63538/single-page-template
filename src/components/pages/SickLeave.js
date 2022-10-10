@@ -36,12 +36,62 @@ const SickLeave =({sick_leave})=>{
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const sick_handleShow =(data)=> {
-        // getleaveCount(startDate,endDate);
-        console.log(data)
-            setSick_show(true);
-        
+    const [inputErrors,setInputErrors] = useState({startDate:'',endDate:'',sick_reason:''})
+
+    const sick_handleShow =()=> {
         console.log(sick_show)
+
+        let errorCount=0
+    if(startDate==''){
+      errorCount++
+      setInputErrors((prevState)=>{
+        return{...prevState,startDate:'* Start date Is Required'}
+      })
+    }else{
+      setInputErrors((prevState)=>{
+        return{...prevState,startDate:''}
+      })
+    }
+
+    if(endDate==''){
+      errorCount++
+      setInputErrors((prevState)=>{
+        return{...prevState,endDate:'* End date Is Required'}
+      })
+    }else{
+      setInputErrors((prevState)=>{
+        return{...prevState,endDate:''}
+      })
+    }
+
+    if(sick_reason==''){
+      errorCount++
+      setInputErrors((prevState)=>{
+        return{...prevState,sick_reason:'* Reason Is Required'}
+      })
+    }else{
+      setInputErrors((prevState)=>{
+        return{...prevState,sick_reason:''}
+      })
+    }
+
+    if(sick_reason==''){
+      errorCount++
+      setInputErrors((prevState)=>{
+        return{...prevState,per_reason:'* Reason Is Required'}
+      })
+    }else{
+      setInputErrors((prevState)=>{
+        return{...prevState,per_reason:''}
+      })
+    }
+    if(errorCount==0){
+      const applyForm = {startDate,endDate,sick_reason}
+      console.log(applyForm)
+      setSick_show(true);
+    //   per_handleShow()
+    }
+
     }
     const sick_handleClose =()=> setSick_show(false)
 
@@ -130,56 +180,38 @@ const SickLeave =({sick_leave})=>{
                 </Modal.Header>
                 <Modal.Body>
                     <Col xs> 
-                        <Form onSubmit={handleSubmit(sick_handleShow)}>
-                            <Row>                                
-                                <Col md sm={6} className='mb-3'>    
-                                    <h6 className="mb-3 mt-1">Start Date:</h6>     
-                                    <Controller 
-                                        name="startDate"
-                                        control={control}
-                                        render={({field})=>(
-                                            <DatePicker  {...field}   className='form-control'                            
-                                                selected={startDate}
-                                                onChange={(date) => setStartdate(date)}
-                                                selectsStart
-                                                maxDate={addDays(new Date(), 0)}
-                                                dateFormat="dd-MM-yyyy"                                                                     
-                                            /> 
-                                        )}
-                                    
-                                    />                        
-                                    
-                                                                     
-                                    {errors.startDate && (<p>{errors.startDate?.message}</p>)}
-                                </Col>
-                                <Col md sm={6} className='mb-3'>
-                                    <h6 className="mb-3 mt-1">End Date:</h6> 
-                                    <Controller 
-                                        name="endDate"
-                                        control={control}
-                                        render={({field})=>(
-                                            <DatePicker className='form-control' {...field}
-                                                selected={endDate}
-                                                onChange={(date) => setEnddate(date)}
-                                                selectsEnd
-                                                maxDate={addDays(new Date(), 0)}
-                                                dateFormat="dd-MM-yyyy"                                       
-                                            />  
-                                        )}
-                                    
-                                    />     
-                                    
-                                     {errors.endDate && <span>{errors.endDate.message}</span>}
-                                </Col>
-                            </Row>   
-                            <h6 className='mb-3 mt-3'>Reason For </h6>
-                            <Form.Control as="textarea" rows={3} className="mb-3" 
-                                value={sick_reason} onChange={onSickReason} 
-                            />        
-                            {!err_reason && <span>Reason is required</span>}  
-                            <Form.Control value="Submit" type="submit" />   
-                            {/* <Button onClick={sick_handleShow}>Submit</Button>  */}
-                        </Form>
+                        <Row>.
+                            
+                            <Col md sm={6} className='mb-3'>  
+                            <h6 className="mb-3 mt-1">Start Date:</h6>
+                                <DatePicker     className='form-control mb-2'                               
+                                   selected={startDate}
+                                   onChange={(date) => setStartdate(date)}
+                                   selectsStart
+                                   maxDate={addDays(new Date(), 0)}
+                                   dateFormat="dd-MM-yyyy"
+                                /> 
+                                {inputErrors.startDate && <p className='text-danger'>{inputErrors.startDate}</p>}
+                            </Col>
+                            
+                            <Col md sm={6} className='mb-3'>
+                            <h6 className="mb-3 mt-1">End Date:</h6>
+                                <DatePicker className='form-control mb-2'
+                                     selected={endDate}
+                                     onChange={(date) => setEnddate(date)}
+                                     selectsEnd
+                                     maxDate={addDays(new Date(), 0)}
+                                     dateFormat="dd-MM-yyyy"                                       
+                                />
+                                  {inputErrors.endDate && <p className='text-danger'>{inputErrors.endDate}</p>}       
+                            </Col>
+                        </Row>   
+                        <h6 className='mb-3 mt-3'>Reason For </h6>
+                        <Form.Control as="textarea" rows={3} className="mb-2" 
+                            value={sick_reason} onChange={onSickReason} 
+                        />    
+                        {inputErrors.sick_reason && <p className='text-danger'>{inputErrors.sick_reason}</p>}                   
+                        <Button onClick={sick_handleShow}>Submit</Button>                                                                 
                     </Col>              
                 </Modal.Body>
             </Modal>    
