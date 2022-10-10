@@ -94,8 +94,7 @@ const CasualLeavel =({casual_leave})=>{
     const handleShow = () => setShow(true);
     console.log(typeof  casual_leave.per_year === 'undefined')
 
-    const onSubmit=()=>{   
-       
+    const onSubmit=()=>{          
         if(item.role === "trainee" && item.token !== null){
             if(startDate < endDate){
                 // console.log(casual_apply);
