@@ -6,9 +6,21 @@ import React,{useState} from 'react'
 import './leave.css'
 import moment from 'moment';
 import instance from '../../service/service';
+import { useForm, Controller } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+import {motion } from 'framer-motion'
 
+let schema =yup.object().shape({
+    startDate: yup.date().required('Please select your start date'),
+    endDate: yup.date().required('Please select your end date'),
+    sick_reason : yup.string().required('Please enter your reason'),
+})
 
 const SickLeave =({sick_leave})=>{
+    const {control,handleSubmit,formState:{errors}}=useForm({
+        resolver: yupResolver(schema)
+    })
     console.log(sick_leave)
     const format_date = "YYYY-MM-DD"
     const [tot_day_count]=useState(12)
@@ -16,6 +28,9 @@ const SickLeave =({sick_leave})=>{
     const [startDate, setStartdate]=useState('')
     const [endDate, setEnddate]=useState('')
     const [sick_reason,setSickreason]=useState('')
+    const [err_startDate,setErr_startDate]=useState(false)
+    const [err_endDate,setErr_endDate]=useState(false)
+    const [err_reason,setErr_Reason]=useState(false)
     const [show,setShow]=useState(false)
     const [sick_show,setSick_show]=useState(false)
     const handleClose = () => setShow(false);
@@ -86,6 +101,7 @@ const SickLeave =({sick_leave})=>{
     console.log(Math.ceil(endDate-startDate/(1000*3600*24)))
     const item = JSON.parse(localStorage.getItem('data'))
     console.log(item)
+  
     const sick_apply ={
         from_date: moment(startDate).format(format_date),
         to_date: moment(endDate).format(format_date),
@@ -95,14 +111,16 @@ const SickLeave =({sick_leave})=>{
     const start = moment(startDate);
     const end = moment(endDate)
     console.log(end.day() - start.day())
+
     const onCancel =()=>{
         console.log('cancel')
         setStartdate('')
         setEnddate('')
         setSickreason('')
     }
-    const onSubmit=()=>{
-        if(item.role === "trainee" && item.token !== null){
+    const onSubmit=(data)=>{
+        console.log(data)
+        /* if(item.role === "trainee" && item.token !== null){
             console.log('trainee')
             if(startDate < endDate ){
                 console.log(sick_apply)
@@ -134,7 +152,7 @@ const SickLeave =({sick_leave})=>{
             }else{
                 console.log('Please select valid date')
             }
-        }        
+        }       */ 
     }
     const onSickReason = (e)=>{
         setSickreason(e.target.value)
@@ -148,11 +166,12 @@ const SickLeave =({sick_leave})=>{
                         <CircularProgressbar value={`${ typeof  sick_leave.per_year !== 'undefined' || sick_leave.per_year > 0 ? sick_leave.per_year * 100 : 0}`/`${tot_day_count}`} text={`${sick_leave.per_year}/${tot_day_count}`} styles={buildStyles({textSize: '25px',textColor: 'black',fontSize:'25px'})}/>                             
                     </div> */}
                     <Card.Subtitle className="mb-3 mt-4 text-secondary">Sick Leave</Card.Subtitle>
-                    <div className="  mt-2 mb-2 text-center ">
-                        <Button onClick={handleShow} 
+                    <motion.button className="border-0 mt-2 mb-3 text-center "  whileHover={{ scale: 1.1 }}>
+                        <Button onClick={handleShow} className="rounded-4 "
                             // disabled={ sick_leave.per_year > 0 && sick_leave.per_month > 0 ? false : true}
                         >Apply</Button>
-                    </div>                   
+                    </motion.button>    
+                          
                 </Card.Body>
             </Card>
             <Modal show={show} onHide={handleClose} size="lg" centered>
@@ -203,7 +222,7 @@ const SickLeave =({sick_leave})=>{
                 <Modal.Body>      
                     <p>To apply {end.day() - start.day()}  day of Casual leave From ({sick_apply.from_date}) To ({sick_apply.to_date}) </p>                  
                     <Button className="btn btn-danger px-2 m-2" onClick={onCancel}>Cancel</Button>
-                    <Button onSubmit={onSubmit} className="btn btn-success px-2">Save</Button>
+                    {/* <Button onSubmit={onSubmit} className="btn btn-success px-2">Save</Button> */}
                 </Modal.Body>
             </Modal>    
         </>

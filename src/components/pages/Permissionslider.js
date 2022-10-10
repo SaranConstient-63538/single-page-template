@@ -7,6 +7,7 @@ import DatePicker from 'react-datepicker'
 import moment from 'moment';
 import instance from '../../service/service';
 import {useForm} from 'react-hook-form'
+import { motion } from 'framer-motion'
 
 const Permissionslider =()=>{
   const { handleSubmit, register, formState:{errors}} = useForm();
@@ -105,7 +106,7 @@ const Permissionslider =()=>{
       console.log(endTime)
       console.log(startTime,startDate)
       
-      let _permission ={
+      const _permission ={
         from_date: moment(startDate).format(format_date).concat(''+ moment(startTime).format('hh:mm a') +''),  
         to_date: moment(startDate).format(format_date).concat(''+ moment(endTime).format('hh:mm a') +''),  
         start_time:parseFloat(start_time), 
@@ -165,9 +166,9 @@ const Permissionslider =()=>{
         <Card className='text-center leave-card mb-2 mt-2 m-auto'>
           <Card.Body >
             <Card.Subtitle className="mb-3 mt-4 text-secondary">Permission</Card.Subtitle>                            
-              <div className="  mt-2 mb-3 text-center ">
-                <Button onClick={handleShow} >Apply</Button>
-              </div>
+              <motion.button className="border-0 mt-2 mb-3 text-center"  whileHover={{ scale: 1.1 }}>
+                <Button onClick={handleShow} className="rounded-4">Apply</Button>
+              </motion.button>
           </Card.Body>
         </Card>
         <Modal show={show} onHide={handleClose} size="lg" centered>

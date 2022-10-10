@@ -11,16 +11,23 @@ import instance from '../../service/service'
 const Topbar = ({handleShow}) => {   
     const navigate = useNavigate();
     const Logout =()=>{
-        // console.log(process.env)
+        console.log(process.env, instance.post(process.env.REACT_APP_LOGOUT))
         instance.post(process.env.REACT_APP_LOGOUT)
-        .then( res =>{
+        .then( res =>{            
             console.log(res.data);
-            localStorage.removeItem('token')
-            localStorage.removeItem('data')
-            navigate('/');
+            if( res.data === 'success'){
+                localStorage.removeItem('token')
+                localStorage.removeItem('data')
+                // const logout = JSON.parse(localStorage.getItem('token'))
+                // console.log(logout);
+                navigate('/')
+            }
+            
         }).catch( err =>{
             console.log(err.message)
         })
+    
+        
       
         
     }

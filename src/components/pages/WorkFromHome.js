@@ -6,6 +6,7 @@ import React,{useState} from 'react'
 import './leave.css'
 import instance from '../../service/service'
 import moment from 'moment'
+import { motion } from 'framer-motion'
 
 const WorkFromHome =({work_from_home})=>{
     const format_date = "YYYY-MM-DD"
@@ -158,11 +159,10 @@ const WorkFromHome =({work_from_home})=>{
                     <Card.Subtitle className="mb-3 mt-4 text-secondary">
                         Work Form Home
                     </Card.Subtitle>                        
-                    <div className="  mt-2 mb-2 text-center ">
-                        <Button onClick={handleShow}  
-                        // disabled={work_from_home.is_wfh === 0 && work_from_home.per_year > 0 ? false: true}
-                        >Apply</Button>
-                    </div>                
+                    <motion.button className="border-0 mt-2 mb-3 text-center"  whileHover={{ scale: 1.1 }}>
+                        <Button onClick={handleShow} className="rounded-4"  disabled={work_from_home.is_wfh === 0 && work_from_home.per_year > 0 ? false: true}>Apply</Button>
+                    </motion.button>  
+                           
                 </Card.Body>
             </Card> 
             <Modal show={show} onHide={handleClose} size="lg" centered> 

@@ -5,6 +5,7 @@ import React,{useState} from 'react'
 import moment from 'moment'
 import { useEffect } from 'react';
 import instance from '../../service/service'
+import { motion } from 'framer-motion'
 
 
 const CasualLeavel =({casual_leave})=>{
@@ -138,16 +139,18 @@ const CasualLeavel =({casual_leave})=>{
                     {/* <div style={{ width: 80, height: 80, marginTop:'10px',fontSize:'30px' }} 
                         className="d-flex text-center m-auto text-secondary">
                         <CircularProgressbar value={`${typeof  casual_leave.per_year === 'undefined' ? 0: casual_leave.per_year * 100 }`/`${tot_day_count}`} text={`${casual_leave.per_year === undefined ? 0: casual_leave.per_year}/${tot_day_count}`} styles={buildStyles({textSize: '25px',textColor: 'black',fontSize:'25px'})}/>                             
-                    </div> */}
+                    </div>
                
-                        <p className='position-absolute '></p>
-                        <Card.Subtitle className="mb-3 mt-4 text-secondary">Casual Leave</Card.Subtitle>
+                        <p className='position-absolute '></p> */}
+                        <motion.h6 initial={{ x:100}} animate={{x: 0}} transition={{ delay: 0.2, duration:0.2}}>
+                            <Card.Subtitle className="mb-3 mt-4 text-primary">Casual Leave</Card.Subtitle>
+                        </motion.h6>                        
                        
-                        <div className="  mt-2 mb-3 text-center ">
-                        <Button onClick={handleShow}
-                            // disabled={ casual_leave.per_year > 0 && casual_leave.per_month > 0 || casual_leave.per_year === undefined ? false: true}
-                        >Apply</Button>
-                        </div>
+                        <motion.button className="border-0 mt-2 mb-3 text-center"  whileHover={{ scale: 1.1 }}>
+                            <Button onClick={handleShow} className="rounded-4"
+                                // disabled={ casual_leave.per_year > 0 && casual_leave.per_month > 0 || casual_leave.per_year === undefined ? false: true}
+                            >Apply</Button>
+                        </motion.button>
                     
                 </Card.Body>
             </Card>
@@ -204,8 +207,7 @@ const CasualLeavel =({casual_leave})=>{
                     <Button onSubmit={onSubmit} className="btn btn-success px-2">Save</Button>
                 </Modal.Body>
             </Modal>      
-        </>      
-       
+        </>    
     )
 }
 export default CasualLeavel;
