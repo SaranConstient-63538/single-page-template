@@ -1,5 +1,4 @@
 import { Row, Col, Modal, Card, Button, Form} from 'react-bootstrap'
-import { buildStyles, CircularProgressbar} from 'react-circular-progressbar'
 import DatePicker    from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css';
 import React,{useState} from 'react'
@@ -10,7 +9,6 @@ import { motion } from 'framer-motion'
 
 const WorkFromHome =({work_from_home})=>{
     const format_date = "YYYY-MM-DD"
-    const [tot_day_count]=useState(20)
 
     const addDays = (date, period) => {
         return date.setDate(date.getDate() + period);
@@ -210,12 +208,11 @@ const WorkFromHome =({work_from_home})=>{
                     Are you sure ?                
                 </Modal.Header>
                 <Modal.Body>      
-                    <p>To apply {end.day() - start.day()}  day of Work from Home  From ({work_from_home_apply.from_date}) To ({work_from_home_apply.to_date}) </p>                  
+                    <p>To apply the Work from Home  From : ({work_from_home_apply.from_date}) To : ({work_from_home_apply.to_date}) </p>                  
                     <Button className="btn btn-danger px-2 m-2" onClick={onCancel}>Cancel</Button>
                     <Button onSubmit={onSubmit} className="btn btn-success px-2">Save</Button>
                 </Modal.Body>
             </Modal>   
-
         </>
     )
 }

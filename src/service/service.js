@@ -8,7 +8,7 @@ import axios from 'axios'
         "Content-type": "application/json", 
     },
 })
-// instance.defaults.headers.common.Authorization =`Bearer ${token}`
+instance.defaults.headers.common.Authorization =`Bearer ${token}`
 
 
 export default instance

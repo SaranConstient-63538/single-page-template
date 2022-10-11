@@ -220,9 +220,9 @@ const SickLeave =({sick_leave})=>{
                     Are you sure ?                
                 </Modal.Header>
                 <Modal.Body>      
-                    <p>To apply {end.day() - start.day()}  day of Casual leave From ({sick_apply.from_date}) To ({sick_apply.to_date}) </p>                  
+                    <p>To apply the  Sick leave From :  {sick_apply.from_date} To : {sick_apply.to_date} </p>                  
                     <Button className="btn btn-danger px-2 m-2" onClick={onCancel}>Cancel</Button>
-                    {/* <Button onSubmit={onSubmit} className="btn btn-success px-2">Save</Button> */}
+                    <Button onSubmit={onSubmit} className="btn btn-success px-2">Save</Button>
                 </Modal.Body>
             </Modal>    
         </>

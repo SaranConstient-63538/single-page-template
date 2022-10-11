@@ -17,15 +17,15 @@ const schema = yup.object({
 }).required();
 
 const LoginForm = () => {
-useEffect(()=>{
-  console.log(process.env)
-  // console.log(apiRequest());
-if(isLogin())navigate('/home');
-},[])
+
   const navigate = useNavigate();
   const { handleSubmit, register, formState:{errors}} = useForm({
     resolver: yupResolver(schema)
   });
+
+  useEffect(()=>{
+    if(isLogin())navigate('/home');
+  },[])
 
   const onSubmit = (data)=>{        
     let login_data={
@@ -37,9 +37,6 @@ if(isLogin())navigate('/home');
       console.log(res.data.responseResult);
       const _data = JSON.stringify( res.data.responseResult)
       localStorage.setItem('data',_data)
-      // instance.defaults.headers.common['Authorization']=`Bearer ${res.data.token}`
-      localStorage.setItem('token', res.data.responseResult.token)
-
       navigate('/home')      
     }).catch( err => {
       console.log(err.message)
@@ -47,8 +44,7 @@ if(isLogin())navigate('/home');
     
   }   
   return (    
-    <Container>
-      {/* {(isLogin())&&navigate('/home')} */}
+    <Container>     
       <Row className="my-5">
         <Col  md={8} sm={12} lg className="align-items-center text-center my-5 py-5">
           <div className="w-auto h-auto shadow-lg">
@@ -89,5 +85,4 @@ if(isLogin())navigate('/home');
     </Container>
   );
 };
-
 export default LoginForm;
