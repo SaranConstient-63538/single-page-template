@@ -5,6 +5,7 @@ import React,{useState} from 'react'
 import moment from 'moment'
 import { useEffect } from 'react';
 import instance from '../../service/service'
+import { motion } from 'framer-motion'
 
 
 const CasualLeavel =({casual_leave})=>{
@@ -18,18 +19,58 @@ const CasualLeavel =({casual_leave})=>{
         return date.setDate(date.getDate() + period);
       };
 
-    const [startDate, setStartDate] = useState(addDays(new Date(),4));
-    const [endDate, setEndDate] = useState(addDays(new Date(),4));
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
 
     const [casual_reason,setCasualreason]=useState('')
     const [show,setShow]=useState(false)
     const [casual_show, setCasual_show]=useState(false)
 
-    
+    const [inputErrors,setInputErrors] = useState({startDate:'',endDate:'',casual_reason:''})
 
     const casual_handleShow =()=> {
-        setCasual_show(true);
         console.log(casual_show);
+        console.log(startDate,endDate,casual_reason)
+
+        let errorCount=0
+        if(startDate==''){
+          errorCount++
+          setInputErrors((prevState)=>{
+            return{...prevState,startDate:'* Start date Is Required'}
+          })
+        }else{
+          setInputErrors((prevState)=>{
+            return{...prevState,startDate:''}
+          })
+        }
+    
+        if(endDate==''){
+          errorCount++
+          setInputErrors((prevState)=>{
+            return{...prevState,endDate:'* End date Is Required'}
+          })
+        }else{
+          setInputErrors((prevState)=>{
+            return{...prevState,endDate:''}
+          })
+        }
+    
+        if(casual_reason==''){
+          errorCount++
+          setInputErrors((prevState)=>{
+            return{...prevState,casual_reason:'* Reason Is Required'}
+          })
+        }else{
+          setInputErrors((prevState)=>{
+            return{...prevState,casual_reason:''}
+          })
+        }
+        if(errorCount==0){
+          const applyForm = {startDate,endDate,casual_reason}
+          console.log(applyForm)
+          setCasual_show(true);
+        //   per_handleShow()
+        }
     }
     const casual_handleClose =()=> setCasual_show(false)
     const start = moment(startDate);
@@ -54,8 +95,7 @@ const CasualLeavel =({casual_leave})=>{
     const handleShow = () => setShow(true);
     console.log(typeof  casual_leave.per_year === 'undefined')
 
-    const onSubmit=()=>{   
-       
+    const onSubmit=()=>{          
         if(item.role === "trainee" && item.token !== null){
             if(startDate < endDate){
                 // console.log(casual_apply);
@@ -96,19 +136,21 @@ const CasualLeavel =({casual_leave})=>{
         <>
             <Card className='text-center leave-card mb-2 mt-2 m-auto'>
                 <Card.Body>
-                    <div style={{ width: 80, height: 80, marginTop:'10px',fontSize:'30px' }} 
+                    {/* <div style={{ width: 80, height: 80, marginTop:'10px',fontSize:'30px' }} 
                         className="d-flex text-center m-auto text-secondary">
                         <CircularProgressbar value={`${typeof  casual_leave.per_year === 'undefined' ? 0: casual_leave.per_year * 100 }`/`${tot_day_count}`} text={`${casual_leave.per_year === undefined ? 0: casual_leave.per_year}/${tot_day_count}`} styles={buildStyles({textSize: '25px',textColor: 'black',fontSize:'25px'})}/>                             
                     </div>
                
-                        <p className='position-absolute '></p>
-                        <Card.Subtitle className="mb-3 mt-4 text-secondary">Casual Leave</Card.Subtitle>
+                        <p className='position-absolute '></p> */}
+                        <motion.h6 initial={{ x:100}} animate={{x: 0}} transition={{ delay: 0.2, duration:0.2}}>
+                            <Card.Subtitle className="mb-3 mt-4 text-primary">Casual Leave</Card.Subtitle>
+                        </motion.h6>                        
                        
-                        <div className="  mt-2 mb-3 text-center ">
-                        <Button onClick={handleShow}
-                            disabled={ casual_leave.per_year > 0 && casual_leave.per_month > 0 || casual_leave.per_year === undefined ? false: true}
-                        >Apply</Button>
-                        </div>
+                        <motion.button className="border-0 mt-2 mb-3 text-center"  whileHover={{ scale: 1.1 }}>
+                            <Button onClick={handleShow} className="rounded-4"
+                                // disabled={ casual_leave.per_year > 0 && casual_leave.per_month > 0 || casual_leave.per_year === undefined ? false: true}
+                            >Apply</Button>
+                        </motion.button>
                     
                 </Card.Body>
             </Card>
@@ -119,9 +161,9 @@ const CasualLeavel =({casual_leave})=>{
                 <Modal.Body>
                     <Col xs> 
                         <Row>.
-                            <h6 className="mb-3 mt-1">Date:</h6>
                             <Col md sm={6} className='mb-3'>  
-                                <DatePicker className='form-control'
+                            <h6 className="mb-3 mt-1">Start Date:</h6>
+                                <DatePicker className='form-control mb-2'
                                     selected={startDate}
                                     onChange={(date) => setStartDate(date)}
                                     selectsStart
@@ -131,9 +173,11 @@ const CasualLeavel =({casual_leave})=>{
                                     maxDate={addDays(new Date(),30)}
                                     dateFormat="dd/MM/yyyy"
                                 />
+                                 {inputErrors.startDate && <p className='text-danger'>{inputErrors.startDate}</p>}
                             </Col>
                             <Col md sm={6} className='mb-3'>
-                                <DatePicker className='form-control'
+                            <h6 className="mb-3 mt-1">End Date:</h6>
+                                <DatePicker className='form-control mb-2'
                                     selected={endDate}
                                     onChange={(date) => setEndDate(date)}
                                     selectsEnd
@@ -143,10 +187,12 @@ const CasualLeavel =({casual_leave})=>{
                                     maxDate={addDays(new Date(),30)}
                                     dateFormat="dd/MM/yyyy"
                                 />
+                                 {inputErrors.endDate && <p className='text-danger'>{inputErrors.endDate}</p>}
                             </Col>
                         </Row> 
                         <h6 className='mb-3 mt-3'>Reason For </h6>
-                        <Form.Control as="textarea" rows={3} className="mb-3" value={casual_reason} onChange={onCasualReason}/>  
+                        <Form.Control as="textarea" rows={3} className="mb-2" value={casual_reason} onChange={onCasualReason}/> 
+                        {inputErrors.casual_reason && <p className='text-danger'>{inputErrors.casual_reason}</p>} 
                         <Button onClick={casual_handleShow}>Submit</Button>                                                                 
                     </Col>              
                 </Modal.Body>
@@ -156,13 +202,12 @@ const CasualLeavel =({casual_leave})=>{
                     Are you sure ?                
                 </Modal.Header>
                 <Modal.Body>      
-                    <p>To apply {end.day() - start.day()}  day of Sick leave From ({casual_apply.from_date}) To ({casual_apply.to_date}) </p>                  
+                    <p>To apply the  Sick leave From : {casual_apply.from_date} To : {casual_apply.to_date} </p>                  
                     <Button className="btn btn-danger px-2 m-2" onClick={onCancel}>Cancel</Button>
                     <Button onSubmit={onSubmit} className="btn btn-success px-2">Save</Button>
                 </Modal.Body>
             </Modal>      
-        </>      
-       
+        </>    
     )
 }
 export default CasualLeavel;

@@ -11,18 +11,19 @@ import instance from '../../service/service'
 const Topbar = ({handleShow}) => {   
     const navigate = useNavigate();
     const Logout =()=>{
-        // console.log(process.env)
-        instance.post(process.env.REACT_APP_LOGOUT)
-        .then( res =>{
-            console.log(res.data);
-            localStorage.removeItem('token')
-            localStorage.removeItem('data')
-            navigate('/');
-        }).catch( err =>{
-            console.log(err.message)
-        })
-      
-        
+
+        // instance.post(process.env.REACT_APP_LOGOUT)
+        // .then( res =>{
+        //     console.log(res.data)
+           
+
+        // }).catch( err =>{
+        //     console.log(err.message)
+        // })   
+            
+        localStorage.removeItem('token')
+        localStorage.removeItem('data')
+        navigate('/') 
     }
     return (
         <Navbar sticky="top" expand="md"  className="shadow-sm topbar bg-white py-0 px-0 mt-0 flex-row">              

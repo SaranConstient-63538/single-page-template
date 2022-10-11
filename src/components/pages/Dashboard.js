@@ -13,7 +13,6 @@ const Dashboard = () => {
    const items = JSON.parse(localStorage.getItem('data'))
   return (
     <>
-        <Card className="border mt-4 mb-4 px-2 mx-3 m-auto shadow rounded-4">
            <Col >
                 <Row className="justify-content-around px-3 mb-3  ">    
                 { items.role === "trainee" ?
@@ -27,8 +26,6 @@ const Dashboard = () => {
                     
                 </Row>                
            </Col>
-        
-        </Card>
     </>
   )
 }

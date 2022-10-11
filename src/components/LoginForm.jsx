@@ -19,16 +19,15 @@ const schema = yup.object({
 }).required();
 
 const LoginForm = () => {
-useEffect(()=>{
-  console.log(process.env)
-  // console.log(apiRequest());
-if(isLogin())navigate('/home');
-},[])
+
   const navigate = useNavigate();
   const { handleSubmit, register, formState:{errors}} = useForm({
     resolver: yupResolver(schema)
   });
-
+  
+  useEffect(()=>{
+    if(isLogin())navigate('/home');
+  },[])
   const onSubmit = (data)=>{        
     let login_data={
       email:data.email,
