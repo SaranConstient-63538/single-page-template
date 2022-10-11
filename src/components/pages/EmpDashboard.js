@@ -40,9 +40,9 @@ const EmpDashboard = () => {
         })  
     },[])
   return (
-    <motion.div initial={{opacity: 1}} animate={{ x:[100,0], y:0}}>
+    <motion.div initial={{opacity: 1}} animate={{  y:0}}>
             <Col className="px-3 mt-3 mb-3">
-                <motion.h4 animate={{ x: 0, opacity:1}} transition={{duration:3}}  className='text-start'>Welcome to {items.username}</motion.h4>                
+                <motion.h4 animate={{ x:[100,0], opacity:1}} transition={{duration:3}}  className='text-start'>Welcome to {items.username}</motion.h4>                ,
             </Col>
            <Col >
                 <Row className="justify-content-around px-3 mb-3  h-auto ">   
