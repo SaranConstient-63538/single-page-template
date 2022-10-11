@@ -22,11 +22,10 @@ const LoginForm = () => {
   const { handleSubmit, register, formState:{errors}} = useForm({
     resolver: yupResolver(schema)
   });
-
+  
   useEffect(()=>{
     if(isLogin())navigate('/home');
   },[])
-
   const onSubmit = (data)=>{        
     let login_data={
       email:data.email,
@@ -37,6 +36,9 @@ const LoginForm = () => {
       console.log(res.data.responseResult);
       const _data = JSON.stringify( res.data.responseResult)
       localStorage.setItem('data',_data)
+      // instance.defaults.headers.common['Authorization']=`Bearer ${res.data.token}`
+      localStorage.setItem('token', res.data.responseResult.token)
+
       navigate('/home')      
     }).catch( err => {
       console.log(err.message)
@@ -44,7 +46,8 @@ const LoginForm = () => {
     
   }   
   return (    
-    <Container>     
+    <Container>
+      {/* {(isLogin())&&navigate('/home')} */}
       <Row className="my-5">
         <Col  md={8} sm={12} lg className="align-items-center text-center my-5 py-5">
           <div className="w-auto h-auto shadow-lg">
@@ -85,4 +88,5 @@ const LoginForm = () => {
     </Container>
   );
 };
+
 export default LoginForm;

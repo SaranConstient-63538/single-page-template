@@ -6,12 +6,9 @@ import { useForm } from 'react-hook-form'
 import SpecificEmp from './SpecificEmp'
 
 const LeaveListTab = () => {
-    const [sick,setSick]=useState('')
-    const [wrk_home,setWrk_home]=useState('')
-    const [casual,setCasual]=useState('')
-    const [permission,setPermission]=useState('')
-    const [_id, set_id]=useState('')
 
+    const [_key, setKey]=useState('casual')
+    let type_of_leave= '';
     const [list, setList]=useState([])
     const [specific_list, setSpecific_list]= useState([])
     const [id,setId]=useState('')
@@ -28,12 +25,17 @@ const LeaveListTab = () => {
     const [emp_id, setEmp_id]=useState('') //emp id 
 
     const index = 0
+    console.log(_key, list.type_of_leave)
     // console.log(process.env.REACT_APP_SPECIFIC_LEAVELIST);
     useEffect(() => {
+    //    console.log('process.env',`${process.env.REACT_APP_APPROVALIST}?user=${_key}`) 
+      instance.get(`${process.env.REACT_APP_APPROVALIST}?${type_of_leave}=${_key}`).then( res =>{
+        console.log(res.data.result);
         
-      instance.get(process.env.REACT_APP_APPROVALIST).then( res =>{
-        // console.log(res.data.result);
-        setList(res.data.result)
+        if(type_of_leave === _key){
+            setList(res.data.result)
+        }
+        
       })
  
       
@@ -92,12 +94,13 @@ const LeaveListTab = () => {
   return (
     <Col className="px-3 py-3 mt-3 mb-3">     
         <Tabs
-            defaultActiveKey="Casual"
+            defaultActiveKey="casual"
             transition={false}
             id="noanim-tab-example"
             className="mb-3"
+            activeKey={_key} onSelect={ e => setKey(e)}
         >
-            <Tab eventKey="Casual" title="Casual">
+            <Tab eventKey="casual" title="Casual">
                 <Table responsive>
                     <thead>
                         <tr>
@@ -171,7 +174,7 @@ const LeaveListTab = () => {
                     </tbody>
                 </Table>
             </Tab>
-            <Tab eventKey="Sick" title="Sick">
+            <Tab eventKey="sick_leave" title="Sick">
                 <Table className="table-responsive">
                     <thead>
                         <tr>
@@ -238,7 +241,7 @@ const LeaveListTab = () => {
                     </tbody>
                 </Table>
             </Tab>
-            <Tab eventKey="Work" title="Work From Home">
+            <Tab eventKey="work_from_home" title="Work From Home">
                 <Table responsive>
                     <thead>
                         <tr>
