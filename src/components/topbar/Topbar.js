@@ -24,14 +24,10 @@ const Topbar = ({handleShow}) => {
                 navigate('/')
             }
             
-        }).catch( err =>{
-            console.log(err.message)
-        })
-    
-        
-      
-        
-    }
+        localStorage.removeItem('token')
+        localStorage.removeItem('data')
+        navigate('/') 
+    })}
     return (
         <Navbar sticky="top" expand="md"  className="shadow-sm topbar bg-white py-0 px-0 mt-0 flex-row">              
             <div className='navbar-brand-wrapper '>

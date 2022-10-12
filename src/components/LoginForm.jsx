@@ -20,33 +20,32 @@ const schema = yup.object({
 }).required();
 
 const LoginForm = () => {
-useEffect(()=>{
-  console.log(process.env)
-  // console.log(apiRequest());
-if(isLogin())navigate('/home');
-},[])
+
   const navigate = useNavigate();
   const { handleSubmit, register, formState:{errors}} = useForm({
     resolver: yupResolver(schema)
   });
-
+  
+  useEffect(()=>{
+    if(isLogin())navigate('/home');
+  },[])
   const onSubmit = (data)=>{        
     let login_data={
       email:data.email,
       password:data.password
     }
     
-    instance.post(process.env.REACT_APP_LOGIN,login_data).then( res =>{ 
-      console.log(res.data.responseResult);
-      const _data = JSON.stringify( res.data.responseResult)
-      localStorage.setItem('data',_data)
-      // instance.defaults.headers.common['Authorization']=`Bearer ${res.data.token}`
-      localStorage.setItem('token', res.data.responseResult.token)
+    // instance.post(process.env.REACT_APP_LOGIN,login_data).then( res =>{ 
+    //   console.log(res.data.responseResult);
+    //   const _data = JSON.stringify( res.data.responseResult)
+    //   localStorage.setItem('data',_data)
+    //   // instance.defaults.headers.common['Authorization']=`Bearer ${res.data.token}`
+    //   localStorage.setItem('token', res.data.responseResult.token)
 
-      navigate('/home')      
-    }).catch( err => {
-      console.log(err.message)
-    })    
+    //   navigate('/home')      
+    // }).catch( err => {
+    //   console.log(err.message)
+    // })    
     
   }   
   return (    
