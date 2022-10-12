@@ -195,7 +195,7 @@ const SickLeave =({sick_leave})=>{
                             value={sick_reason} onChange={onSickReason} 
                         />    
                         {inputErrors.sick_reason && <p className='text-danger'>{inputErrors.sick_reason}</p>}                   
-                        <Button onClick={sick_handleShow}>Submit</Button>                                                                 
+                        <Button onClick={sick_handleShow} className="m-1 p-2 rounded-4">Submit</Button>                                                                 
                     </Col>              
                 </Modal.Body>
             </Modal>    
@@ -204,9 +204,15 @@ const SickLeave =({sick_leave})=>{
                     Are you sure ?                
                 </Modal.Header>
                 <Modal.Body>      
-                    <p>To apply the Sick leave From date :  {sick_apply.from_date} To date: {sick_apply.to_date} </p>                  
-                    <Button className="btn btn-danger px-2 m-2" onClick={onCancel}>Cancel</Button>
-                    <Button onSubmit={onSubmit} className="btn btn-success px-2">Save</Button>
+                    <p>To apply the Sick leave From :  {sick_apply.from_date} To : {sick_apply.to_date} </p>                  
+                    <Row>
+                        <Col className='text-start'>
+                            <Button className="btn btn-danger p-2 m-2 rounded-4 fs-6" onClick={onCancel}>Cancel</Button>
+                        </Col>
+                        <Col className='text-end'>
+                            <Button onSubmit={onSubmit} className="btn btn-success p-2 m-2 rounded-4 fs-6">Save</Button>
+                        </Col>
+                    </Row>
                 </Modal.Body>
             </Modal>    
         </>

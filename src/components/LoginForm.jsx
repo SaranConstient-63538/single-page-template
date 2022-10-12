@@ -5,6 +5,10 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import '../App.css';
 import {useNavigate} from 'react-router-dom'
+import mailicon from "../assets/images/mailicon.svg";
+import passwordicon from "../assets/images/passwordicon.svg";
+import passwordshow from "../assets/images/passwordshow.svg";
+
 import * as Ai from 'react-icons/ai'
 import {useForm} from 'react-hook-form'
 import { Form, Container, Col, Row, InputGroup } from 'react-bootstrap'
@@ -32,23 +36,24 @@ const LoginForm = () => {
       password:data.password,
     }
     instance.post(process.env.REACT_APP_LOGIN,login_data).then( res =>{ 
-      if( res.status === 200){
-        const _data = JSON.stringify( res.data.responseResult)
-        localStorage.setItem('data',_data)
-        localStorage.setItem('token', res.data.responseResult.token)
+      const _data = JSON.stringify( res.data.responseResult)
+      localStorage.setItem('data',_data)
+      localStorage.setItem('token', res.data.responseResult.token)
+      // if( res.status === 200){       
         navigate('/home')
         toast.success('Successfully Login',{       
-          position: toast.POSITION.TOP_RIGHT,
+          position: toast.POSITION.BOTTOM_LEFT,
         })
-      }else{
-        console.log(res.status)
-      }          
+      // }else{
+      //   console.log(res.status)
+      // }          
     }).catch( err => {
       toast.success(`${err.message}`,{       
         position: toast.POSITION.TOP_RIGHT,
       })
       console.log(err.message)
-    })    
+    })
+  }    
   return (    
     <Container>
       {/* {(isLogin())&&navigate('/home')} */}

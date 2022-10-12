@@ -15,14 +15,14 @@ const Topbar = ({handleShow}) => {
         instance.post(process.env.REACT_APP_LOGOUT)
         .then( res =>{            
             console.log(res.data);
-            if( res.data === 'success'){
+            // if( res.status === 200){
                 // localStorage.removeItem('token')
                 // localStorage.removeItem('data')
-                localStorage.clear();
+                // localStorage.clear();
                 // const logout = JSON.parse(localStorage.getItem('token'))
                 // console.log(logout);
-                navigate('/')
-            }
+                // navigate('/')
+            // }
             
         localStorage.removeItem('token')
         localStorage.removeItem('data')

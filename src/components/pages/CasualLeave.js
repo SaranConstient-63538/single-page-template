@@ -86,6 +86,8 @@ const CasualLeavel =({casual_leave})=>{
                     setStartDate('')
                     setEndDate('')
                     setCasualreason('')
+                    casual_handleClose()
+                    handleClose()
                     toast.success('Successfully apply the Casual Leave',{
                         position: toast.POSITION.BOTTOM_LEFT,
                     })
@@ -96,7 +98,7 @@ const CasualLeavel =({casual_leave})=>{
                     console.log(err.message)
                 })
             }else{
-                toast.error('Please select valid date',{
+                toast.warn('Please select valid date',{
                     position: toast.POSITION.TOP_RIGHT,
                 })
             }
@@ -109,6 +111,8 @@ const CasualLeavel =({casual_leave})=>{
                     setStartDate('')
                     setEndDate('')
                     setCasualreason('')
+                    casual_handleClose()
+                    handleClose()
                     toast.success('Successfully apply the Casual Leave',{
                         position: toast.POSITION.BOTTOM_LEFT,
                     })
@@ -179,7 +183,7 @@ const CasualLeavel =({casual_leave})=>{
                         <h6 className='mb-3 mt-3'>Reason For </h6>
                         <Form.Control as="textarea" rows={3} className="mb-2" value={casual_reason} onChange={onCasualReason}/> 
                         {inputErrors.casual_reason && <p className='text-danger'>{inputErrors.casual_reason}</p>} 
-                        <Button onClick={casual_handleShow}>Submit</Button>                                                                 
+                        <Button onClick={casual_handleShow} className="m-1 p-2 rounded-4">Submit</Button>                                                                 
                     </Col>              
                 </Modal.Body>
             </Modal>   
@@ -188,9 +192,16 @@ const CasualLeavel =({casual_leave})=>{
                     Are you sure ?                
                 </Modal.Header>
                 <Modal.Body>      
-                    <p>To apply the  Sick leave From date : {casual_apply.from_date} To date : {casual_apply.to_date} </p>                  
-                    <Button className="btn btn-danger px-2 m-2" onClick={onCancel}>Cancel</Button>
-                    <Button onClick={onSubmit} className="btn btn-success px-2">Save</Button>
+                    <p>To apply the  Casual leave From: {casual_apply.from_date} To: {casual_apply.to_date} </p>                  
+ 
+                    <Row>
+                        <Col className='text-start'>
+                            <Button className="btn btn-danger p-2 m-2 rounded-4 fs-6" onClick={onCancel}>Cancel</Button>
+                        </Col>
+                        <Col className='text-end'>
+                            <Button onSubmit={onSubmit} className="btn btn-success p-2 m-2 rounded-4 fs-6">Save</Button>
+                        </Col>
+                    </Row>
                 </Modal.Body>
             </Modal>      
         </>    

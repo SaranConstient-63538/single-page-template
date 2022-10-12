@@ -7,6 +7,7 @@ import CasualLeavel from './CasualLeave';
 import SickLeave from './SickLeave';
 import instance from '../../service/service';
 import { motion } from 'framer-motion';
+import moment  from 'moment'
 
 const EmpDashboard = () => {
 
@@ -42,7 +43,7 @@ const EmpDashboard = () => {
   return (
     <motion.div initial={{opacity: 1}} animate={{y:0}}>
             <Col className="px-3 mt-3 mb-3">
-                <motion.h4 animate={{  x:[100,0], opacity:1}} transition={{duration:3}}  className='text-start'>Welcome to {items.username}</motion.h4>                
+                <motion.h4 animate={{  x:[100,0], opacity:1}} transition={{duration:3}}  className='text-start'>Welcome {items.username}</motion.h4>                
             </Col>
            <Col >
                 <Row className="justify-content-around px-5"> 
@@ -76,6 +77,8 @@ const EmpDashboard = () => {
                         <thead>
                             <tr>
                                 <th>S.No</th>
+                                <th>From Date</th>
+                                <th>To Date</th>
                                 <th>Type of Leave</th>
                                 <th>Leave Reason</th>
                                 <th>Approval Status</th>
@@ -89,6 +92,8 @@ const EmpDashboard = () => {
                                 return(
                                         <tr key={idx}>
                                             <td>{idx +  1}</td>
+                                            <td>{moment.utc(item.from_date).format('DD-MM-YYYY')}</td>
+                                            <td>{moment.utc(item.to_date).format('DD-MM-YYYY')}</td>
                                             <td>{item.type_of_leave === 'sick_leave'? 'Sick Leave': item.type_of_leave === 'casual_leave' ? 'Casual Leave':item.type_of_leave === 'work_from_home' ? 'Work From Home':item.type_of_leave === 'permission' ? 'Permission' : ''  }</td>                                      
                                             <td>{item.description}</td>
                                             <td>

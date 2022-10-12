@@ -111,6 +111,8 @@ const Permissionslider =()=>{
         setStartTime('')
         setEndTime('')
         setPer_reason('')
+        per_handleClose()
+        handleClose()
         toast.success('Successfully apply the Permission',{
           position: toast.POSITION.BOTTOM_LEFT,
         })
@@ -128,6 +130,8 @@ const Permissionslider =()=>{
         setStartTime('')
         setEndTime('')
         setPer_reason('')
+        per_handleClose()
+        handleClose()
         toast.success('Successfully apply the Permission',{
           position: toast.POSITION.BOTTOM_LEFT,
         })
@@ -229,10 +233,15 @@ const Permissionslider =()=>{
         </Modal.Header>
         <Modal.Body>      
           <p >To apply the Permission on date: {moment(startDate).format('DD-MM-YYYY')} & time:  {moment(startTime).hour()} To {moment(endTime).hour()} </p>                  
-          <div className="text-center">
-            <Button className="btn btn-light text-primary rounded-4 shadow-lg px-2 m-3" onClick={onCancel}>Cancel</Button>
-            <Button onClick={onPermission} className="btn btn-primary shadow-lg rounded-4 px-2">Save</Button>
-          </div>
+          
+          <Row>
+            <Col className='text-start'>
+                <Button className="btn btn-danger p-2 m-2 rounded-4 fs-6" onClick={onCancel}>Cancel</Button>
+            </Col>
+            <Col className='text-end'>
+                <Button onSubmit={onPermission} className="btn btn-success p-2 m-2 rounded-4 fs-6">Save</Button>
+            </Col>
+          </Row>
         </Modal.Body>
       </Modal> 
     </>
