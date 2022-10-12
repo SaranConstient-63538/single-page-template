@@ -40,7 +40,6 @@ const TlDashboard = () => {
             }) 
         }else{
             instance.post(process.env.REACT_APP_LEAVELIST).then(res =>{
-                // console.log( res.data);
                 for( var i=0; i< res.data.result.length;i++){
                     if(res.data.result[i].type_of_leave === "sick_leave"){
                         setSick_leave(res.data.result[i])
@@ -68,18 +67,19 @@ const TlDashboard = () => {
     
   return (
     <>  
-        <Card className="border mt-4 mb-4 px-2 mx-3 m-auto shadow-lg rounded-4">
-            <Row>
-                <Col className="px-3 mt-3 mb-3">
-                    <h4 className='text-start'>Welcome  {items.username}</h4>                
-                </Col>
-                <Col className="px-3 mt-3 mb-3 text-end">
-                    <Button className="btn btn-primary" onClick={onLeave} >Leave Request</Button>
-                </Col>
-            </Row>            
-            <LeaveListTab />
-        </Card>
-        {btn_req ? (
+        {btn_req === false ? (
+            <Card className="border mt-4 mb-4 px-2 mx-3 m-auto shadow-lg rounded-4">
+                <Row>
+                    <Col className="px-3 mt-3 mb-3">
+                        <h4 className='text-start'>Welcome  {items.username}</h4>                
+                    </Col>
+                    <Col className="px-3 mt-3 mb-3 text-end">
+                        <Button className="btn btn-primary" onClick={onLeave} >Leave Request</Button>
+                    </Col>
+                </Row>            
+                <LeaveListTab />
+            </Card>
+        ):(
             <>
                 <Card className="border mt-4 mb-4 px-2 mx-3 m-auto shadow rounded-4">            
                     <Col >
@@ -109,19 +109,21 @@ const TlDashboard = () => {
                             <thead>
                                 <tr>
                                     <th>S.No</th>
+                                    <th>From Date</th>
+                                    <th>To Date</th>
                                     <th>Type of Leave</th>
                                     <th>Leave Reason</th>
                                     <th>Approval Status</th>
-                                    {/* <th>Team Leader</th> */}
                                 </tr>
                             </thead>
                             <tbody className="overflow-auto">
                                 {
                                     userList.map((item,idx)=>{
-                                        console.log(item)
                                         return(
                                             <tr key={idx}>
                                                 <td>{idx +  1}</td>
+                                                <td>{item.from_date}</td>
+                                                <td>{item.to_date}</td>
                                                 <td>{item.type_of_leave === 'sick_leave'? 'Sick Leave': item.type_of_leave === 'casual_leave' ? 'Casual Leave':item.type_of_leave === 'work_from_home' ? 'Work From Home':item.type_of_leave === 'permission' ? 'Permission': '' }</td>                                      
                                                 <td>{item.description}</td>
                                                 <td>
@@ -132,7 +134,6 @@ const TlDashboard = () => {
                                                     )
                                                 } 
                                                 </td>
-                                                {/* <td>{}</td> */}
                                             </tr>
                                         )
                                     })
@@ -143,7 +144,7 @@ const TlDashboard = () => {
                 </Card>
             
             </>
-        ):''}
+        )}
     </>
   )
 }

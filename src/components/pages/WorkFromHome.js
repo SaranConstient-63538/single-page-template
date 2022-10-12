@@ -6,9 +6,10 @@ import './leave.css'
 import instance from '../../service/service'
 import moment from 'moment'
 import { motion } from 'framer-motion'
+import { toast } from 'react-toastify'
 
 const WorkFromHome =({work_from_home})=>{
-    const format_date = "YYYY-MM-DD"
+    const format_date = "DD-MM-YYYY"
 
     const addDays = (date, period) => {
         return date.setDate(date.getDate() + period);
@@ -25,12 +26,9 @@ const WorkFromHome =({work_from_home})=>{
 
     const [inputErrors,setInputErrors] = useState({startDate:'',endDate:'',work_from_home_reason})
 
-    // console.log(endDate.getDay())
     const wfh_handleShow =()=> {
-        console.log(wfh_show);
-
         let errorCount=0
-        if(startDate==''){
+        if(startDate === ''){
           errorCount++
           setInputErrors((prevState)=>{
             return{...prevState,startDate:'* Start date Is Required'}
@@ -41,7 +39,7 @@ const WorkFromHome =({work_from_home})=>{
           })
         }
     
-        if(endDate==''){
+        if(endDate === ''){
           errorCount++
           setInputErrors((prevState)=>{
             return{...prevState,endDate:'* End date Is Required'}
@@ -52,7 +50,7 @@ const WorkFromHome =({work_from_home})=>{
           })
         }
     
-        if(work_from_home_reason==''){
+        if(work_from_home_reason === ''){
           errorCount++
           setInputErrors((prevState)=>{
             return{...prevState,work_from_home_reason:'* Reason Is Required'}
@@ -66,16 +64,9 @@ const WorkFromHome =({work_from_home})=>{
           const applyForm = {startDate,endDate,work_from_home_reason}
           console.log(applyForm)
           setWfh_show(true);
-        //   per_handleShow()
         }
     }
     const wfh_handleClose =()=> setWfh_show(false)
-    const start = moment(startDate);
-    // console.log(startDate)
-    const end = moment(endDate)
-   const start_date = new Date()
-   const end_date = new Date()
-   console.log(start_date, end_date)
     
     const work_from_home_apply ={
         from_date: moment(startDate).format(format_date),
@@ -83,7 +74,7 @@ const WorkFromHome =({work_from_home})=>{
         type_of_leave: work_from_home.type_of_leave,
         description: work_from_home_reason,
     }
-    console.log(startDate,endDate)
+  
     const item = JSON.parse(localStorage.getItem('data'))
     console.log(item)
 

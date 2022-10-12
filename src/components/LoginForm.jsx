@@ -10,6 +10,7 @@ import {useForm} from 'react-hook-form'
 import { Form, Container, Col, Row, InputGroup } from 'react-bootstrap'
 import instance from "../service/service";
 import { isLogin } from "./isLogin";
+import { toast } from 'react-toastify'
 
 const schema = yup.object({
   email: yup.string().email('must be valid e-mail address').required('E-Mail is required'),
@@ -17,7 +18,6 @@ const schema = yup.object({
 }).required();
 
 const LoginForm = () => {
-
   const navigate = useNavigate();
   const { handleSubmit, register, formState:{errors}} = useForm({
     resolver: yupResolver(schema)
@@ -30,24 +30,29 @@ const LoginForm = () => {
     let login_data={
       email:data.email,
       password:data.password
-    }
-    
+    }    
     instance.post(process.env.REACT_APP_LOGIN,login_data).then( res =>{ 
-      console.log(res.data.responseResult);
-      const _data = JSON.stringify( res.data.responseResult)
-      localStorage.setItem('data',_data)
-      // instance.defaults.headers.common['Authorization']=`Bearer ${res.data.token}`
-      localStorage.setItem('token', res.data.responseResult.token)
-
-      navigate('/home')      
+      if( res.status === 200){
+        const _data = JSON.stringify( res.data.responseResult)
+        localStorage.setItem('data',_data)
+        localStorage.setItem('token', res.data.responseResult.token)
+        navigate('/home')
+        toast.success('Successfully Login',{       
+          position: toast.POSITION.TOP_RIGHT,
+        })
+      }else{
+        console.log(res.status)
+      }          
     }).catch( err => {
+      toast.success(`${err.message}`,{       
+        position: toast.POSITION.TOP_RIGHT,
+      })
       console.log(err.message)
     })    
     
   }   
   return (    
     <Container>
-      {/* {(isLogin())&&navigate('/home')} */}
       <Row className="my-5">
         <Col  md={8} sm={12} lg className="align-items-center text-center my-5 py-5">
           <div className="w-auto h-auto shadow-lg">

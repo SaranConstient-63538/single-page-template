@@ -4,6 +4,7 @@ import { Routes, Route, BrowserRouter }  from 'react-router-dom';
 import { Spinner } from 'react-bootstrap';
 import PrivateRoute from './components/PrivateRoute';
 import axios from 'axios'
+import { ToastContainer } from 'react-toastify'
 
 const  LoginForm = lazy(()=> import('./components/LoginForm'));
 const MainPage =lazy(()=> import('./components/MainPage'));
@@ -35,6 +36,7 @@ const App = () => {
               }
             />
         </Routes>   
+        <ToastContainer />
       </Suspense>   
     </BrowserRouter>
   )

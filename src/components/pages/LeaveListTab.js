@@ -7,16 +7,14 @@ import SpecificEmp from './SpecificEmp'
 
 const LeaveListTab = () => {
 
-    const [_key, setKey]=useState('casual')
-    let type_of_leave= '';
+    const [_key, setKey]=useState('sick_leave')
+    let type_of_leave = '';
     const [list, setList]=useState([])
-    const [specific_list, setSpecific_list]= useState([])
     const [id,setId]=useState('')
     
     const [show, setShow]=useState(false)
     const [_show, _setShow]=useState(false)
     const [spec_show, setSpec_show] =useState(false)
-    const [type_leave,setType_leave]=useState('')
 
     const [leavetype, setLeavetype]=useState('')
     const [btn_status, setBtn_status]=useState(0);// status
@@ -24,22 +22,17 @@ const LeaveListTab = () => {
     const [frm_date,setFrom_date]=useState('')//from date
     const [emp_id, setEmp_id]=useState('') //emp id 
 
-    const index = 0
-    console.log(_key, list.type_of_leave)
-    // console.log(process.env.REACT_APP_SPECIFIC_LEAVELIST);
+    console.log(list,`${process.env.REACT_APP_APPROVALIST}?type_of_leave=${_key}`)
+
     useEffect(() => {
-    //    console.log('process.env',`${process.env.REACT_APP_APPROVALIST}?user=${_key}`) 
-      instance.get(`${process.env.REACT_APP_APPROVALIST}?${type_of_leave}=${_key}`).then( res =>{
-        console.log(res.data.result);
-        
-        if(type_of_leave === _key){
-            setList(res.data.result)
-        }
+      instance.get(`${process.env.REACT_APP_APPROVALIST}?type_of_leave=${_key}`).then( res =>{
+        console.log(res.data);        
+        setList(res.data.result === undefined ? [] : res.data.result)
         
       })
  
       
-    }, [])
+    }, [_key])
     // console.log(list)
 
     const onApproved =()=>{
@@ -76,7 +69,7 @@ const LeaveListTab = () => {
             from_date: frm_date,
         }       
        const rejected = list.filter( item => item.from_date === frm_date && item.type_of_leave === leavetype)
-    //    console.log(rejected)
+
         if(rejected){
             // console.log('rejected')
              instance.post(process.env.REACT_APP_APPROVALUPDATE,appStus)
@@ -90,17 +83,17 @@ const LeaveListTab = () => {
         }
       
     }
-    // const spec_list = 
+    console.log(list?.length && list)
   return (
     <Col className="px-3 py-3 mt-3 mb-3">     
         <Tabs
-            defaultActiveKey="casual"
+            defaultActiveKey="sick_leave"
             transition={false}
             id="noanim-tab-example"
             className="mb-3"
             activeKey={_key} onSelect={ e => setKey(e)}
         >
-            <Tab eventKey="casual" title="Casual">
+            <Tab eventKey="casual_leave" title="Casual">
                 <Table responsive>
                     <thead>
                         <tr>
@@ -114,7 +107,7 @@ const LeaveListTab = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {list.map((item,idx)=>{      
+                        { list.length > 0 && list.map((item,idx)=>{      
                                 if( item.type_of_leave === 'casual_leave' && item.status === 0){
                                     return(
                                         <tr key={idx}>
@@ -189,7 +182,7 @@ const LeaveListTab = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {list.map((item,idx)=>{
+                        {list?.length > 0 && list.map((item,idx)=>{
                             if(item.type_of_leave === "sick_leave" &&  item.status === 0){
                                 return(
                                     <tr key={idx}>
@@ -256,7 +249,7 @@ const LeaveListTab = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {list.map((item,idx)=>{
+                        {list && list.map((item,idx)=>{
                             if(item.type_of_leave === "work_from_home" && item.status === 0){
                                 return(
                                     <tr key={idx}>
@@ -322,7 +315,7 @@ const LeaveListTab = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {list.map( (item,idx) =>{
+                        {list && list.map( (item,idx) =>{
                             if(item.type_of_leave === "permission"){
                                 return(
                                     <tr key={idx}>
