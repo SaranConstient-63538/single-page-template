@@ -6,7 +6,7 @@ import WorkFromHome from './WorkFromHome';
 import CasualLeavel from './CasualLeave';
 import SickLeave from './SickLeave';
 import instance from '../../service/service';
-import { motion } from 'framer-motion'
+import { motion } from 'framer-motion';
 
 const EmpDashboard = () => {
 
@@ -40,15 +40,15 @@ const EmpDashboard = () => {
         })  
     },[])
   return (
-    <motion.div initial={{opacity: 1}} animate={{  y:0}}>
+    <motion.div initial={{opacity: 1}} animate={{y:0}}>
             <Col className="px-3 mt-3 mb-3">
-                <motion.h4 animate={{ x:[100,0], opacity:1}} transition={{duration:3}}  className='text-start'>Welcome to {items.username}</motion.h4>                ,
+                <motion.h4 animate={{  x:[100,0], opacity:1}} transition={{duration:3}}  className='text-start'>Welcome to {items.username}</motion.h4>                
             </Col>
            <Col >
-                <Row className="justify-content-around px-3 mb-3  h-auto ">   
+                <Row className="justify-content-around px-5"> 
                     <motion.div animate={{y:[100,0]}} transition={{duration:3.5}} className="col-sm col-md">
                         {/* <Col sm md > */}
-                            <Permissionslider  />                    
+                            <Permissionslider  />                                           
                         {/* </Col> */}
                     </motion.div>
                     <motion.div animate={{y:[100,0]}} transition={{duration:4}} className="col-md col-sm">

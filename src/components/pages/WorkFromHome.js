@@ -135,16 +135,16 @@ const WorkFromHome =({work_from_home})=>{
 
     return (
         <>
-            <Card className='text-center leave-card mb-2 mt-2 m-auto'>
-                <Card.Body className="text-decoration-none">                    
-                    <Card.Subtitle className="mb-3 mt-4 text-secondary">
-                        Work Form Home
+            <Card  className='text-center leave-card m-auto shadow'>
+                <div className='my-auto'> 
+                    <Card.Subtitle  className="text-secondary mb-1 fw-semibold text-capitalize">
+                        work from home
                     </Card.Subtitle>                        
-                    <motion.button className="border-0 mt-2 mb-3 text-center"  whileHover={{ scale: 1.1 }}>
-                        <Button onClick={handleShow} className="rounded-4"  disabled={work_from_home.is_wfh === 0 && work_from_home.per_year > 0 ? false: true}>Apply</Button>
+                    <motion.button className='border-0 rounded-pill mt-1' whileHover={{ scale: 1.1 }}>
+                        <Button onClick={handleShow} className="border-0 rounded-pill bg-success">Apply</Button>
                     </motion.button>  
                            
-                </Card.Body>
+                </div>
             </Card> 
             <Modal show={show} onHide={handleClose} size="lg" centered> 
                 <Modal.Header closeButton>

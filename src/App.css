@@ -58,21 +58,11 @@
   font-weight: 700;
 }
 
-
-body {
-  background: #eee;
-}
-
 .swing {
   animation: swing ease-in-out 1s infinite alternate;
   transform-origin: center -20px;
   float: left;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
-}
-
-.swing img {
-  border: 5px solid #f8f8f8;
-  display: block;
 }
 
 .swing:after {
@@ -141,11 +131,36 @@ a#navbarScrollingDropdown, .bell-icn, .notifi-icn{
 .navsearch::placeholder{
   color: #bbdcf6 !important;
 }
-.login{
+/* .login{
   top:200px;
   bottom:200px;
+<<<<<<< HEAD
 }
 .toast_success{
   background-color: #00FF00;
   color: white;
+=======
+} */
+
+.log-button{
+  background-color: #027BFF;
+  color: #FFFFFF;
+}
+.log-input{
+  background-color: #f3f2f6;
+}
+.mailinput{
+  left: 10px;
+  top: 12px;
+}
+.mailinput1{
+  right: 10px;
+  top: 12px;
+}
+.passshowcon{
+  width: 17px;
+}
+.passcon{
+  width: 15px;
+>>>>>>> 11847fa6f49fa907c90bc9773146dfbba5d42d80
 }
