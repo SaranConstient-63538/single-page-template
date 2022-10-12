@@ -134,25 +134,18 @@ const CasualLeavel =({casual_leave})=>{
     }
     return (
         <>
-            <Card className='text-center leave-card mb-2 mt-2 m-auto'>
-                <Card.Body>
-                    {/* <div style={{ width: 80, height: 80, marginTop:'10px',fontSize:'30px' }} 
-                        className="d-flex text-center m-auto text-secondary">
-                        <CircularProgressbar value={`${typeof  casual_leave.per_year === 'undefined' ? 0: casual_leave.per_year * 100 }`/`${tot_day_count}`} text={`${casual_leave.per_year === undefined ? 0: casual_leave.per_year}/${tot_day_count}`} styles={buildStyles({textSize: '25px',textColor: 'black',fontSize:'25px'})}/>                             
-                    </div>
-               
-                        <p className='position-absolute '></p> */}
+            <Card className='text-center leave-card m-auto shadow'>
+                <div className='my-auto'>
                         <motion.h6 initial={{ x:100}} animate={{x: 0}} transition={{ delay: 0.2, duration:0.2}}>
-                            <Card.Subtitle className="mb-3 mt-4 text-primary">Casual Leave</Card.Subtitle>
+                            <Card.Subtitle className="text-secondary mb-1 fw-semibold text-capitalize">casual Leave</Card.Subtitle>
                         </motion.h6>                        
                        
-                        <motion.button className="border-0 mt-2 mb-3 text-center"  whileHover={{ scale: 1.1 }}>
-                            <Button onClick={handleShow} className="rounded-4"
-                                // disabled={ casual_leave.per_year > 0 && casual_leave.per_month > 0 || casual_leave.per_year === undefined ? false: true}
+                        <motion.button className='border-0 rounded-pill mt-1'  whileHover={{ scale: 1.1 }}>
+                            <Button onClick={handleShow} className="border-0 rounded-pill bg-success"
                             >Apply</Button>
                         </motion.button>
                     
-                </Card.Body>
+                </div>
             </Card>
             <Modal show={show} onHide={handleClose} size="lg" centered>
                 <Modal.Header closeButton>

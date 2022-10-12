@@ -159,20 +159,15 @@ const SickLeave =({sick_leave})=>{
     }  
     return (
         <>
-            <Card className='text-center leave-card mb-2 mt-2 m-auto'>
-                <Card.Body >
-                    {/* <div style={{ width: 80, height: 80, marginTop:'10px',fontSize:'30px' }} 
-                        className="d-flex text-center m-auto text-secondary">
-                        <CircularProgressbar value={`${ typeof  sick_leave.per_year !== 'undefined' || sick_leave.per_year > 0 ? sick_leave.per_year * 100 : 0}`/`${tot_day_count}`} text={`${sick_leave.per_year}/${tot_day_count}`} styles={buildStyles({textSize: '25px',textColor: 'black',fontSize:'25px'})}/>                             
-                    </div> */}
-                    <Card.Subtitle className="mb-3 mt-4 text-secondary">Sick Leave</Card.Subtitle>
-                    <motion.button className="border-0 mt-2 mb-3 text-center "  whileHover={{ scale: 1.1 }}>
-                        <Button onClick={handleShow} className="rounded-4 "
-                            // disabled={ sick_leave.per_year > 0 && sick_leave.per_month > 0 ? false : true}
+            <Card className='text-center leave-card m-auto shadow'>
+                <div className='my-auto'>
+                    <Card.Subtitle className="text-secondary mb-1 fw-semibold text-capitalize">sick Leave</Card.Subtitle>
+                    <motion.button className='border-0 rounded-pill mt-1'   whileHover={{ scale: 1.1 }}>
+                        <Button onClick={handleShow} className="border-0 rounded-pill bg-success"
                         >Apply</Button>
                     </motion.button>    
                           
-                </Card.Body>
+                </div>
             </Card>
             <Modal show={show} onHide={handleClose} size="lg" centered>
                 <Modal.Header closeButton>

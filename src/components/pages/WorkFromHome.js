@@ -146,24 +146,16 @@ const WorkFromHome =({work_from_home})=>{
 
     return (
         <>
-            <Card className='text-center leave-card mb-2 mt-2 m-auto'>
-                <Card.Body className="text-decoration-none"> 
-                    {/* <div style={{ width: 80, height: 80, marginTop:'10px',fontSize:'30px' }} 
-                        className="d-flex text-center m-auto text-secondary">
-                        <CircularProgressbar value={`${typeof  work_from_home.per_year === 'undefined' ? 0: work_from_home.per_year * 100 }`/`${tot_day_count}`} text={`${work_from_home.per_year === undefined ? 0: work_from_home.per_year}/${tot_day_count}`} styles={buildStyles({textSize: '25px',textColor: 'black',fontSize:'25px'})}/>                             
-                    </div> */}
-                    {/* <div style={{ width: 80, height: 80, marginTop:'10px',fontSize:'30px' }} 
-                        className="d-flex text-center m-auto">
-                        <CircularProgressbar value={100} text="8/20" styles={buildStyles({textSize: '21px',})}/>                             
-                    </div> */}
-                    <Card.Subtitle className="mb-3 mt-4 text-secondary">
-                        Work Form Home
+            <Card  className='text-center leave-card m-auto shadow'>
+                <div className='my-auto'> 
+                    <Card.Subtitle  className="text-secondary mb-1 fw-semibold text-capitalize">
+                        work from home
                     </Card.Subtitle>                        
-                    <motion.button className="border-0 mt-2 mb-3 text-center"  whileHover={{ scale: 1.1 }}>
-                        <Button onClick={handleShow} className="rounded-4"  disabled={work_from_home.is_wfh === 0 && work_from_home.per_year > 0 ? false: true}>Apply</Button>
+                    <motion.button className='border-0 rounded-pill mt-1' whileHover={{ scale: 1.1 }}>
+                        <Button onClick={handleShow} className="border-0 rounded-pill bg-success">Apply</Button>
                     </motion.button>  
                            
-                </Card.Body>
+                </div>
             </Card> 
             <Modal show={show} onHide={handleClose} size="lg" centered> 
                 <Modal.Header closeButton>

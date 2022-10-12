@@ -16,8 +16,9 @@ const Topbar = ({handleShow}) => {
         .then( res =>{            
             console.log(res.data);
             if( res.data === 'success'){
-                localStorage.removeItem('token')
-                localStorage.removeItem('data')
+                // localStorage.removeItem('token')
+                // localStorage.removeItem('data')
+                localStorage.clear();
                 // const logout = JSON.parse(localStorage.getItem('token'))
                 // console.log(logout);
                 navigate('/')
@@ -63,9 +64,8 @@ const Topbar = ({handleShow}) => {
                                         <Ai.AiOutlinePoweroff size={20}/>
                                     </Dropdown.Toggle>
                                     <Dropdown.Menu  align="end">
-                                        {/* <Dropdown.Item>Active Log</Dropdown.Item> */}
-                                        <Dropdown.Item> 
-                                            <div onClick={Logout} className="w-100 btn-primary">Logout</div>
+                                        <Dropdown.Item onClick={Logout} > 
+                                            <div className="w-100 btn-primary">Logout</div>
                                         </Dropdown.Item>
                                     </Dropdown.Menu>    
                                 </Dropdown>

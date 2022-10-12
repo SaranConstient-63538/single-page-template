@@ -1,6 +1,6 @@
-.mainpage{
+/* .mainpage{
     background-color: lightgrey;
-}
+} */
 .wrapper{
     width: 100%;
 }
@@ -20,11 +20,7 @@
     min-height: calc(100vh - 70px);
     transition: width 0.25s ease, margin 0.25s ease;
 }
-.content-wrapper{
-    background-color: #F2F0EF;
-    width: 100%;
-    padding: 2.50rem 2.25rem;
-}
+
 @media screen and (max-width:786px) {
     .main-panel{
         position: absolute;

@@ -1,5 +1,5 @@
 import React,{useEffect} from "react";
-import loginImg from "../assets/images/loginImg.png";
+import logimage from "../assets/images/logimage.svg";
 import cgsimg from "../assets/images/cgslogo.png";
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -10,10 +10,13 @@ import {useForm} from 'react-hook-form'
 import { Form, Container, Col, Row, InputGroup } from 'react-bootstrap'
 import instance from "../service/service";
 import { isLogin } from "./isLogin";
+import mailicon from "../assets/images/mailicon.svg";
+import passwordicon from "../assets/images/passwordicon.svg";
+import passwordshow from "../assets/images/passwordshow.svg";
 
 const schema = yup.object({
-  email: yup.string().email('must be valid e-mail address').required('E-Mail is required'),
-  password: yup.string().required('Password is required'),
+  email: yup.string().email('must be valid e-mail address').required('* E-mail is required'),
+  password: yup.string().required('* password is required'),
 }).required();
 
 const LoginForm = () => {
@@ -49,43 +52,40 @@ if(isLogin())navigate('/home');
   return (    
     <Container>
       {/* {(isLogin())&&navigate('/home')} */}
-      <Row className="my-5">
-        <Col  md={8} sm={12} lg className="align-items-center text-center my-5 py-5">
-          <div className="w-auto h-auto shadow-lg">
-            <img src={loginImg} className="w-100 h-100" alt="Employee image"/>
+      <div className="row my-md-5 py-md-5">
+        <div className="col-md-6 col-12 align-self-center text-center">
+          <div className="w-auto h-auto my-3 my-md-0">
+            <img src={logimage} className="w-100 h-100" alt="Employee image"/>
           </div>
-        </Col>
-        <Col sm={12} md={5} lg className="align-items-center text-center my-5 py-5">
-          <Form className="d-flex flex-column shadow-lg py-5 px-3 rounded-4 " onSubmit={handleSubmit(onSubmit)}>
-            <div className="swing py-2 shadow-md m-auto rounded-4 mt-5 mb-5">
+        </div>
+        <div className="col-md-6 col-12 align-self-center text-center">
+          <Form className="d-flex flex-column shadow-lg rounded-5 my-3 my-md-0" onSubmit={handleSubmit(onSubmit)}>
+            <div className="swing py-1 shadow-md m-auto my-5 rounded-3">
               <img src={cgsimg} alt="cgs image" className="fs-3 px-2 py-1" />
             </div>
-            <div className=" text-center m-auto mb-5">
-               <InputGroup>
-                <InputGroup.Text><Ai.AiOutlineMail /></InputGroup.Text> 
-                <Form.Control 
+            <div className=" text-center m-auto py-2 position-relative">
+            <span className="mailinput position-absolute"><img src={mailicon}/></span>
+                <input type="text" 
                   {...register('email')}
-                  placeholder="E-Mail Address" 
-                  className="form-control fs-6" 
-                /> 
-                <p className="text-danger mt-2">{errors.email?.message}</p>
-              </InputGroup>
+                  placeholder="Email" 
+                  className="log-input form-control border-0 shadow-none rounded-pill text-center"
+                  />
+                <p className="text-danger m-0">{errors.email?.message}</p>
             </div>
-            <div className=" text-center m-auto mb-5">
-              <InputGroup>
-                  <InputGroup.Text><Ai.AiOutlineLock /></InputGroup.Text> 
-                <Form.Control 
-                {...register('password')} type="password"
-                  className="form-control" placeholder="Password"/>   
-                <p className="text-danger mt-2">{errors.password?.message}</p>   
-              </InputGroup>         
+            <div className="text-center m-auto py-2 position-relative">
+            <span className="mailinput position-absolute"><img src={passwordicon}  className="passcon"/></span>
+            <button className="mailinput1 position-absolute border-0"><img src={passwordshow} className="passshowcon"/></button>   
+                <input type="password"
+                {...register('password')}
+                  className="log-input form-control border-0 shadow-none rounded-pill text-center" placeholder="Password"/>   
+                <p className="text-danger m-0">{errors.password?.message}</p>           
             </div>
-            <div className="text-center m-auto mb-5 mt-5 btn-lg">
-              <input type="submit" value="Submit" className="btn btn-primary btn-lg mx-3 fs-6 rounded-4"/> 
+            <div className="text-center py-4 mb-2">
+              <button className="log-button border-0 w-25 py-1 text-uppercase rounded-pill">login</button>
             </div>
           </Form>
-        </Col>
-      </Row>
+        </div>
+      </div>
     </Container>
   );
 };
