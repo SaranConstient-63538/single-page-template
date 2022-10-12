@@ -106,7 +106,7 @@ const LeaveListTab = () => {
                     </thead>
                     <tbody>
                         { list && list.map((item,idx)=>{     
-                                if( item.type_of_leave === _key   ){
+                                if( item.type_of_leave === _key && item.leave_master_id !== null ){
                                     return(
                                         <tr key={idx}>
                                             <td>{item.updated_by}</td>
@@ -181,7 +181,9 @@ const LeaveListTab = () => {
                     </thead>
                     <tbody>
                         {list && list.map((item,idx)=>{
+                            
                             if(item.type_of_leave === _key &&  item.leave_master_id !== null){
+                                console.log(item,item.type_of_leave === _key)
                                 return(
                                     <tr key={idx}>
 

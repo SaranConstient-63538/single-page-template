@@ -8,8 +8,11 @@ import SickLeave from './SickLeave';
 import instance from '../../service/service'
 import LeaveListTab from './LeaveListTab'
 import moment from 'moment'
+import * as Ai from 'react-icons/ai'
 
 const TlDashboard = () => {   
+    // let user_list;
+    const [order,setOrder ]=useState('ASC')
     const [sick_leave, setSick_leave]=useState('')
     const [casual_leave, setCasual_leave]=useState("")
     const [work_from_home, setWork_from_home]=useState('')
@@ -60,11 +63,32 @@ const TlDashboard = () => {
         console.log(userList)
         if(items.role === "team_leader"){
             instance.get(process.env.REACT_APP_USERS_LEAVELIST).then(res => {
+                console.log(res.data)
                 setUserList(res.data)
+                // user_list = res.data
+                // console.log('api',user_list)
+                // user_list.sort((a,b)=> a.from_date.localeCompare(b.from_date))
+                // setUserList(user_list)
             })
         }
     },[])
-    
+    const onSorting =(col)=>{
+        if(order === 'ASC'){
+            const sorted = [...userList].sort((a,b)=>
+                a[col]>b[col] ? 1 :-1
+              
+            )
+            setUserList(sorted)
+            setOrder('DSC')
+        }
+        if(order === 'DSC'){
+            const sorted = [...userList].sort((a,b)=>
+                a[col]>b[col]? 1 : -1
+            )
+            setUserList(sorted)
+            setOrder('ASC')
+        }
+    }
     
   return (
     <>  
@@ -113,15 +137,25 @@ const TlDashboard = () => {
                                 <thead>
                                     <tr>
                                         <th>S.No</th>
-                                        <th>From Date</th>
-                                        <th>To Date</th>
-                                        <th>Type of Leave</th>
-                                        <th>Leave Reason</th>
-                                        <th>Approval Status</th>
+                                        <th onClick={()=> onSorting('from_date')}>
+                                            From Date <Ai.AiOutlineArrowDown /> <Ai.AiOutlineArrowUp />
+                                        </th>
+                                        <th onClick={()=> onSorting('to_date')}>
+                                            To Date <Ai.AiOutlineArrowDown /> <Ai.AiOutlineArrowUp />
+                                        </th>
+                                        <th onClick={() =>onSorting('type_leave')}>
+                                            Type of Leave <Ai.AiOutlineArrowDown /> <Ai.AiOutlineArrowUp />
+                                        </th>
+                                        <th onClick={()=> onSorting('leave_reason')}>
+                                            Leave Reason  <Ai.AiOutlineArrowDown /> <Ai.AiOutlineArrowUp />
+                                        </th>
+                                        <th onClick={()=> onSorting('approve')}>
+                                            Approval Status <Ai.AiOutlineArrowDown /> <Ai.AiOutlineArrowUp />
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody className="overflow-auto">
-                                    {
+                                    { userList && userList.length > 0 ?
                                         userList.map((item,idx)=>{
                                             return(
                                                 <tr key={idx}>
@@ -140,7 +174,7 @@ const TlDashboard = () => {
                                                     </td>
                                                 </tr>
                                             )
-                                        })
+                                        }): <h6> No Record Founded</h6>
                                     }
                                 </tbody>   
                             </Table>
