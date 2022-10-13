@@ -3,7 +3,6 @@
     height: 150px;
     border:0px solid lightgray;
     border-radius: 50%;
-
 }
 .divid{
     margin-top: 65px;
@@ -16,5 +15,12 @@
 .dashed-style{
     border-style: dashed;
     border-width: 1px;
+}
+
+.la-btn{
+    background-color: #0E77C0;
+}
+.la-btn:hover{
+    background-color: #7BD433 !important;
 }
 

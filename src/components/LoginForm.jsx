@@ -43,10 +43,7 @@ const LoginForm = () => {
       // instance.defaults.headers.common['Authorization']=`Bearer ${res.data.token}`
       localStorage.setItem('token', res.data.responseResult.token)
 
-      navigate('/home')     
-      toast.success('Successfully Login',{       
-        position: toast.POSITION.BOTTOM_LEFT,
-      }) 
+      navigate('/home')      
     }).catch( err => {
       console.log(err.message)
     })    
@@ -64,7 +61,7 @@ const LoginForm = () => {
         <div className="col-md-6 col-12 align-self-center text-center">
           <Form className="d-flex flex-column shadow-lg rounded-5 my-3 my-md-0" onSubmit={handleSubmit(onSubmit)}>
             <div className="swing py-1 shadow-md m-auto my-5 rounded-3">
-              <img src={cgsimg} alt="cgs image" className="fs-3 px-2 py-1" />
+              <img src={cgsimg} alt="cgs image" className="fs-3 px-3 py-2" />
             </div>
             <div className=" text-center m-auto py-2 position-relative">
             <span className="mailinput position-absolute"><img src={mailicon} className="mailcon"/></span>
@@ -84,7 +81,7 @@ const LoginForm = () => {
                 <p className="text-danger m-0">{errors.password?.message}</p>           
             </div>
             <div className="text-center py-4 mb-2">
-              <button className="log-button border-0 w-25 py-1 text-uppercase rounded-pill">login</button>
+              <button className="log-button border-0 w-25 py-1 text-uppercase rounded-pill shadow">login</button>
             </div>
           </Form>
         </div>
