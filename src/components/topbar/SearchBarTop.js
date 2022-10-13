@@ -7,9 +7,9 @@ const SearchBarTop =()=>{
     return(
         <div className=' px-4'>
             <Form className="d-flex align-items-center h-100">
-                <span className="position-absolute searchbar"><Bi.BiSearch size={25}/></span>
-                <Form.Control  className="position-relative search " 
-                    placeholder="Search..."
+                {/* <span className="position-absolute searchbar"><Bi.BiSearch size={25}/></span> */}
+                <Form.Control  className="position-relative fw-bold text-black shadow-none border-0 rounded-pill text-center" 
+                    placeholder="Search..." type='search'
                 />
             </Form>
         </div>

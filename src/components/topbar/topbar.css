@@ -1,8 +1,9 @@
 .topbar{
-    /* color: white; */
     height:70px;
     background-color: white;    
     z-index: 1;
+    background: rgb(162,68,219);
+background: linear-gradient(90deg, rgba(162,68,219,1) 0%, rgba(139,7,204,1) 45%);
 }
 
 .logo{
@@ -14,7 +15,7 @@
 }
 .navbar-brand-wrapper{
     width: 220px;
-    background-color: #fff;
+    /* background-color: #fff; */
     justify-content: center;
     text-align: center;
     padding:16px;
@@ -44,4 +45,24 @@
 .searchbar{
     margin-left:210px;
     z-index: 15;
+}
+
+.logout-btn:hover{
+    background-color: #0E77C0 !important;
+}
+.logtog-btn:hover{
+    background-color: #7BD433 !important;
+}
+.logtog-btn{
+    background-color: #FFFFFF;
+    color: black;
+}
+.menubox-btn{
+color: #FFFFFF;
+}
+.mssg-btn{
+    color: #FFFFFF;
+}
+ .notify-btn{
+    color: #FFFFFF;
 }
