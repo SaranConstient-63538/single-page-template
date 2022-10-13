@@ -7,9 +7,12 @@ import CasualLeavel from './CasualLeave';
 import SickLeave from './SickLeave';
 import instance from '../../service/service';
 import { motion } from 'framer-motion';
+import moment  from 'moment'
+import * as Ai from  'react-icons/ai'
 
 const EmpDashboard = () => {
-
+    let user_list;
+    const [order,setOrder ]=useState('ASC')
     const [sick_leave, setSick_leave]=useState('')
     const [casual_leave, setCasual_leave]=useState('')
     const [work_from_home, setWork_from_home]=useState('')
@@ -21,7 +24,11 @@ const EmpDashboard = () => {
 
     useEffect(()=>{   
         instance.get(process.env.REACT_APP_USERS_LEAVELIST).then(res => {
-            setUserList(res.data)
+            console.log(res.data)
+            user_list = res.data
+            console.log('api',user_list)
+            user_list.sort((a,b)=> a.from_date.localeCompare(b.from_date))
+            setUserList(user_list)
         }) 
 
         instance.post(process.env.REACT_APP_LEAVELIST).then(res =>{
@@ -38,7 +45,25 @@ const EmpDashboard = () => {
         }).catch( err =>{
             console.log(err.message)
         })  
-    },[])
+        onSorting(user_list)
+    },[user_list])
+    const onSorting =(col)=>{
+        if(order === 'ASC'){
+            const sorted = [...userList].sort((a,b)=>
+                a[col]>b[col] ? 1 :-1
+              
+            )
+            setUserList(sorted)
+            setOrder('DSC')
+        }
+        if(order === 'DSC'){
+            const sorted = [...userList].sort((a,b)=>
+                a[col]>b[col]? 1 : -1
+            )
+            setUserList(sorted)
+            setOrder('ASC')
+        }
+    }
   return (
     <motion.div initial={{opacity: 1}} animate={{y:0}}>
             <Col className="px-3 my-3">
@@ -74,15 +99,28 @@ const EmpDashboard = () => {
                 <Col className="px-3 py-3 mt-3 mb-3">
                     <Table hover table-responsive className='table-borderless'>
                         <thead>
-                            <tr>
-                                <th className='py-3 text-capitalize'>s.no</th>
-                                <th className='py-3 text-capitalize'>leave</th>
-                                <th className='py-3 text-capitalize'>reason</th>
-                                <th className='py-3 text-capitalize'>status</th>                           
+                            <tr>                          
+                                <th className='py-3 text-capitalize'>S.No</th>
+                                <th className='py-3 text-capitalize' onClick={()=> onSorting('from_date')}>
+                                    From Date  <Ai.AiOutlineArrowDown /> <Ai.AiOutlineArrowUp />
+                                </th>
+                                <th className='py-3 text-capitalize' onClick={()=> onSorting('to_date')}>
+                                    To Date <Ai.AiOutlineArrowDown /> <Ai.AiOutlineArrowUp />
+                                </th>
+                                <th className='py-3 text-capitalize' onClick={()=> onSorting('leave_type')}>                                
+                                    Leave Type <Ai.AiOutlineArrowDown /> <Ai.AiOutlineArrowUp />
+                                </th>
+                                <th className='py-3 text-capitalize' onClick={()=> onSorting('leave_reason')}>
+                                    Leave Reason <Ai.AiOutlineArrowDown /> <Ai.AiOutlineArrowUp />
+                                </th>
+                                <th className='py-3 text-capitalize' onClick={()=> onSorting('approve')}>
+                                    Approval Status <Ai.AiOutlineArrowDown /> <Ai.AiOutlineArrowUp />
+                                </th>
+                                
                             </tr>
                         </thead>
                         <tbody className="overflow-auto">
-                            {
+                            { userList && userList.length > 0 ?
                                 userList.map((item,idx)=>{
                                     console.log(item.type_of_leave)
                                 return(
@@ -98,10 +136,9 @@ const EmpDashboard = () => {
                                                 )
                                             } 
                                             </td>
-                                            {/* <td>{}</td> */}
                                         </tr>
                                 )
-                                })
+                                }):<h6>No Record Founded</h6>
                             }
                         </tbody>   
                     </Table>

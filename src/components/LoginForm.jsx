@@ -5,14 +5,16 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import '../App.css';
 import {useNavigate} from 'react-router-dom'
+import mailicon from "../assets/images/mailicon.svg";
+import passwordicon from "../assets/images/passwordicon.svg";
+import passwordshow from "../assets/images/passwordshow.svg";
+
 import * as Ai from 'react-icons/ai'
 import {useForm} from 'react-hook-form'
 import { Form, Container, Col, Row, InputGroup } from 'react-bootstrap'
 import instance from "../service/service";
 import { isLogin } from "./isLogin";
-import mailicon from "../assets/images/mailicon.svg";
-import passwordicon from "../assets/images/passwordicon.svg";
-import passwordshow from "../assets/images/passwordshow.svg";
+import { toast } from 'react-toastify'
 
 const schema = yup.object({
   email: yup.string().email('must be valid e-mail address').required('* E-mail is required'),
@@ -20,7 +22,6 @@ const schema = yup.object({
 }).required();
 
 const LoginForm = () => {
-
   const navigate = useNavigate();
   const { handleSubmit, register, formState:{errors}} = useForm({
     resolver: yupResolver(schema)
@@ -32,7 +33,7 @@ const LoginForm = () => {
   const onSubmit = (data)=>{        
     let login_data={
       email:data.email,
-      password:data.password
+      password:data.password,
     }
     
     instance.post(process.env.REACT_APP_LOGIN,login_data).then( res =>{ 
@@ -42,7 +43,10 @@ const LoginForm = () => {
       // instance.defaults.headers.common['Authorization']=`Bearer ${res.data.token}`
       localStorage.setItem('token', res.data.responseResult.token)
 
-      navigate('/home')      
+      navigate('/home')     
+      toast.success('Successfully Login',{       
+        position: toast.POSITION.BOTTOM_LEFT,
+      }) 
     }).catch( err => {
       console.log(err.message)
     })    

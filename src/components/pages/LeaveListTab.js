@@ -7,16 +7,15 @@ import SpecificEmp from './SpecificEmp'
 
 const LeaveListTab = () => {
 
-    const [_key, setKey]=useState('casual')
-    let type_of_leave= '';
+    const [_key, setKey]=useState('casual_leave')
+    let type_of_leave = '';
     const [list, setList]=useState([])
-    const [specific_list, setSpecific_list]= useState([])
+    const [view,setView]=useState([]);
     const [id,setId]=useState('')
     
     const [show, setShow]=useState(false)
     const [_show, _setShow]=useState(false)
     const [spec_show, setSpec_show] =useState(false)
-    const [type_leave,setType_leave]=useState('')
 
     const [leavetype, setLeavetype]=useState('')
     const [btn_status, setBtn_status]=useState(0);// status
@@ -24,36 +23,28 @@ const LeaveListTab = () => {
     const [frm_date,setFrom_date]=useState('')//from date
     const [emp_id, setEmp_id]=useState('') //emp id 
 
-    const index = 0
-    console.log(_key, list.type_of_leave)
-    // console.log(process.env.REACT_APP_SPECIFIC_LEAVELIST);
+    console.log(list,`${process.env.REACT_APP_APPROVALIST}?type_of_leave=${_key}`)
+
     useEffect(() => {
-    //    console.log('process.env',`${process.env.REACT_APP_APPROVALIST}?user=${_key}`) 
-      instance.get(`${process.env.REACT_APP_APPROVALIST}?${type_of_leave}=${_key}`).then( res =>{
-        console.log(res.data.result);
-        
-        if(type_of_leave === _key){
-            setList(res.data.result)
-        }
+      instance.get(`${process.env.REACT_APP_APPROVALIST}?type_of_leave=${_key}`).then( res =>{
+        console.log(res.data);        
+        setList(res.data.result === undefined ? [] : res.data.result)
         
       })
  
       
-    }, [])
+    }, [_key])
     // console.log(list)
 
     const onApproved =()=>{
-        // console.log('approved')
         const appStatus={
             status: btn_status,
             type_of_leave: leavetype,
             status_description: status_des,
             leave_master_id: emp_id,
             from_date: frm_date,
-        }
-       
+        }       
         const approved = list.filter( item => item.from_date === frm_date && item.type_of_leave === leavetype)
-        // console.log(leavetype,approved)
         if(approved){
             instance.post(process.env.REACT_APP_APPROVALUPDATE,appStatus)
             .then( res =>{
@@ -76,7 +67,7 @@ const LeaveListTab = () => {
             from_date: frm_date,
         }       
        const rejected = list.filter( item => item.from_date === frm_date && item.type_of_leave === leavetype)
-    //    console.log(rejected)
+
         if(rejected){
             // console.log('rejected')
              instance.post(process.env.REACT_APP_APPROVALUPDATE,appStus)
@@ -90,32 +81,32 @@ const LeaveListTab = () => {
         }
       
     }
-    // const spec_list = 
+    console.log(list?.length && list)
   return (
     <Col className="px-3 py-3 mt-3 mb-3">     
         <Tabs
-            defaultActiveKey="casual"
+            defaultActiveKey="casual_leave"
             transition={false}
             id="noanim-tab-example"
             className="mb-3"
             activeKey={_key} onSelect={ e => setKey(e)}
         >
-            <Tab eventKey="casual" title="Casual">
+            <Tab eventKey="casual_leave" title="Casual">
                 <Table responsive>
                     <thead>
                         <tr>
-                            <th>Employee Name</th>
+                            <th>Emp Name</th>
                             <th>From Date</th>
                             <th>To Date</th>
-                            <th>No of Days</th>
-                            <th>Leave of Reason</th>
+                            <th>Days</th>
+                            <th>Reason</th>
                             <th>Approval Status </th>    
-                            <th>View Status</th>                        
+                            <th>Action</th>                        
                         </tr>
                     </thead>
                     <tbody>
-                        {list.map((item,idx)=>{      
-                                if( item.type_of_leave === 'casual_leave' && item.status === 0){
+                        { list && list.map((item,idx)=>{     
+                                if( item.type_of_leave === _key && item.leave_master_id !== null ){
                                     return(
                                         <tr key={idx}>
                                             <td>{item.updated_by}</td>
@@ -150,18 +141,19 @@ const LeaveListTab = () => {
                                                     }>Rejected</Button>
                                                 </>
                                             </td>   
-                                            <td>
-                                                {item.type_of_leave && item.leave_master_id ? (
+                                            <td>                                                
+                                                {item.type_of_leave === _key  && item.leave_master_id !== null  ? (
                                                         <Button
                                                             onClick={()=>{
-                                                                // console.log(item)
+                                                                console.log(item)
+                                                                setView(item)
                                                                 setSpec_show(true)
-                                                                // setPermission(item.type_of_leave)
-                                                                // set_id(item.leave_master_id)
+                                                                console.log(item.type_of_leave,item.leave_master_id)                                                              
                                                             }}
                                                         >
                                                             View
                                                         </Button>
+                                                         
                                                     ):''
                                                 }                                    
                                             </td>
@@ -178,26 +170,27 @@ const LeaveListTab = () => {
                 <Table className="table-responsive">
                     <thead>
                         <tr>
-                            {/* <th>S.No</th> */}
-                            <th>Employee Name</th>
+                            <th>Emp Name</th>
                             <th>From Date</th>
                             <th>To Date</th>
-                            <th>No of Days</th>
-                            <th>Leave of Reason</th>
+                            <th>Days</th>
+                            <th>Reason</th>
                             <th>Approval Status </th>
-                            <th> View Status</th>                            
+                            <th>Action</th>                            
                         </tr>
                     </thead>
                     <tbody>
-                        {list.map((item,idx)=>{
-                            if(item.type_of_leave === "sick_leave" &&  item.status === 0){
+                        {list && list.map((item,idx)=>{
+                            
+                            if(item.type_of_leave === _key &&  item.leave_master_id !== null){
+                                console.log(item,item.type_of_leave === _key)
                                 return(
                                     <tr key={idx}>
 
                                         {/* <td>{idx + 1}</td> */}
                                         <td>{item.updated_by}</td>
-                                        <td>{moment.utc(item.from_date).format('YYYY-MM-DD')}</td>
-                                        <td>{moment.utc(item.to_date).format('YYYY-MM-DD')}</td>
+                                        <td>{moment.utc(item.from_date).format('DD-MM-YYYY')}</td>
+                                        <td>{moment.utc(item.to_date).format('DD-MM-YYYY')}</td>
                                         <td>{item.no_of_days}</td>
                                         <td>{item.description}</td>
                                         <td>
@@ -224,8 +217,8 @@ const LeaveListTab = () => {
                                             {item.type_of_leave && item.leave_master_id ? (
                                                 <Button
                                                     onClick={()=>{
-                                                        console.log(item)
                                                         setSpec_show(true)
+                                                        console.log(item.type_of_leave,item.leave_master_id)
                                                     }}
                                                 >
                                                     View
@@ -245,24 +238,23 @@ const LeaveListTab = () => {
                 <Table responsive>
                     <thead>
                         <tr>
-                            {/* <th>S.No</th> */}
-                            <th>Employee Name</th>
+                            <th>Emp Name</th>
                             <th>From Date</th>
                             <th>To Date</th>
-                            <th>No of Days</th>
+                            <th>Days</th>
                             <th>Leave of Reason</th>
                             <th>Approval Status </th>
-                            
+                            <th>Action</th>                            
                         </tr>
                     </thead>
                     <tbody>
-                        {list.map((item,idx)=>{
-                            if(item.type_of_leave === "work_from_home" && item.status === 0){
+                        {list && list.map((item,idx)=>{
+                            if(item.type_of_leave === _key && item.leave_master_id !== null){
                                 return(
                                     <tr key={idx}>
                                          <td>{item.updated_by}</td>
-                                        <td>{moment.utc(item.from_date).format('YYYY-MM-DD')}</td>
-                                        <td>{moment.utc(item.to_date).format('YYYY-MM-DD')}</td>
+                                        <td>{moment.utc(item.from_date).format('DD-MM-YYYY')}</td>
+                                        <td>{moment.utc(item.to_date).format('DD-MM-YYYY')}</td>
                                         <td>{item.no_of_days}</td>
                                         <td>{item.description}</td>
                                         <td>
@@ -286,15 +278,16 @@ const LeaveListTab = () => {
                                             </>
                                         </td>
                                         <td>
-                                            {item.type_of_leave && item.leave_master_id ? (
+                                            
+                                            {item.type_of_leave = _key && item.leave_master_id && (
                                                 <Button
                                                     onClick={()=>{
-                                                        console.log(item)
                                                         setSpec_show(true)
+                                                        console.log(item.type_of_leave,item.leave_master_id)
                                                     }}
                                                 >
                                                     View
-                                                </Button>):''
+                                                </Button>)
                                             }                             
                                         </td>
                                        
@@ -310,24 +303,23 @@ const LeaveListTab = () => {
                 <Table responsive>
                     <thead>
                         <tr>
-                            {/* <th>S.No</th> */}
-                            <th>Employee Name</th>
+                            <th>Emp Name</th>
                             <th>Date</th>
                             <th>Start Time</th>
                             <th>End Time</th>
                             <th>No of Hours</th>
-                            <th>Leave of Reason</th>
+                            <th>Reason</th>
                             <th>Approval Status </th>
-                            
+                            <th>Action</th>                            
                         </tr>
                     </thead>
                     <tbody>
-                        {list.map( (item,idx) =>{
-                            if(item.type_of_leave === "permission"){
+                        {list && list.map( (item,idx) =>{
+                            if(item.type_of_leave === _key &&  item.leave_master_id !== null){
                                 return(
                                     <tr key={idx}>
                                         <td>{item.updated_by}</td>
-                                        <td>{moment.utc(item.from_date).format('YYYY-MM-DD')}</td>
+                                        <td>{moment.utc(item.from_date).format('DD-MM-YYYY')}</td>
                                         <td>{moment.utc(item.from_date).format('h:mm a')}</td>
                                         <td>{moment.utc(item.to_date).format('h:mm a')}</td>
                                         <td>{item.no_of_hours}</td>
@@ -338,7 +330,7 @@ const LeaveListTab = () => {
                                         </td>
                                        <td>
                                             {/* <SpecificEmp leave={item.type_of_leave} mst_id={item.leave_master_id} item={list} /> */}
-                                            {item.type_of_leave && item.leave_master_id ? (
+                                            {item.type_of_leave === _key &&  item.leave_master_id !== null && (
                                                 <Button
                                                     onClick={()=>{
                                                         // console.log(item)
@@ -348,7 +340,7 @@ const LeaveListTab = () => {
                                                     }}
                                                 >
                                                     View
-                                                </Button>):''
+                                                </Button>)
                                             }                                      
                                         </td>
                                     </tr>

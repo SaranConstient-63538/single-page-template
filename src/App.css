@@ -58,11 +58,21 @@
   font-weight: 700;
 }
 
+
+body {
+  background: #eee;
+}
+
 .swing {
   animation: swing ease-in-out 1s infinite alternate;
   transform-origin: center -20px;
   float: left;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+.swing img {
+  border: 5px solid #f8f8f8;
+  display: block;
 }
 
 .swing:after {
@@ -131,15 +141,11 @@ a#navbarScrollingDropdown, .bell-icn, .notifi-icn{
 .navsearch::placeholder{
   color: #bbdcf6 !important;
 }
-/* .login{
+.login{
   top:200px;
   bottom:200px;
-} */
-
-.log-button{
-  background-color: #027BFF;
-  color: #FFFFFF;
 }
+<<<<<<< HEAD
 .log-button:hover{
   background-color: #7BD433;
   color: #FFFFFF;
@@ -167,3 +173,9 @@ a#navbarScrollingDropdown, .bell-icn, .notifi-icn{
 
 
 
+=======
+.toast_success{
+  background-color: #00FF00;
+  color: white;
+}
+>>>>>>> 977695af38aa4cdf8236045d31550c517dc4ea15
