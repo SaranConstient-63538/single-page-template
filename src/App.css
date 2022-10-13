@@ -145,7 +145,6 @@ a#navbarScrollingDropdown, .bell-icn, .notifi-icn{
   top:200px;
   bottom:200px;
 }
-<<<<<<< HEAD
 .log-button:hover{
   background-color: #7BD433;
   color: #FFFFFF;
@@ -173,9 +172,7 @@ a#navbarScrollingDropdown, .bell-icn, .notifi-icn{
 
 
 
-=======
 .toast_success{
   background-color: #00FF00;
   color: white;
 }
->>>>>>> 977695af38aa4cdf8236045d31550c517dc4ea15

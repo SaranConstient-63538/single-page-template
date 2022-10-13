@@ -18,14 +18,14 @@ const Topbar = ({handleShow}) => {
             // if( res.status === 200){
                 // localStorage.removeItem('token')
                 // localStorage.removeItem('data')
-                // localStorage.clear();
+                localStorage.clear();
                 // const logout = JSON.parse(localStorage.getItem('token'))
                 // console.log(logout);
                 // navigate('/')
             // }
             
-        localStorage.removeItem('token')
-        localStorage.removeItem('data')
+        // localStorage.removeItem('token')
+        // localStorage.removeItem('data')
         navigate('/') 
     })}
     return (
