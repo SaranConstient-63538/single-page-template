@@ -29,7 +29,7 @@ const Topbar = ({handleShow}) => {
         navigate('/') 
     })}
     return (
-        <Navbar sticky="top" expand="md"  className="shadow-sm topbar bg-white py-0 px-0 mt-0 flex-row">              
+        <Navbar expand="md"  className="shadow-sm topbar bg-white py-0 px-0 mt-0 flex-row position-fixed w-100">              
             <div className='navbar-brand-wrapper '>
                 <Navbar.Brand href="#home" className="logoIcon text-center">
                     <img src={logoImg} alt="logo"  className='text-sm-center'/>

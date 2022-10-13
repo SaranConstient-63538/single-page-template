@@ -35,17 +35,17 @@ const LoginForm = () => {
       password:data.password
     }
     
-    // instance.post(process.env.REACT_APP_LOGIN,login_data).then( res =>{ 
-    //   console.log(res.data.responseResult);
-    //   const _data = JSON.stringify( res.data.responseResult)
-    //   localStorage.setItem('data',_data)
-    //   // instance.defaults.headers.common['Authorization']=`Bearer ${res.data.token}`
-    //   localStorage.setItem('token', res.data.responseResult.token)
+    instance.post(process.env.REACT_APP_LOGIN,login_data).then( res =>{ 
+      console.log(res.data.responseResult);
+      const _data = JSON.stringify( res.data.responseResult)
+      localStorage.setItem('data',_data)
+      // instance.defaults.headers.common['Authorization']=`Bearer ${res.data.token}`
+      localStorage.setItem('token', res.data.responseResult.token)
 
-    //   navigate('/home')      
-    // }).catch( err => {
-    //   console.log(err.message)
-    // })    
+      navigate('/home')      
+    }).catch( err => {
+      console.log(err.message)
+    })    
     
   }   
   return (    
@@ -63,7 +63,7 @@ const LoginForm = () => {
               <img src={cgsimg} alt="cgs image" className="fs-3 px-2 py-1" />
             </div>
             <div className=" text-center m-auto py-2 position-relative">
-            <span className="mailinput position-absolute"><img src={mailicon}/></span>
+            <span className="mailinput position-absolute"><img src={mailicon} className="mailcon"/></span>
                 <input type="text" 
                   {...register('email')}
                   placeholder="Email" 

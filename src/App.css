@@ -140,6 +140,10 @@ a#navbarScrollingDropdown, .bell-icn, .notifi-icn{
   background-color: #027BFF;
   color: #FFFFFF;
 }
+.log-button:hover{
+  background-color: #7BD433;
+  color: #FFFFFF;
+}
 .log-input{
   background-color: #f3f2f6;
 }
@@ -155,5 +159,11 @@ a#navbarScrollingDropdown, .bell-icn, .notifi-icn{
   width: 17px;
 }
 .passcon{
+  width: 13px;
+}
+.mailcon{
   width: 15px;
 }
+
+
+

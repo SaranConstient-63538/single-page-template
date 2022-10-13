@@ -41,11 +41,11 @@ const EmpDashboard = () => {
     },[])
   return (
     <motion.div initial={{opacity: 1}} animate={{y:0}}>
-            <Col className="px-3 mt-3 mb-3">
-                <motion.h4 animate={{  x:[100,0], opacity:1}} transition={{duration:3}}  className='text-start'>Welcome to {items.username}</motion.h4>                
+            <Col className="px-3 my-3">
+                <motion.h4 animate={{  x:[100,0], opacity:1}} transition={{duration:3}}  className='text-start pt-5 mt-5 m-0 fw-bold text-capitalize'>welcome {items.username}</motion.h4>                
             </Col>
            <Col >
-                <Row className="justify-content-around px-5"> 
+                <Row className="justify-content-around px-5 py-5"> 
                     <motion.div animate={{y:[100,0]}} transition={{duration:3.5}} className="col-sm col-md">
                         {/* <Col sm md > */}
                             <Permissionslider  />                                           
@@ -67,19 +67,18 @@ const EmpDashboard = () => {
            </Col>
     
         <motion.div animate={{y:[100,0]}} transition={{duration:5}}>
-            <Card className="border mt-4 mb-4 px-2 mx-3 m-auto shadow-lg rounded-4">
+            <div className="text-center">
                 <Col className="px-3 mt-3 mb-3">
-                    <h4 className='text-start'>User Leave List</h4>                
+                    <h4 className='text-start text-capitalize m-0 fw-bold'>user leave list</h4>                
                 </Col>
                 <Col className="px-3 py-3 mt-3 mb-3">
-                    <Table striped bordered hover table-responsive>
+                    <Table hover table-responsive className='table-borderless'>
                         <thead>
                             <tr>
-                                <th>S.No</th>
-                                <th>Type of Leave</th>
-                                <th>Leave Reason</th>
-                                <th>Approval Status</th>
-                                {/* <th>Team Leader</th> */}
+                                <th className='py-3 text-capitalize'>s.no</th>
+                                <th className='py-3 text-capitalize'>leave</th>
+                                <th className='py-3 text-capitalize'>reason</th>
+                                <th className='py-3 text-capitalize'>status</th>                           
                             </tr>
                         </thead>
                         <tbody className="overflow-auto">
@@ -87,15 +86,15 @@ const EmpDashboard = () => {
                                 userList.map((item,idx)=>{
                                     console.log(item.type_of_leave)
                                 return(
-                                        <tr key={idx}>
-                                            <td>{idx +  1}</td>
-                                            <td>{item.type_of_leave === 'sick_leave'? 'Sick Leave': item.type_of_leave === 'casual_leave' ? 'Casual Leave':item.type_of_leave === 'work_from_home' ? 'Work From Home':item.type_of_leave === 'permission' ? 'Permission' : ''  }</td>                                      
-                                            <td>{item.description}</td>
-                                            <td>
+                                        <tr key={idx} className="shadow rounded-pill">
+                                            <td className="py-3">{idx +  1}</td>
+                                            <td className="py-3">{item.type_of_leave === 'sick_leave'? 'Sick Leave': item.type_of_leave === 'casual_leave' ? 'Casual Leave':item.type_of_leave === 'work_from_home' ? 'Work From Home':item.type_of_leave === 'permission' ? 'Permission' : ''  }</td>                                      
+                                            <td className="py-3">{item.description}</td>
+                                            <td className="py-3">
                                                 {item.status === 0 ?(
-                                                    <p className='fs-6' >Waiting for Approval</p>
+                                                    <p className='m-0 text-capitalize' >waiting for approval</p>
                                                 ):(
-                                                    <p>Approved</p>
+                                                    <p className='m-0 text-capitalize'>approved</p>
                                                 )
                                             } 
                                             </td>
@@ -107,7 +106,7 @@ const EmpDashboard = () => {
                         </tbody>   
                     </Table>
                 </Col>
-            </Card>   
+            </div>   
         </motion.div>    
     </motion.div>
   )

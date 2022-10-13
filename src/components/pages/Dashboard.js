@@ -1,7 +1,7 @@
 import React, {useState,useEffect} from 'react';
 import { Row, Col,Card, Table } from 'react-bootstrap';
 import Permissionslider    from './Permissionslider';
-import './leave.css'
+import './leave.css';
 import WorkFromHome from './WorkFromHome';
 import CasualLeavel from './CasualLeave';
 import SickLeave from './SickLeave';
