@@ -69,10 +69,11 @@ const CasualLeavel =({casual_leave})=>{
     const onCancel =()=>{
         setStartDate('')
         setEndDate('')
+        casual_handleClose()
         setCasualreason('')
     }
     const item = JSON.parse(localStorage.getItem('data'))
-    console.log(item.role === "trainee" && item.token !== null, startDate < endDate)
+    // console.log(item.role === "trainee" && item.token !== null, startDate < endDate)
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const onSubmit=()=>{    

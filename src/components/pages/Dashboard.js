@@ -13,19 +13,17 @@ const Dashboard = () => {
    const items = JSON.parse(localStorage.getItem('data'))
   return (
     <>
-           <Col >
-                <Row className="justify-content-around px-3 mb-3  ">    
-                { items.role === "trainee" ?
-                    (
-                        <EmpDashboard  />
-                    ):(
-                        <TlDashboard  />
-                    )
-
-                }          
-                    
-                </Row>                
-           </Col>
+      <Col >
+          <Row className="justify-content-around px-3 mb-3  ">    
+            { items.role === "trainee" ?
+                (
+                    <EmpDashboard  />
+                ):(
+                    <TlDashboard  />
+                )
+            }    
+          </Row>                
+      </Col>
     </>
   )
 }

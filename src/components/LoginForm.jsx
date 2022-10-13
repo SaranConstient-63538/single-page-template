@@ -15,6 +15,7 @@ import { Form, Container, Col, Row, InputGroup } from 'react-bootstrap'
 import instance from "../service/service";
 import { isLogin } from "./isLogin";
 import { toast } from 'react-toastify'
+import { tokenService } from '../service/tokenService'
 
 const schema = yup.object({
   email: yup.string().email('must be valid e-mail address').required('* E-mail is required'),
@@ -37,6 +38,7 @@ const LoginForm = () => {
     }
     
     instance.post(process.env.REACT_APP_LOGIN,login_data).then( res =>{ 
+      tokenService.setAccessToken(res.data.responseResult)
       console.log(res.data.responseResult);
       const _data = JSON.stringify( res.data.responseResult)
       localStorage.setItem('data',_data)

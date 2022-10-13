@@ -86,6 +86,7 @@ const SickLeave =({sick_leave})=>{
         console.log('cancel')
         setStartdate('')
         setEnddate('')
+        sick_handleClose();
         setSickreason('')
     }
     const onSubmit=(data)=>{
@@ -100,6 +101,8 @@ const SickLeave =({sick_leave})=>{
                     setStartdate('')
                     setEnddate('')
                     setSickreason('')
+                    sick_handleClose();
+                    handleClose()
                     toast.success('Successfully apply the Sick Leave',{
                         position: toast.POSITION.BOTTOM_LEFT,
                     })
@@ -123,6 +126,8 @@ const SickLeave =({sick_leave})=>{
                     setStartdate('')
                     setEnddate('')
                     setSickreason('')
+                    sick_handleClose();
+                    handleClose()
                     toast.success('Successfully apply the Sick Leave',{
                         position: toast.POSITION.BOTTOM_LEFT,
                     })

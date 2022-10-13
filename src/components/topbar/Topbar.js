@@ -7,17 +7,21 @@ import './topbar.css';
 import { useNavigate } from 'react-router-dom'
 import {NotificationsNoneOutlined,  MessageOutlined} from '@mui/icons-material';
 import instance from '../../service/service'
+import { tokenService } from '../../service/tokenService';
 
 const Topbar = ({handleShow}) => {   
     const navigate = useNavigate();
     const Logout =()=>{
-        console.log(process.env, instance.post(process.env.REACT_APP_LOGOUT))
         instance.post(process.env.REACT_APP_LOGOUT)
         .then( res =>{            
-            console.log(res.data);           
-            localStorage.clear();
-            navigate('/') 
+            tokenService.removeAccessToken();
+            tokenService.removeUser();
+            navigate('/')
+
+        }).catch(err =>{
+            console.log(err.message)
         })
+       
     }
     return (
         <Navbar expand="md"  className="shadow-sm topbar bg-white py-0 px-0 mt-0 flex-row position-fixed w-100">              
