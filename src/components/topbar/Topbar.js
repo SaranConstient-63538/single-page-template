@@ -14,20 +14,11 @@ const Topbar = ({handleShow}) => {
         console.log(process.env, instance.post(process.env.REACT_APP_LOGOUT))
         instance.post(process.env.REACT_APP_LOGOUT)
         .then( res =>{            
-            console.log(res.data);
-            // if( res.status === 200){
-                // localStorage.removeItem('token')
-                // localStorage.removeItem('data')
-                localStorage.clear();
-                // const logout = JSON.parse(localStorage.getItem('token'))
-                // console.log(logout);
-                // navigate('/')
-            // }
-            
-        // localStorage.removeItem('token')
-        // localStorage.removeItem('data')
-        navigate('/') 
-    })}
+            console.log(res.data);           
+            localStorage.clear();
+            navigate('/') 
+        })
+    }
     return (
         <Navbar expand="md"  className="shadow-sm topbar bg-white py-0 px-0 mt-0 flex-row position-fixed w-100">              
             <div className='navbar-brand-wrapper '>
