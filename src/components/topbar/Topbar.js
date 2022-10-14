@@ -21,6 +21,11 @@ const Topbar = ({handleShow}) => {
         }).catch(err =>{
             console.log(err.message)
         })
+        tokenService.removeAccessToken();
+        tokenService.removeUser();
+        console.log(tokenService.removeAccessToken())
+        console.log(tokenService.removeUser())
+        navigate('/')
        
     }
     return (

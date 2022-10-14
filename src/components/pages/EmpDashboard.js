@@ -49,7 +49,7 @@ const EmpDashboard = () => {
             setOrder('ASC')
         }
     }
-    useEffect(()=>{           
+    useEffect(()=>{          
 
         instance.get(process.env.REACT_APP_USERS_LEAVELIST).then(res => {
             // console.log(res.data)

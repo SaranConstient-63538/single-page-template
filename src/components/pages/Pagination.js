@@ -1,7 +1,7 @@
 
 import { Nav, Button } from 'react-bootstrap'
 
-const Pagination =()=>{
+const Pagination =(props)=>{
     return(
         <Nav as="ul">
            <Nav.Item as="li">
