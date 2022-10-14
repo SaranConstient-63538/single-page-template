@@ -41,8 +41,9 @@ const handleShow=()=>{
       email:data.email,
       password:data.password,
     }
-    
+   
     instance.post(process.env.REACT_APP_LOGIN,login_data).then( res =>{ 
+      console.log(res)
       console.log(res.data.responseResult);
       const _data = JSON.stringify( res.data.responseResult)
       localStorage.setItem('data',_data)
