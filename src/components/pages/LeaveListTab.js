@@ -121,14 +121,14 @@ const LeaveListTab = () => {
                             <th>Action</th>                            
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody>                       
                         { list?.length ?
                             list.map((item,idx)=>{   
                                 return(
                                     <tr key={idx}>
                                         <td>{item.updated_by}</td>
-                                        <td>{moment.utc(item.from_date).format('YYYY-MM-DD')}</td>
-                                        <td>{moment.utc(item.to_date).format('YYYY-MM-DD')}</td>
+                                        <td>{moment.utc(item.from_date).format('DD-MM-YYYY')}</td>
+                                        <td>{moment.utc(item.to_date).format('DD-MM-YYYY')}</td>
                                         <td>{item.no_of_days}</td>
                                         <td>{item.description}</td>
                                         <td>
@@ -136,8 +136,7 @@ const LeaveListTab = () => {
                                                 <Button className="btn-success btn btn-sm-success m-1" onClick={
                                                     ()=>{
                                                         setShow(true)  
-                                                        setId(idx)   
-                                                        // console.log(id && item.leave_master_id, id, item.leave_master_id)
+                                                        setId(idx) 
                                                         setBtn_status(1)
                                                         setEmp_id(item.leave_master_id)
                                                         console.log(item.type_of_leave)
@@ -174,10 +173,11 @@ const LeaveListTab = () => {
                                                         
                                                 ):''
                                             }                                    
-                                        </td>
-                                                                                
+                                        </td>                                                                                    
                                     </tr>
-                                )                             
+                                )   
+                                
+                                                          
                             }                     
                         ): (                       
                             <tr><td colSpan='3'>No Record Founded</td></tr>                      
@@ -273,6 +273,7 @@ const LeaveListTab = () => {
                     <tbody>
                     {list?.length ? 
                         list.map((item,idx)=>{
+
                             return(
                                 <tr key={idx}>
                                     <td>{item.updated_by}</td>

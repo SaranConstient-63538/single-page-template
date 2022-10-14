@@ -8,7 +8,7 @@ import { toast } from 'react-toastify'
 
 
 const CasualLeavel =({casual_leave})=>{  
-    const format_date = "DD-MM-YYYY"   
+    const format_date = "YYYY-MM-DD"   
     const addDays = (date, period) => {
         return date.setDate(date.getDate() + period);
     };
@@ -83,15 +83,23 @@ const CasualLeavel =({casual_leave})=>{
             if(startDate < endDate){              
                 instance.post(process.env.REACT_APP_APPLY_LEAVE,casual_apply)
                 .then( res => {
-                    console.log(res.data)                   
-                    setStartDate('')
-                    setEndDate('')
-                    setCasualreason('')
-                    casual_handleClose()
-                    handleClose()
-                    toast.success('Successfully apply the Casual Leave',{
-                        position: toast.POSITION.BOTTOM_LEFT,
-                    })
+                    console.log(res)
+                    if(res.status === 200){
+                        console.log(res.data)                   
+                        setStartDate('')
+                        setEndDate('')
+                        setCasualreason('')
+                        casual_handleClose()
+                        handleClose()
+                        toast.success('Successfully apply the Casual Leave',{
+                            position: toast.POSITION.BOTTOM_LEFT,
+                        })
+                    }else{
+                        toast.warning('Please check leave availablity',{
+                            position: toast.POSITION.BOTTOM_LEFT,
+                        })
+                    }
+                    
                 }).catch( err =>{
                     toast.error(`${err.message}`,{
                         position: toast.POSITION.TOP_RIGHT,
@@ -200,7 +208,7 @@ const CasualLeavel =({casual_leave})=>{
                             <Button className="btn btn-danger p-2 m-2 rounded-4 fs-6" onClick={onCancel}>Cancel</Button>
                         </Col>
                         <Col className='text-end'>
-                            <Button onSubmit={onSubmit} className="btn btn-success p-2 m-2 rounded-4 fs-6">Save</Button>
+                            <Button onClick={onSubmit} className="btn btn-success p-2 m-2 rounded-4 fs-6">Save</Button>
                         </Col>
                     </Row>
                 </Modal.Body>

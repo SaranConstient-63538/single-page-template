@@ -38,17 +38,20 @@ const LoginForm = () => {
     }
     
     instance.post(process.env.REACT_APP_LOGIN,login_data).then( res =>{ 
-      tokenService.setAccessToken(res.data.responseResult)
-      console.log(res.data.responseResult);
-      const _data = JSON.stringify( res.data.responseResult)
-      localStorage.setItem('data',_data)
-      // instance.defaults.headers.common['Authorization']=`Bearer ${res.data.token}`
-      localStorage.setItem('token', res.data.responseResult.token)
+      if( res.status === 200){
+        tokenService.setAccessToken(res.data.responseResult)
+        console.log(res.data.responseResult);
+        const _data = JSON.stringify( res.data.responseResult)
+        localStorage.setItem('data',_data)
+        // instance.defaults.headers.common['Authorization']=`Bearer ${res.data.token}`
+        localStorage.setItem('token', res.data.responseResult.token)
 
-      navigate('/home')     
-      toast.success('Successfully Login',{       
-        position: toast.POSITION.BOTTOM_LEFT,
-      }) 
+        navigate('/home')     
+        toast.success('Successfully Login',{       
+          position: toast.POSITION.BOTTOM_LEFT,
+        }) 
+      }
+      
     }).catch( err => {
       console.log(err.message)
     })    
