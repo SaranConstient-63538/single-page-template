@@ -5,9 +5,11 @@ import DatePicker from 'react-datepicker'
 import moment from 'moment';
 import instance from '../../service/service';
 import { motion } from 'framer-motion'
+import { toast } from 'react-toastify'
+import "./leave.css";
 
 const Permissionslider =()=>{
-  const format_date = "YYYY-MM-DD "
+  const format_date = "DD-MM-YYYY"
   const format_time = "h:mm"
 
   const [startDate,setStartDate]=useState('')
@@ -21,17 +23,16 @@ const Permissionslider =()=>{
   const [per_reason,setPer_reason]=useState('')
 
   const [inputErrors,setInputErrors] = useState({startDate:'',startTime:'',endTime:'',per_reason:''})
-
+  const nows = moment().toDate();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const per_handleShow =()=>{
     setPer_show(true)
-    console.log(per_show)
   }
   const per_handleClose =()=> setPer_show(false)
   const onSave =()=>{
-    let errorCount=0
+    let errorCount = 0
     if(startDate === ''){
       errorCount++
       setInputErrors((prevState)=>{
@@ -42,8 +43,7 @@ const Permissionslider =()=>{
         return{...prevState,startDate:''}
       })
     }
-
-    if(startTime ===''){
+    if(startTime === ''){
       errorCount++
       setInputErrors((prevState)=>{
         return{...prevState,startTime:'* StartTime Is Required'}
@@ -53,8 +53,7 @@ const Permissionslider =()=>{
         return{...prevState,startTime:''}
       })
     }
-
-    if(endTime ===''){
+    if(endTime === ''){
       errorCount++
       setInputErrors((prevState)=>{
         return{...prevState,endTime:'* EndTime Is Required'}
@@ -64,8 +63,7 @@ const Permissionslider =()=>{
         return{...prevState,endTime:''}
       })
     }
-
-    if(per_reason ===''){
+    if(per_reason === ''){
       errorCount++
       setInputErrors((prevState)=>{
         return{...prevState,per_reason:'* Reason Is Required'}
@@ -75,11 +73,15 @@ const Permissionslider =()=>{
         return{...prevState,per_reason:''}
       })
     }
-    if(errorCount === 0){
+   
+    if(errorCount === 0 && startTime <= endTime){
       const applyForm = {startDate,startTime,endTime,per_reason}
       console.log(applyForm)
       per_handleShow()
+    }else{
+      console.log('please select the valid time ')
     }
+    
   }      
   const _permission ={
     from_date: moment(startDate).format(format_date).concat(''+ moment(startTime).format('hh:mm a') +''),  
@@ -90,60 +92,70 @@ const Permissionslider =()=>{
     description: per_reason,
   }
   const onCancel =()=>{
-    console.log('cancel')
     setStartDate('')
     setStartTime('')
     setEndTime('')
     setPer_reason('')
+    per_handleClose();
   }
   const isWeekday = (date) => {
     const day = date.getDay(date);
     return day !== 0 && day !== 6;
   };
-  const onPermission =()=>{
 
-    const user = JSON.parse(localStorage.getItem('data'));
-      
+  const onPermission =()=>{
+    console.log("hello world")
+    const user = JSON.parse(localStorage.getItem('data'));      
     if(user.role === "trainee" && user.token !== null){
-      console.log('trainee')
       instance.post(process.env.REACT_APP_PERMISSION, _permission)
       .then(res =>{
-        console.log(res.data, 'success')
+        console.log(res.data, 'success')        
         setStartDate('')
         setStartTime('')
         setEndTime('')
         setPer_reason('')
+        per_handleClose()
+        handleClose()
+        toast.success('Successfully apply the Permission',{
+          position: toast.POSITION.BOTTOM_LEFT,
+        })
       }).catch( err =>{
+        toast.error(`${err.message}`,{
+          position: toast.POSITION.TOP_RIGHT,
+        })
         console.log(err.message)
       })
     }else{
-      console.log("team leader")
-      console.log(_permission)
       instance.post(process.env.REACT_APP_PERMISSION, _permission)
       .then(res =>{
-        console.log(res.data, 'success')
+        console.log(res.data, 'success')      
         setStartDate('')
         setStartTime('')
         setEndTime('')
         setPer_reason('')
+        per_handleClose()
+        handleClose()
+        toast.success('Successfully apply the Permission',{
+          position: toast.POSITION.BOTTOM_LEFT,
+        })
       }).catch( err =>{
+        toast.error(`${err.message}`,{
+          position: toast.POSITION.TOP_RIGHT,
+        })
         console.log(err.message)
       })
     }    
   } 
-
   const addDays = (date, period) =>{        
     return date.setDate(date.getDate() + period)        
   } 
   return(
     <>
-      <Card className='text-center leave-card mb-2 mt-2 m-auto'>
-        <Card.Body >
-          <Card.Subtitle className="mb-3 mt-4 text-secondary">Permission</Card.Subtitle>                            
-          <motion.button className="border-0 mt-2 mb-3 text-center"  whileHover={{ scale: 1.1 }}>
-            <Button onClick={handleShow} className="rounded-4">Apply</Button>
-          </motion.button>
-        </Card.Body>
+      <Card className='text-center leave-card m-auto shadow'>
+        <div className='my-auto'>
+          <Card.Subtitle className="text-capitalize my-1 fw-bold">permission</Card.Subtitle>                            
+            <Button onClick={handleShow} className="rounded-pill border-0 my-1 la-btn shadow">Apply</Button>
+        </div>
       </Card>
       <Modal show={show} onHide={handleClose} size="lg" centered>
         <Modal.Header closeButton>
@@ -190,14 +202,12 @@ const Permissionslider =()=>{
                   onChange={date => setEndTime(date)}
                   endTime={endTime}
                   startTime={startTime}                  
-                  showTimeSelect
-                  
+                  showTimeSelect                  
                   showTimeSelectOnly
                   timeIntervals={60}
                   dateFormat="h:mm a"
                   timeCaption="Time"
                   value={endTime}
-
                 />
                 {inputErrors.endTime && <p className='text-danger'>{inputErrors.endTime}</p>}
               </Col>                               
@@ -207,8 +217,14 @@ const Permissionslider =()=>{
               as="textarea" rows={3} className="mb-2" value={per_reason} 
               onChange={(event)=> setPer_reason(event.target.value)}
             />
-            {inputErrors.per_reason && <p className='text-danger'>{inputErrors.per_reason}</p>} 
-            <Button className="mb-3 rounded-4 ms-1" onClick={onSave}>Submit</Button>
+            {inputErrors.per_reason && ( 
+              <p className='text-danger'>
+                {inputErrors.per_reason}
+              </p>
+            )} 
+            <Button className="mb-3 rounded-4 ms-1" onClick={onSave}>
+              Submit
+            </Button>
           </Col>            
         </Modal.Body>
       </Modal>  
@@ -217,14 +233,18 @@ const Permissionslider =()=>{
             Are you sure ?                
         </Modal.Header>
         <Modal.Body>      
-          <p >To apply the Permission on date: {moment(startDate).format('DD-MM-YYYY')} &  time:  {moment(startTime).hour()} to {moment(endTime).hour()} </p>                  
-          <div className="text-center">
-            <Button className="btn btn-light text-primary rounded-4 shadow-lg px-2 m-3" onClick={onCancel}>Cancel</Button>
-            <Button onClick={onPermission} className="btn btn-primary shadow-lg rounded-4 px-2">Save</Button>
-          </div>
+          <p >To apply the Permission on date: {moment(startDate).format('DD-MM-YYYY')} & time:  {moment(startTime).hour()} To {moment(endTime).hour()} </p>                  
+          
+          <Row>
+            <Col className='text-start'>
+                <Button className="btn btn-danger p-2 m-2 rounded-4 fs-6" onClick={onCancel}>Cancel</Button>
+            </Col>
+            <Col className='text-end'>
+                <Button onClick={onPermission} className="btn btn-success p-2 m-2 rounded-4 fs-6">Save</Button>
+            </Col>
+          </Row>
         </Modal.Body>
-      </Modal>   
-       
+      </Modal> 
     </>
   )
 }

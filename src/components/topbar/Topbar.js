@@ -7,26 +7,29 @@ import './topbar.css';
 import { useNavigate } from 'react-router-dom'
 import {NotificationsNoneOutlined,  MessageOutlined} from '@mui/icons-material';
 import instance from '../../service/service'
+import { tokenService } from '../../service/tokenService';
 
 const Topbar = ({handleShow}) => {   
     const navigate = useNavigate();
     const Logout =()=>{
+        instance.post(process.env.REACT_APP_LOGOUT)
+        .then( res =>{            
+            tokenService.removeAccessToken();
+            tokenService.removeUser();
+            navigate('/')
 
-        // instance.post(process.env.REACT_APP_LOGOUT)
-        // .then( res =>{
-        //     console.log(res.data)
-           
-
-        // }).catch( err =>{
-        //     console.log(err.message)
-        // })   
-            
-        localStorage.removeItem('token')
-        localStorage.removeItem('data')
-        navigate('/') 
+        }).catch(err =>{
+            console.log(err.message)
+        })
+        tokenService.removeAccessToken();
+        tokenService.removeUser();
+        console.log(tokenService.removeAccessToken())
+        console.log(tokenService.removeUser())
+        navigate('/')
+       
     }
     return (
-        <Navbar sticky="top" expand="md"  className="shadow-sm topbar bg-white py-0 px-0 mt-0 flex-row">              
+        <Navbar expand="md"  className="shadow-sm topbar bg-white py-0 px-0 mt-0 flex-row position-fixed w-100">              
             <div className='navbar-brand-wrapper '>
                 <Navbar.Brand href="#home" className="logoIcon text-center">
                     <img src={logoImg} alt="logo"  className='text-sm-center'/>
@@ -57,9 +60,8 @@ const Topbar = ({handleShow}) => {
                                         <Ai.AiOutlinePoweroff size={20}/>
                                     </Dropdown.Toggle>
                                     <Dropdown.Menu  align="end">
-                                        {/* <Dropdown.Item>Active Log</Dropdown.Item> */}
-                                        <Dropdown.Item> 
-                                            <div onClick={Logout} className="w-100 btn-primary">Logout</div>
+                                        <Dropdown.Item onClick={Logout} > 
+                                            <div className="w-100 btn-primary">Logout</div>
                                         </Dropdown.Item>
                                     </Dropdown.Menu>    
                                 </Dropdown>

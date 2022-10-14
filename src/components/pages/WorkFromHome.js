@@ -6,11 +6,11 @@ import './leave.css'
 import instance from '../../service/service'
 import moment from 'moment'
 import { motion } from 'framer-motion'
+import { toast } from 'react-toastify'
 
 const WorkFromHome =({work_from_home})=>{
-    const format_date = "YYYY-MM-DD"
-
-    const addDays = (date, period) => {
+    const format_date = "YYYY-MM-DD"   
+     const addDays = (date, period) => {
         return date.setDate(date.getDate() + period);
     };
 
@@ -25,12 +25,9 @@ const WorkFromHome =({work_from_home})=>{
 
     const [inputErrors,setInputErrors] = useState({startDate:'',endDate:'',work_from_home_reason})
 
-    // console.log(endDate.getDay())
     const wfh_handleShow =()=> {
-        console.log(wfh_show);
-
         let errorCount=0
-        if(startDate==''){
+        if(startDate === ''){
           errorCount++
           setInputErrors((prevState)=>{
             return{...prevState,startDate:'* Start date Is Required'}
@@ -41,7 +38,7 @@ const WorkFromHome =({work_from_home})=>{
           })
         }
     
-        if(endDate==''){
+        if(endDate === ''){
           errorCount++
           setInputErrors((prevState)=>{
             return{...prevState,endDate:'* End date Is Required'}
@@ -52,7 +49,7 @@ const WorkFromHome =({work_from_home})=>{
           })
         }
     
-        if(work_from_home_reason==''){
+        if(work_from_home_reason === ''){
           errorCount++
           setInputErrors((prevState)=>{
             return{...prevState,work_from_home_reason:'* Reason Is Required'}
@@ -66,16 +63,9 @@ const WorkFromHome =({work_from_home})=>{
           const applyForm = {startDate,endDate,work_from_home_reason}
           console.log(applyForm)
           setWfh_show(true);
-        //   per_handleShow()
         }
     }
     const wfh_handleClose =()=> setWfh_show(false)
-    const start = moment(startDate);
-    // console.log(startDate)
-    const end = moment(endDate)
-   const start_date = new Date()
-   const end_date = new Date()
-   console.log(start_date, end_date)
     
     const work_from_home_apply ={
         from_date: moment(startDate).format(format_date),
@@ -83,43 +73,38 @@ const WorkFromHome =({work_from_home})=>{
         type_of_leave: work_from_home.type_of_leave,
         description: work_from_home_reason,
     }
-    console.log(startDate,endDate)
-    const item = JSON.parse(localStorage.getItem('data'))
-    console.log(item)
+  
+    // const item = JSON.parse(localStorage.getItem('data'))
+    // console.log(item)
 
-    const onSubmit=()=>{  
+    const onSubmit=()=>{      
+          
+        if(startDate < endDate){
+            instance.post(process.env.REACT_APP_APPLY_LEAVE ,work_from_home_apply)
+            .then( res => {
+                console.log(res.data)
+                setStartDate('')
+                setEndDate('')
+                setWork_from_home_reason('')
+                wfh_handleClose()
+                handleClose()
+                toast.success('Successfully apply the Casual Leave',{
+                    position: toast.POSITION.BOTTOM_LEFT,
+                })
 
-        if(item.role === "trainee" && item.token !== null){
-            console.log('trainee')
-            if(startDate < endDate){
-                // instance.post(process.env.REACT_APP_APPLY_LEAVE ,work_from_home_apply)
-                // .then( res => {
-                //     console.log(res.data)
-                //     setStartDate('')
-                //     setEndDate('')
-                //     setWork_from_home_reason('')
-                // }).catch( err =>{
-                //     console.log(err.message)
-                // })
-            }else{
-                console.log('Please select valid date')
-            }
+            }).catch( err =>{
+                toast.error(`${err.message}`,{
+                    position: toast.POSITION.TOP_RIGHT,
+                })
+                console.log(err.message)
+            })
         }else{
-            console.log('team_leader')
-            if(startDate < endDate){
-                // instance.post(process.env.REACT_APP_APPLY_LEAVE ,work_from_home_apply)
-                // .then( res => {
-                //     console.log(res.data)
-                //     setStartDate('')
-                //     setEndDate('')
-                //     setWork_from_home_reason('')
-                // }).catch( err =>{
-                //     console.log(err.message)
-                // })
-            }else{
-                console.log('Please select valid date')
-            }
+            toast.warn('Please select valid date',{
+                position: toast.POSITION.TOP_RIGHT,
+            })
+            console.log('Please select valid date')
         }
+    
      
     }
     const isWeekday =(date)=>{
@@ -136,7 +121,9 @@ const WorkFromHome =({work_from_home})=>{
         console.log('cancel')
         setStartDate('')
         setEndDate('')
+        wfh_handleClose()
         setWork_from_home_reason('')
+        wfh_handleClose();
     }
     const onWorkfromhome =(e)=>{
         setWork_from_home_reason(e.target.value)
@@ -144,17 +131,12 @@ const WorkFromHome =({work_from_home})=>{
 
     return (
         <>
-            <Card className='text-center leave-card mb-2 mt-2 m-auto'>
-                <Card.Body className="text-decoration-none">                    
-                    <Card.Subtitle className="mb-3 mt-4 text-secondary">
-                        Work Form Home
-                    </Card.Subtitle>                        
-                    <motion.button className="border-0 mt-2 mb-3 text-center"  whileHover={{ scale: 1.1 }}>
-                        <Button onClick={handleShow} className="rounded-4"  disabled={work_from_home.is_wfh === 0 && work_from_home.per_year > 0 ? false: true}>Apply</Button>
-                    </motion.button>  
-                           
-                </Card.Body>
-            </Card> 
+           <Card className='text-center leave-card m-auto shadow'>
+        <div className='my-auto'>
+          <Card.Subtitle className="text-uppercase my-1 fw-bold">wfh</Card.Subtitle>                            
+            <Button onClick={handleShow} className="rounded-pill border-0 my-1 la-btn shadow">Apply</Button>
+        </div>
+      </Card>
             <Modal show={show} onHide={handleClose} size="lg" centered> 
                 <Modal.Header closeButton>
                     <Modal.Title>Work From Home</Modal.Title>
@@ -171,7 +153,7 @@ const WorkFromHome =({work_from_home})=>{
                                     filterDate={isWeekday}
                                     minDate={addDays(new Date(),4)}
                                     maxDate={addDays(new Date(),30)}
-                                    dateFormat="dd/MM/yyyy"
+                                    dateFormat="dd-MM-yyyy"
                                 />
                                 {inputErrors.startDate && <p className='text-danger'>{inputErrors.startDate}</p>}
                             </Col>
@@ -183,7 +165,7 @@ const WorkFromHome =({work_from_home})=>{
                                     filterDate={isWeekday}                                   
                                     minDate={addDays(new Date(),4)}
                                     maxDate={addDays(new Date(),30)}
-                                    dateFormat="dd/MM/yyyy"
+                                    dateFormat="dd-MM-yyyy"
                                 />
                                 {inputErrors.endDate && <p className='text-danger'>{inputErrors.endDate}</p>}
                             </Col>
@@ -191,7 +173,7 @@ const WorkFromHome =({work_from_home})=>{
                         <h6 className='mb-3 mt-3'>Reason For </h6>
                         <Form.Control as="textarea" rows={3} className="mb-2" value={work_from_home_reason} onChange={onWorkfromhome}/>
                         {inputErrors.work_from_home_reason && <p className='text-danger'>{inputErrors.work_from_home_reason}</p>}
-                        <Button onClick={wfh_handleShow}>Submit</Button>
+                        <Button onClick={wfh_handleShow} className="m-1 p-2 rounded-4">Submit</Button>
                     </Col>                     
                 </Modal.Body>
             </Modal> 
@@ -200,9 +182,15 @@ const WorkFromHome =({work_from_home})=>{
                     Are you sure ?                
                 </Modal.Header>
                 <Modal.Body>      
-                    <p>To apply the Work from Home  From : ({work_from_home_apply.from_date}) To : ({work_from_home_apply.to_date}) </p>                  
-                    <Button className="btn btn-danger px-2 m-2" onClick={onCancel}>Cancel</Button>
-                    <Button onSubmit={onSubmit} className="btn btn-success px-2">Save</Button>
+                   <p>To apply the Work from Home  From : {work_from_home_apply.from_date} To : {work_from_home_apply.to_date} </p>                  
+                   <Row>
+                        <Col className='text-start'>
+                            <Button className="btn btn-danger p-2 m-2 rounded-4 fs-6" onClick={onCancel}>Cancel</Button>
+                        </Col>
+                        <Col className='text-end'>
+                            <Button onClick={onSubmit} className="btn btn-success p-2 m-2 rounded-4 fs-6">Save</Button>
+                        </Col>
+                    </Row>
                 </Modal.Body>
             </Modal>   
         </>

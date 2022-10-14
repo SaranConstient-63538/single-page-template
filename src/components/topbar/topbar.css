@@ -2,7 +2,7 @@
     /* color: white; */
     height:70px;
     background-color: white;    
-    
+    z-index: 1;
 }
 
 .logo{

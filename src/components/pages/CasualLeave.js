@@ -2,9 +2,9 @@ import {  Row, Col, Modal, Card, Button, Form} from 'react-bootstrap'
 import DatePicker from "react-datepicker";
 import React,{useState} from 'react'
 import moment from 'moment'
-import { toast } from 'react-toastify'
 import instance from '../../service/service'
 import { motion } from 'framer-motion'
+import { toast } from 'react-toastify'
 
 
 const CasualLeavel =({casual_leave})=>{
@@ -16,8 +16,7 @@ const CasualLeavel =({casual_leave})=>{
 
     const addDays = (date, period) => {
         return date.setDate(date.getDate() + period);
-      };
-
+    };
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
 
@@ -28,11 +27,8 @@ const CasualLeavel =({casual_leave})=>{
     const [inputErrors,setInputErrors] = useState({startDate:'',endDate:'',casual_reason:''})
 
     const casual_handleShow =()=> {
-        console.log(casual_show);
-        console.log(startDate,endDate,casual_reason)
-
-        let errorCount=0
-        if(startDate==''){
+        let errorCount = 0
+        if(startDate === ''){
           errorCount++
           setInputErrors((prevState)=>{
             return{...prevState,startDate:'* Start date Is Required'}
@@ -41,9 +37,8 @@ const CasualLeavel =({casual_leave})=>{
           setInputErrors((prevState)=>{
             return{...prevState,startDate:''}
           })
-        }
-    
-        if(endDate==''){
+        }    
+        if(endDate === ''){
           errorCount++
           setInputErrors((prevState)=>{
             return{...prevState,endDate:'* End date Is Required'}
@@ -54,6 +49,7 @@ const CasualLeavel =({casual_leave})=>{
           })
         }
     
+           
         if(casual_reason === ''){
           errorCount++
           setInputErrors((prevState)=>{
@@ -68,95 +64,103 @@ const CasualLeavel =({casual_leave})=>{
           const applyForm = {startDate,endDate,casual_reason}
           console.log(applyForm)
           setCasual_show(true);
-        //   per_handleShow()
         }
     }
     const casual_handleClose =()=> setCasual_show(false)
-    // const start = moment(startDate);
-    // const end = moment(endDate)
-    // console.log(end.day() - start.day())
     const casual_apply ={
         from_date: moment(startDate).format(format_date),
         to_date: moment(endDate).format(format_date),
         type_of_leave: casual_leave.type_of_leave,
         description: casual_reason,
     }
-    // console.log(endDate - startDate)
     const onCancel =()=>{
-        console.log('cancel')
         setStartDate('')
         setEndDate('')
+        casual_handleClose()
         setCasualreason('')
+        casual_handleClose()
     }
     const item = JSON.parse(localStorage.getItem('data'))
-    // console.log(item)
+    // console.log(item.role === "trainee" && item.token !== null, startDate < endDate)
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    // console.log(typeof  casual_leave.per_year === 'undefined')
-
-    const onSubmit=()=>{          
+    const onSubmit=()=>{    
+        console.log('hi')      
         if(item.role === "trainee" && item.token !== null){
-            if(startDate < endDate){
-                // console.log(casual_apply);
+            console.log(casual_apply)
+            if(startDate < endDate){              
                 instance.post(process.env.REACT_APP_APPLY_LEAVE,casual_apply)
                 .then( res => {
-                    console.log(res.data)
-                    toast.success('Successfully Apply for Casual Leave')
-                    setStartDate('')
-                    setEndDate('')                    
-                    setCasualreason('')
-
+                    console.log(res)
+                    if(res.status === 200){
+                        console.log(res.data)                   
+                        setStartDate('')
+                        setEndDate('')
+                        setCasualreason('')
+                        casual_handleClose()
+                        handleClose()
+                        toast.success('Successfully apply the Casual Leave',{
+                            position: toast.POSITION.BOTTOM_LEFT,
+                        })
+                    }else{
+                        toast.warning('Please check leave availablity',{
+                            position: toast.POSITION.BOTTOM_LEFT,
+                        })
+                    }
+                    
                 }).catch( err =>{
-                    toast.error(err.message)
-                    // console.log(err.message)
+                    toast.error(`${err.message}`,{
+                        position: toast.POSITION.TOP_RIGHT,
+                    })
+                    console.log(err.message)
                 })
             }else{
-                toast.error('Please select a valid date')
-                // console.log('Please select valid date')
+                toast.warn('Please select valid date',{
+                    position: toast.POSITION.TOP_RIGHT,
+                })
             }
 
         }else{
             if(startDate < endDate){
-                // console.log(casual_apply);
                 instance.post(process.env.REACT_APP_APPLY_LEAVE,casual_apply)
                 .then( res => {
-                    console.log(res.data)
+                    console.log(res.data)                   
                     setStartDate('')
                     setEndDate('')
                     setCasualreason('')
+                    casual_handleClose()
+                    handleClose()
+                    toast.success('Successfully apply the Casual Leave',{
+                        position: toast.POSITION.BOTTOM_LEFT,
+                    })
                 }).catch( err =>{
+                    toast.error(`${err.message}`,{
+                        position: toast.POSITION.TOP_RIGHT,
+                    })
                     console.log(err.message)
                 })
             }else{
-                console.log('Please select valid date')
+                toast.error('Please select valid date',{
+                    position: toast.POSITION.TOP_RIGHT,
+                })
             }
         }
+    }
+    const isWeekday =(date)=>{
+        const day = date.getDay(date)
+        return day !== 0 && day !== 6
     }
     const onCasualReason = (e)=>{
         setCasualreason(e.target.value)
     }
     return (
         <>
-            <Card className='text-center leave-card mb-2 mt-2 m-auto'>
-                <Card.Body>
-                    {/* <div style={{ width: 80, height: 80, marginTop:'10px',fontSize:'30px' }} 
-                        className="d-flex text-center m-auto text-secondary">
-                        <CircularProgressbar value={`${typeof  casual_leave.per_year === 'undefined' ? 0: casual_leave.per_year * 100 }`/`${tot_day_count}`} text={`${casual_leave.per_year === undefined ? 0: casual_leave.per_year}/${tot_day_count}`} styles={buildStyles({textSize: '25px',textColor: 'black',fontSize:'25px'})}/>                             
-                    </div>
-               
-                        <p className='position-absolute '></p> */}
-                        <motion.h6 initial={{ x:100}} animate={{x: 0}} transition={{ delay: 0.2, duration:0.2}}>
-                            <Card.Subtitle className="mb-3 mt-4 text-primary">Casual Leave</Card.Subtitle>
-                        </motion.h6>                        
-                       
-                        <motion.button className="border-0 mt-2 mb-3 text-center"  whileHover={{ scale: 1.1 }}>
-                            <Button onClick={handleShow} className="rounded-4"
-                                // disabled={ casual_leave.per_year > 0 && casual_leave.per_month > 0 || casual_leave.per_year === undefined ? false: true}
-                            >Apply</Button>
-                        </motion.button>
-                    
-                </Card.Body>
-            </Card>
+           <Card className='text-center leave-card m-auto shadow'>
+        <div className='my-auto'>
+          <Card.Subtitle className="text-capitalize my-1 fw-bold">casual leave</Card.Subtitle>                            
+            <Button onClick={handleShow} className="rounded-pill border-0 my-1 la-btn shadow">Apply</Button>
+        </div>
+      </Card>
             <Modal show={show} onHide={handleClose} size="lg" centered>
                 <Modal.Header closeButton>
                     <Modal.Title>Casual Leave</Modal.Title>
@@ -165,13 +169,11 @@ const CasualLeavel =({casual_leave})=>{
                     <Col xs> 
                         <Row>.
                             <Col md sm={6} className='mb-3'>  
-                            <h6 className="mb-3 mt-1">Start Date:</h6>
+                                <h6 className="mb-3 mt-1">Start Date:</h6>
                                 <DatePicker className='form-control mb-2'
                                     selected={startDate}
                                     onChange={(date) => setStartDate(date)}
-                                    selectsStart
-                                    startDate={startDate}
-                                    endDate={endDate}
+                                    filterDate={isWeekday}  
                                     minDate={addDays(new Date(),4)}
                                     maxDate={addDays(new Date(),30)}
                                     dateFormat="dd-MM-yyyy"
@@ -182,11 +184,8 @@ const CasualLeavel =({casual_leave})=>{
                             <h6 className="mb-3 mt-1">End Date:</h6>
                                 <DatePicker className='form-control mb-2'
                                     selected={endDate}
-                                    onChange={(date) => setEndDate(date)}
-                                    // selectsEnd
-                                    // startDate={startDate}
-                                    // endDate={endDate}
-                                    
+                                    onChange={(date) => setEndDate(date)}                              
+                                    filterDate={isWeekday}  
                                     minDate={addDays(new Date(),4)}
                                     maxDate={addDays(new Date(),30)}
                                     dateFormat="dd-MM-yyyy"
@@ -197,7 +196,7 @@ const CasualLeavel =({casual_leave})=>{
                         <h6 className='mb-3 mt-3'>Reason For </h6>
                         <Form.Control as="textarea" rows={3} className="mb-2" value={casual_reason} onChange={onCasualReason}/> 
                         {inputErrors.casual_reason && <p className='text-danger'>{inputErrors.casual_reason}</p>} 
-                        <Button onClick={casual_handleShow}>Submit</Button>                                                                 
+                        <Button onClick={casual_handleShow} className="m-1 p-2 rounded-4">Submit</Button>                                                                 
                     </Col>              
                 </Modal.Body>
             </Modal>   
@@ -206,9 +205,16 @@ const CasualLeavel =({casual_leave})=>{
                     Are you sure ?                
                 </Modal.Header>
                 <Modal.Body>      
-                    <p>To apply the  Sick leave From Date : {casual_apply.from_date} To Date : {casual_apply.to_date} </p>                  
-                    <Button className="btn btn-danger px-2 m-2" onClick={onCancel}>Cancel</Button>
-                    <Button onSubmit={onSubmit} className="btn btn-success px-2">Save</Button>
+                    <p>To apply the  Casual leave From: {casual_apply.from_date} To: {casual_apply.to_date} </p>                  
+ 
+                    <Row>
+                        <Col className='text-start'>
+                            <Button className="btn btn-danger p-2 m-2 rounded-4 fs-6" onClick={onCancel}>Cancel</Button>
+                        </Col>
+                        <Col className='text-end'>
+                            <Button onClick={onSubmit} className="btn btn-success p-2 m-2 rounded-4 fs-6">Save</Button>
+                        </Col>
+                    </Row>
                 </Modal.Body>
             </Modal>      
         </>    
