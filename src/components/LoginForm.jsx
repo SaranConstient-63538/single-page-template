@@ -3,6 +3,7 @@ import loginImg from "../assets/images/loginImg.png";
 import cgsimg from "../assets/images/cgslogo.png";
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
+import {toast} from 'react-toastify'
 import '../App.css';
 import {useNavigate} from 'react-router-dom'
 import * as Ai from 'react-icons/ai'
@@ -11,7 +12,6 @@ import { Form, Container, Col, Row, InputGroup } from 'react-bootstrap'
 import instance from "../service/service";
 import { isLogin } from "./isLogin";
 import  { motion } from 'framer-motion'
-import { margin } from "@mui/system";
 
 const schema = yup.object({
   email: yup.string().email('must be valid e-mail address').required('E-Mail is required'),
@@ -25,15 +25,20 @@ const LoginForm = () => {
     resolver: yupResolver(schema)
   });
   
-  useEffect(()=>{
-    if(isLogin())navigate('/home');
-  },[])
+  // useEffect(()=>{
+  //   if(isLogin())navigate('/home');
+  // },[])
   const onSubmit = (data)=>{        
-    let login_data={
-      email:data.email,
-      password:data.password
+    // let login_data={
+    //   email:data.email,
+    //   password:data.password
+    // }
+    if( data.email !== "" && data.password !== "" ){
+      toast('Wow so easy!')
+      navigate('/home')
+    }else{
+      toast.error('Please check your email & password')
     }
-    
     // instance.post(process.env.REACT_APP_LOGIN,login_data).then( res =>{ 
     //   console.log(res.data.responseResult);
     //   const _data = JSON.stringify( res.data.responseResult)

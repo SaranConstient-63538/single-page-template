@@ -1,9 +1,9 @@
 import React, { Suspense, useState, lazy} from 'react';
-
+import { ToastContainer } from 'react-toastify'
 import { Routes, Route, BrowserRouter }  from 'react-router-dom';
 import { Spinner } from 'react-bootstrap';
 import PrivateRoute from './components/PrivateRoute';
-import axios from 'axios'
+import 'react-toastify/dist/ReactToastify.css';
 
 const  LoginForm = lazy(()=> import('./components/LoginForm'));
 const MainPage =lazy(()=> import('./components/MainPage'));
@@ -26,6 +26,7 @@ const App = () => {
           {/* <PrivateRoute exact path="/" element={<LoginForm />} restricted={true} /> */}
           {/*  <Route exact element={<LoginForm />} path="/" name="Login Page"  />                 */}
           <Route exact element={<LoginForm />} path="/login" name="Login Page"  />
+          
           <Route path="/" element={ <LoginForm /> } />
             <Route path="/home" 
               element={
@@ -35,6 +36,7 @@ const App = () => {
               }
             />
         </Routes>   
+        <ToastContainer />
       </Suspense>   
     </BrowserRouter>
   )
