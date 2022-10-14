@@ -6,6 +6,7 @@ import moment from 'moment';
 import instance from '../../service/service';
 import { motion } from 'framer-motion'
 import { toast } from 'react-toastify'
+import "./leave.css";
 
 const Permissionslider =()=>{
   const format_date = "DD-MM-YYYY"
@@ -95,6 +96,7 @@ const Permissionslider =()=>{
     setStartTime('')
     setEndTime('')
     setPer_reason('')
+    per_handleClose();
   }
   const isWeekday = (date) => {
     const day = date.getDay(date);
@@ -102,6 +104,7 @@ const Permissionslider =()=>{
   };
 
   const onPermission =()=>{
+    console.log("hello world")
     const user = JSON.parse(localStorage.getItem('data'));      
     if(user.role === "trainee" && user.token !== null){
       instance.post(process.env.REACT_APP_PERMISSION, _permission)
@@ -148,13 +151,11 @@ const Permissionslider =()=>{
   } 
   return(
     <>
-      <Card className='text-center leave-card mb-2 mt-2 m-auto'>
-        <Card.Body >
-          <Card.Subtitle className="mb-3 mt-4 text-secondary">Permission</Card.Subtitle>                            
-          <motion.button className="border-0 mt-2 mb-3 text-center"  whileHover={{ scale: 1.1 }}>
-            <Button onClick={handleShow} className="rounded-4">Apply</Button>
-          </motion.button>
-        </Card.Body>
+      <Card className='text-center leave-card m-auto shadow'>
+        <div className='my-auto'>
+          <Card.Subtitle className="text-capitalize my-1 fw-bold">permission</Card.Subtitle>                            
+            <Button onClick={handleShow} className="rounded-pill border-0 my-1 la-btn shadow">Apply</Button>
+        </div>
       </Card>
       <Modal show={show} onHide={handleClose} size="lg" centered>
         <Modal.Header closeButton>
@@ -239,7 +240,7 @@ const Permissionslider =()=>{
                 <Button className="btn btn-danger p-2 m-2 rounded-4 fs-6" onClick={onCancel}>Cancel</Button>
             </Col>
             <Col className='text-end'>
-                <Button onSubmit={onPermission} className="btn btn-success p-2 m-2 rounded-4 fs-6">Save</Button>
+                <Button onClick={onPermission} className="btn btn-success p-2 m-2 rounded-4 fs-6">Save</Button>
             </Col>
           </Row>
         </Modal.Body>

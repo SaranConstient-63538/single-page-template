@@ -115,26 +115,13 @@ const EmpDashboard = () => {
                     <h4 className='text-start text-capitalize m-0 fw-bold'>user leave list</h4>                
                 </Col>
                 <Col className="px-3 py-3 mt-3 mb-3">
-                    <Table hover className='table-borderless'>
+                    <Table table-responsive className='table-borderless'>
                         <thead>
-                            <tr>                          
-                                <th className='py-3 text-capitalize'>S.No</th>
-                                <th className='py-3 text-capitalize' onClick={()=> onSorting('from_date')}>
-                                    From Date  <Ai.AiOutlineArrowDown /> <Ai.AiOutlineArrowUp />
-                                </th>
-                                <th className='py-3 text-capitalize' onClick={()=> onSorting('to_date')}>
-                                    To Date <Ai.AiOutlineArrowDown /> <Ai.AiOutlineArrowUp />
-                                </th>
-                                <th className='py-3 text-capitalize' onClick={()=> onSorting('leave_type')}>                                
-                                    Leave Type <Ai.AiOutlineArrowDown /> <Ai.AiOutlineArrowUp />
-                                </th>
-                                <th className='py-3 text-capitalize' onClick={()=> onSorting('leave_reason')}>
-                                    Leave Reason <Ai.AiOutlineArrowDown /> <Ai.AiOutlineArrowUp />
-                                </th>
-                                <th className='py-3 text-capitalize' onClick={()=> onSorting('approve')}>
-                                    Approval Status <Ai.AiOutlineArrowDown /> <Ai.AiOutlineArrowUp />
-                                </th>
-                                
+                            <tr>
+                                <th className='py-3 text-capitalize'>s.no</th>
+                                <th className='py-3 text-capitalize'>leave</th>
+                                <th className='py-3 text-capitalize'>reason</th>
+                                <th className='py-3 text-capitalize'>status</th>                           
                             </tr>
                         </thead>
                         <tbody className="overflow-auto">
@@ -155,12 +142,13 @@ const EmpDashboard = () => {
                                                 )
                                             } 
                                             </td>
+                                            {/* <td>{}</td> */}
                                         </tr>
                                     )
                                 }):(
                                     <tr><td colSpan='3'>No Record Founded</td></tr>
                                 )
-                            }
+                                }                      
                         </tbody>   
                     </Table>
                     <>

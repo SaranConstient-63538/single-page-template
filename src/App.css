@@ -58,10 +58,10 @@
   font-weight: 700;
 }
 
-
+/* 
 body {
   background: #eee;
-}
+} */
 
 .swing {
   animation: swing ease-in-out 1s infinite alternate;
@@ -69,11 +69,11 @@ body {
   float: left;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
 }
-
+/* 
 .swing img {
   border: 5px solid #f8f8f8;
   display: block;
-}
+} */
 
 .swing:after {
   content: '';
@@ -145,6 +145,10 @@ a#navbarScrollingDropdown, .bell-icn, .notifi-icn{
   top:200px;
   bottom:200px;
 }
+.log-button{
+  background-color: #018ae3;
+  color:#FFFFFF ;
+}
 .log-button:hover{
   background-color: #7BD433;
   color: #FFFFFF;
@@ -158,7 +162,7 @@ a#navbarScrollingDropdown, .bell-icn, .notifi-icn{
 }
 .mailinput1{
   right: 10px;
-  top: 12px;
+  top: 6px;
 }
 .passshowcon{
   width: 17px;

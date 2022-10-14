@@ -8,9 +8,12 @@ const instance = axios.create({
     baseURL : process.env.REACT_APP_BASE_URL,
     headers: {
         "Content-type": "application/json", 
-        Authorization:`Bearer ${token}`
-    }
+        Authorization :`Bearer ${token}`
+    },
 })
+// instance.defaults.headers.common.Authorization =`Bearer ${token}`
+
+
 export default instance
 
 

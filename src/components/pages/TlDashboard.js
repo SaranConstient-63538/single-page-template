@@ -76,7 +76,7 @@ const TlDashboard = () => {
   return (
     <>  
         <Card className="border mt-4 mb-4 px-2 mx-3 m-auto shadow-lg rounded-4">
-            <Row>
+            <Row className='pt-5 mt-5'>
                 <Col className="px-3 mt-3 mb-3">
                     <h4 className='text-start'>Welcome  {items.username}</h4>                
                 </Col>

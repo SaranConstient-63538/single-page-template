@@ -71,6 +71,7 @@ const CasualLeavel =({casual_leave})=>{
         setEndDate('')
         casual_handleClose()
         setCasualreason('')
+        casual_handleClose()
     }
     const item = JSON.parse(localStorage.getItem('data'))
     // console.log(item.role === "trainee" && item.token !== null, startDate < endDate)
@@ -147,16 +148,12 @@ const CasualLeavel =({casual_leave})=>{
     }
     return (
         <>
-            <Card className='text-center leave-card mb-2 mt-2 m-auto'>
-                <Card.Body>
-                    <motion.h6 initial={{ x:100}} animate={{x: 0}} transition={{ delay: 0.2, duration:0.2}}>
-                        <Card.Subtitle className="mb-3 mt-4 text-primary">Casual Leave</Card.Subtitle>
-                    </motion.h6> 
-                    <motion.button className="border-0 mt-2 mb-3 text-center"  whileHover={{ scale: 1.1 }}>
-                        <Button onClick={handleShow} className="rounded-4">Apply</Button>
-                    </motion.button>                    
-                </Card.Body>
-            </Card>
+           <Card className='text-center leave-card m-auto shadow'>
+        <div className='my-auto'>
+          <Card.Subtitle className="text-capitalize my-1 fw-bold">casual leave</Card.Subtitle>                            
+            <Button onClick={handleShow} className="rounded-pill border-0 my-1 la-btn shadow">Apply</Button>
+        </div>
+      </Card>
             <Modal show={show} onHide={handleClose} size="lg" centered>
                 <Modal.Header closeButton>
                     <Modal.Title>Casual Leave</Modal.Title>
