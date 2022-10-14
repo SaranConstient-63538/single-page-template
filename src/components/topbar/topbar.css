@@ -1,9 +1,9 @@
 .topbar{
     height:70px;
-    background-color: white;    
+    background-color: #0E77C0 !important;    
     z-index: 1;
-    background: rgb(162,68,219);
-background: linear-gradient(90deg, rgba(162,68,219,1) 0%, rgba(139,7,204,1) 45%);
+    /* background: rgb(162,68,219); */
+/* background: linear-gradient(90deg, rgba(162,68,219,1) 0%, rgba(139,7,204,1) 45%); */
 }
 
 .logo{
@@ -46,10 +46,16 @@ background: linear-gradient(90deg, rgba(162,68,219,1) 0%, rgba(139,7,204,1) 45%)
     margin-left:210px;
     z-index: 15;
 }
-
-.logout-btn:hover{
-    background-color: #0E77C0 !important;
+.lgout-btn:hover{
+    background-color: orange;
 }
+.lgout-btn:active{
+    background-color: #FFFFFF;
+    color: black;
+}
+/* .logout-btn:hover{
+    background-color: #0E77C0 !important;
+} */
 .logtog-btn:hover{
     background-color: #7BD433 !important;
 }
@@ -62,7 +68,26 @@ color: #FFFFFF;
 }
 .mssg-btn{
     color: #FFFFFF;
+    transform: rotate(0);
+    transition: transform 0.4s ease; 
+}
+.mssg-btn:hover{
+    transform: rotate(360deg);
+    color: #FFFFFF;
 }
  .notify-btn{
     color: #FFFFFF;
+    transform: rotate(0);
+    transition: transform 0.4s ease; 
+}
+.notify-btn:hover{
+    transform: rotate(360deg);
+    color: #FFFFFF;
+}
+.lr-btn{
+    background-color: #0E77C0;
+    color: #FFFFFF;
+}
+.lr-btn:hover{
+    background-color: #7BD433 !important;
 }

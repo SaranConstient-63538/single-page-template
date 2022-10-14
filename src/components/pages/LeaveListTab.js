@@ -88,10 +88,10 @@ const LeaveListTab = () => {
             defaultActiveKey="casual_leave"
             transition={false}
             id="noanim-tab-example"
-            className="mb-3"
+            className="mb-3 bg-success"
             activeKey={_key} onSelect={ e => setKey(e)}
         >
-            <Tab eventKey="casual_leave" title="Casual">
+            <Tab eventKey="casual_leave" title="Casual" className='bg-warning'>
                 <Table responsive>
                     <thead>
                         <tr>

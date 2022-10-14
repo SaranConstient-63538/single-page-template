@@ -35,12 +35,13 @@ const Topbar = ({handleShow}) => {
                     <img src={logoImg} alt="logo"  className='text-sm-center'/>
                 </Navbar.Brand> 
             </div>  
-            <Button className="btn text-white rounded-4 menubox-btn" onClick={handleShow}>                   
-                <Ai.AiOutlineMenu aria-controls="#basic-navbar-nav" size={20} /> 
-            </Button>               
+            {/* <Button className="btn text-white menubox-btn" onClick={handleShow}>                    */}
+                {/* <Ai.AiOutlineMenu aria-controls="#basic-navbar-nav" size={20} />  */}
+                <span className="btn menubox-btn fs-2 border-0" onClick={handleShow}><i class="bi bi-list"></i></span>
+            {/* </Button>                */}
             <Navbar.Collapse id="basic-navbar-nav d-md-block">                
                 <SearchBarTop />
-                <Nav className="ms-auto flex-sm-column flex-md-row">                     
+                <Nav className="flex-sm-column flex-md-row">                     
                     <div className='d-flex justify-content-between py-2 px-4 align-items-center'>
                         <Nav.Item className="p-2">
                             <Nav.Link href="#link" className='mssg-btn'>
@@ -58,12 +59,12 @@ const Topbar = ({handleShow}) => {
                         <Nav.Item>
                             <Nav.Link >   
                                 <Dropdown>
-                                    <Dropdown.Toggle className='logtog-btn border-0 rounded-circle'>
+                                    <Dropdown.Toggle className='logtog-btn border-0 rounded-circle shadow'>
                                         <Ai.AiOutlinePoweroff size={20}/>
                                     </Dropdown.Toggle>
                                     <Dropdown.Menu  align="end">
-                                        <Dropdown.Item onClick={Logout} > 
-                                            <div className="w-100">Logout</div>
+                                        <Dropdown.Item onClick={Logout} className="lgout-btn rounded-pill"> 
+                                            <div className="w-100 text-center fw-bold text-capitalize lgout-btn rounded-pill">logout</div>
                                         </Dropdown.Item>
                                     </Dropdown.Menu>    
                                 </Dropdown>
