@@ -74,65 +74,37 @@ const WorkFromHome =({work_from_home})=>{
         description: work_from_home_reason,
     }
   
-    const item = JSON.parse(localStorage.getItem('data'))
-    console.log(item)
+    // const item = JSON.parse(localStorage.getItem('data'))
+    // console.log(item)
 
-    const onSubmit=()=>{  
-
-        if(item.role === "trainee" && item.token !== null){
-            console.log('trainee')
-            if(startDate < endDate){
-                instance.post(process.env.REACT_APP_APPLY_LEAVE ,work_from_home_apply)
-                .then( res => {
-                    console.log(res.data)
-                    setStartDate('')
-                    setEndDate('')
-                    setWork_from_home_reason('')
-                    wfh_handleClose()
-                    handleClose()
-                    toast.success('Successfully apply the Casual Leave',{
-                        position: toast.POSITION.BOTTOM_LEFT,
-                    })
-
-                }).catch( err =>{
-                    toast.error(`${err.message}`,{
-                        position: toast.POSITION.TOP_RIGHT,
-                    })
-                    console.log(err.message)
-                })
-            }else{
-                toast.warn('Please select valid date',{
-                    position: toast.POSITION.TOP_RIGHT,
-                })
-                console.log('Please select valid date')
-            }
-        }else{
-            console.log('team_leader')
-            if(startDate < endDate){
-                instance.post(process.env.REACT_APP_APPLY_LEAVE ,work_from_home_apply)
-                .then( res => {
-                    console.log(res.data)
-                    setStartDate('')
-                    setEndDate('')
-                    setWork_from_home_reason('')
-                    wfh_handleClose()
-                    handleClose()
-                    toast.success('Successfully apply the Casual Leave',{
-                        position: toast.POSITION.BOTTOM_LEFT,
-                    })
-                }).catch( err =>{
-                    toast.error(`${err.message}`,{
-                        position: toast.POSITION.BOTTOM_LEFT,
-                    })
-                    console.log(err.message)
-                })
-            }else{
-                toast.warn('Please select valid date',{
+    const onSubmit=()=>{      
+          
+        if(startDate < endDate){
+            instance.post(process.env.REACT_APP_APPLY_LEAVE ,work_from_home_apply)
+            .then( res => {
+                console.log(res.data)
+                setStartDate('')
+                setEndDate('')
+                setWork_from_home_reason('')
+                wfh_handleClose()
+                handleClose()
+                toast.success('Successfully apply the Casual Leave',{
                     position: toast.POSITION.BOTTOM_LEFT,
                 })
-                console.log('Please select valid date')
-            }
+
+            }).catch( err =>{
+                toast.error(`${err.message}`,{
+                    position: toast.POSITION.TOP_RIGHT,
+                })
+                console.log(err.message)
+            })
+        }else{
+            toast.warn('Please select valid date',{
+                position: toast.POSITION.TOP_RIGHT,
+            })
+            console.log('Please select valid date')
         }
+    
      
     }
     const isWeekday =(date)=>{
@@ -149,6 +121,7 @@ const WorkFromHome =({work_from_home})=>{
         console.log('cancel')
         setStartDate('')
         setEndDate('')
+        wfh_handleClose()
         setWork_from_home_reason('')
         wfh_handleClose();
     }

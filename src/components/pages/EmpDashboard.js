@@ -9,6 +9,7 @@ import instance from '../../service/service';
 import { motion } from 'framer-motion';
 import moment  from 'moment'
 import * as Ai from  'react-icons/ai'
+import Pagination from './Pagination'
 
 const EmpDashboard = () => {
     let user_list;
@@ -18,35 +19,19 @@ const EmpDashboard = () => {
     const [work_from_home, setWork_from_home]=useState('')
     const [permission, setPermission]=useState('')
     const [userList, setUserList]=useState([])
+    //pagination
+    const [perPage, setPerpage]=useState(6)
+    // const [currentPage, setCurrentPage]=useState(1)
+    // const [pageLimit]=useState(5)
+    // const [minPage, setMinpage]=useState(0)
+    // const [maxPage, setMaxpage]=useState(5)
+
+    // const lastPage = currentPage * perPage;
+    // const firstPage = lastPage - perPage;
+  
+    // const curItem = user_list.slice(firstPage,lastPage)
     
     const items = JSON.parse(localStorage.getItem('data'))
-    console.log(process.env.REACT_APP_LEAVELIST)
-
-    useEffect(()=>{   
-        instance.get(process.env.REACT_APP_USERS_LEAVELIST).then(res => {
-            console.log(res.data)
-            user_list = res.data
-            console.log('api',user_list)
-            user_list.sort((a,b)=> a.from_date.localeCompare(b.from_date))
-            setUserList(user_list)
-        }) 
-
-        instance.post(process.env.REACT_APP_LEAVELIST).then(res =>{
-            console.log( res.data,'emp');
-            for( var i=0; i< res.data.result.length;i++){
-                if(res.data.result[i].type_of_leave === "sick_leave"){
-                    setSick_leave(res.data.result[i])
-                }else if(res.data.result[i].type_of_leave === "casual_leave"){
-                    setCasual_leave(res.data.result[i])
-                }else if(res.data.result[i].type_of_leave === "work_from_home"){
-                    setWork_from_home(res.data.result[i])
-                }
-            }
-        }).catch( err =>{
-            console.log(err.message)
-        })  
-        onSorting(user_list)
-    },[user_list])
     const onSorting =(col)=>{
         if(order === 'ASC'){
             const sorted = [...userList].sort((a,b)=>
@@ -64,6 +49,39 @@ const EmpDashboard = () => {
             setOrder('ASC')
         }
     }
+    useEffect(()=>{          
+
+        instance.get(process.env.REACT_APP_USERS_LEAVELIST).then(res => {
+            // console.log(res.data)
+            user_list = res.data
+            // console.log('api',user_list)
+            user_list.sort((a,b)=> a.from_date.localeCompare(b.from_date))
+            setUserList(user_list)
+        }) 
+
+        instance.post(process.env.REACT_APP_LEAVELIST).then(res =>{
+            // console.log( res.data,'emp');
+            for( var i=0; i< res.data.result.length;i++){
+                if(res.data.result[i].type_of_leave === "sick_leave"){
+                    setSick_leave(res.data.result[i])
+                }else if(res.data.result[i].type_of_leave === "casual_leave"){
+                    setCasual_leave(res.data.result[i])
+                }else if(res.data.result[i].type_of_leave === "work_from_home"){
+                    setWork_from_home(res.data.result[i])
+                }
+            }
+        }).catch( err =>{
+            console.log(err.message)
+        })  
+    },[user_list])
+    
+    const listData =[];
+    const listLen = Math.ceil( userList.length/perPage)
+    for ( var i=0; i<=listLen; i++ ){
+        listData.push(i)
+    }
+    // console.log(listData,userList.length)
+
   return (
     <motion.div initial={{opacity: 1}} animate={{y:0}}>
             <Col className="px-3 my-3">
@@ -107,12 +125,13 @@ const EmpDashboard = () => {
                             </tr>
                         </thead>
                         <tbody className="overflow-auto">
-                            { userList && userList.length > 0 ?
+                            { userList?.length ?
                                 userList.map((item,idx)=>{
-                                    console.log(item.type_of_leave)
-                                return(
+                                    return(
                                         <tr key={idx} className="shadow rounded-pill">
                                             <td className="py-3">{idx +  1}</td>
+                                            <td className="py-3">{moment().utc(item.from_date).format('DD-MM-YYYY')}</td>
+                                            <td className="py-3">{moment().utc(item.to_date).format('DD-MM-YYYY')}</td>
                                             <td className="py-3">{item.type_of_leave === 'sick_leave'? 'Sick Leave': item.type_of_leave === 'casual_leave' ? 'Casual Leave':item.type_of_leave === 'work_from_home' ? 'Work From Home':item.type_of_leave === 'permission' ? 'Permission' : ''  }</td>                                      
                                             <td className="py-3">{item.description}</td>
                                             <td className="py-3">
@@ -125,11 +144,16 @@ const EmpDashboard = () => {
                                             </td>
                                             {/* <td>{}</td> */}
                                         </tr>
+                                    )
+                                }):(
+                                    <tr><td colSpan='3'>No Record Founded</td></tr>
                                 )
-                                }):""
-                            }
+                                }                      
                         </tbody>   
                     </Table>
+                    <>
+                        <Pagination />
+                    </>
                 </Col>
             </div>   
         </motion.div>    

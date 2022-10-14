@@ -174,3 +174,9 @@ a#navbarScrollingDropdown, .bell-icn, .notifi-icn{
   width: 15px;
 }
 
+
+
+.toast_success{
+  background-color: #00FF00;
+  color: white;
+}

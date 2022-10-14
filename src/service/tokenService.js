@@ -1,11 +1,16 @@
 
     const getAccessToken =()=>{
-        const token = JSON.parse(localStorage.getItem("token"))
-        console.log(token)
-        return token?.data
+        const token = localStorage.getItem("token")
+        return token;
+    }
+    const removeAccessToken =()=>{
+        localStorage.removeItem('token');  
+        localStorage.clear()    
+    }
+    const setAccessToken =(token)=>{
+        localStorage.setItem('token',JSON.stringify(token));      
     }
     const setUser=(user)=>{
-        console.log(JSON.stringify(user))
         localStorage.setItem('user', JSON.stringify(user));
     }
     const getUser =()=>{
@@ -13,10 +18,13 @@
     }
     const removeUser =()=>{
         localStorage.removeItem('user')
+        localStorage.clear()
     }
     export let tokenService =  { 
         getAccessToken,
         setUser,
         getUser,
         removeUser,
+        removeAccessToken,
+        setAccessToken
     }

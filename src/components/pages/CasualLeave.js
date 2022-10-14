@@ -69,11 +69,12 @@ const CasualLeavel =({casual_leave})=>{
     const onCancel =()=>{
         setStartDate('')
         setEndDate('')
+        casual_handleClose()
         setCasualreason('')
         casual_handleClose()
     }
     const item = JSON.parse(localStorage.getItem('data'))
-    console.log(item.role === "trainee" && item.token !== null, startDate < endDate)
+    // console.log(item.role === "trainee" && item.token !== null, startDate < endDate)
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const onSubmit=()=>{    
@@ -83,15 +84,23 @@ const CasualLeavel =({casual_leave})=>{
             if(startDate < endDate){              
                 instance.post(process.env.REACT_APP_APPLY_LEAVE,casual_apply)
                 .then( res => {
-                    console.log(res.data)                   
-                    setStartDate('')
-                    setEndDate('')
-                    setCasualreason('')
-                    casual_handleClose()
-                    handleClose()
-                    toast.success('Successfully apply the Casual Leave',{
-                        position: toast.POSITION.BOTTOM_LEFT,
-                    })
+                    console.log(res)
+                    if(res.status === 200){
+                        console.log(res.data)                   
+                        setStartDate('')
+                        setEndDate('')
+                        setCasualreason('')
+                        casual_handleClose()
+                        handleClose()
+                        toast.success('Successfully apply the Casual Leave',{
+                            position: toast.POSITION.BOTTOM_LEFT,
+                        })
+                    }else{
+                        toast.warning('Please check leave availablity',{
+                            position: toast.POSITION.BOTTOM_LEFT,
+                        })
+                    }
+                    
                 }).catch( err =>{
                     toast.error(`${err.message}`,{
                         position: toast.POSITION.TOP_RIGHT,

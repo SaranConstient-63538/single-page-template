@@ -1,8 +1,14 @@
-import { REFRESH_TOKEN } from "./actionType";
+import { actionType } from "./actionType";
 
-export const refreshToken = (accessToken)=>{
+export const refreshToken = (data)=>{
     return{
-        type:REFRESH_TOKEN,
-        payload: accessToken,
+        type: actionType.REFRESH_TOKEN,
+        payload: data,
+    }
+}
+export const loginSuccess =(data)=>{
+    return{
+        type: actionType.LOGIN_SUCCESS,
+        payload: data,
     }
 }

@@ -25,9 +25,7 @@ const TlDashboard = () => {
     }
     const req_handleClose =()=> setBtn_req_show(false)
     // console.log(btn_req)
-    useEffect(()=>{  
-        console.log(process.env)
-        if(items.role === "team_leader"){         
+    useEffect(()=>{         
             instance.post(process.env.REACT_APP_LEAVELIST,).then(res =>{
                 console.log( res.data);
                 for( var i=0; i< res.data.result.length;i++){
@@ -42,26 +40,6 @@ const TlDashboard = () => {
             }).catch( err =>{
                 console.log(err.message)
             }) 
-        }else{
-            instance.post(process.env.REACT_APP_LEAVELIST).then(res =>{
-                for( var i=0; i< res.data.result.length;i++){
-                    if(res.data.result[i].type_of_leave === "sick_leave"){
-                        setSick_leave(res.data.result[i])
-                    }else if(res.data.result[i].type_of_leave === "casual_leave"){
-                        setCasual_leave(res.data.result[i]) 
-                    }else if(res.data.result[i].type_of_leave === "work_from_home"){
-                        setWork_from_home(res.data.result[i])
-                    }
-                }
-            }).catch( err =>{
-                console.log(err.message)
-            }) 
-        }        
-          
-    },[])
-    useEffect(()=>{
-        console.log(userList)
-        if(items.role === "team_leader"){
             instance.get(process.env.REACT_APP_USERS_LEAVELIST).then(res => {
                 console.log(res.data)
                 setUserList(res.data)
@@ -69,8 +47,13 @@ const TlDashboard = () => {
                 // console.log('api',user_list)
                 // user_list.sort((a,b)=> a.from_date.localeCompare(b.from_date))
                 // setUserList(user_list)
-            })
-        }
+            }) 
+          
+    },[])
+    useEffect(()=>{
+        
+        
+      
     },[])
     const onSorting =(col)=>{
         if(order === 'ASC'){
