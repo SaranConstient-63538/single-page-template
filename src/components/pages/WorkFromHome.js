@@ -9,7 +9,7 @@ import { motion } from 'framer-motion'
 import { toast } from 'react-toastify'
 
 const WorkFromHome =({work_from_home})=>{
-    const format_date = "DD-MM-YYYY"   
+    const format_date = "YYYY-MM-DD"   
      const addDays = (date, period) => {
         return date.setDate(date.getDate() + period);
     };
@@ -150,6 +150,7 @@ const WorkFromHome =({work_from_home})=>{
         setStartDate('')
         setEndDate('')
         setWork_from_home_reason('')
+        wfh_handleClose();
     }
     const onWorkfromhome =(e)=>{
         setWork_from_home_reason(e.target.value)
@@ -214,7 +215,7 @@ const WorkFromHome =({work_from_home})=>{
                             <Button className="btn btn-danger p-2 m-2 rounded-4 fs-6" onClick={onCancel}>Cancel</Button>
                         </Col>
                         <Col className='text-end'>
-                            <Button onSubmit={onSubmit} className="btn btn-success p-2 m-2 rounded-4 fs-6">Save</Button>
+                            <Button onClick={onSubmit} className="btn btn-success p-2 m-2 rounded-4 fs-6">Save</Button>
                         </Col>
                     </Row>
                 </Modal.Body>

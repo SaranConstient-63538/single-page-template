@@ -8,7 +8,7 @@ import { toast } from 'react-toastify'
 
 
 const CasualLeavel =({casual_leave})=>{  
-    const format_date = "DD-MM-YYYY"   
+    const format_date = "YYYY-MM-DD"   
     const addDays = (date, period) => {
         return date.setDate(date.getDate() + period);
     };
@@ -70,6 +70,7 @@ const CasualLeavel =({casual_leave})=>{
         setStartDate('')
         setEndDate('')
         setCasualreason('')
+        casual_handleClose()
     }
     const item = JSON.parse(localStorage.getItem('data'))
     console.log(item.role === "trainee" && item.token !== null, startDate < endDate)
@@ -195,7 +196,7 @@ const CasualLeavel =({casual_leave})=>{
                             <Button className="btn btn-danger p-2 m-2 rounded-4 fs-6" onClick={onCancel}>Cancel</Button>
                         </Col>
                         <Col className='text-end'>
-                            <Button onSubmit={onSubmit} className="btn btn-success p-2 m-2 rounded-4 fs-6">Save</Button>
+                            <Button onClick={onSubmit} className="btn btn-success p-2 m-2 rounded-4 fs-6">Save</Button>
                         </Col>
                     </Row>
                 </Modal.Body>

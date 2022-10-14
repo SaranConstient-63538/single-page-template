@@ -10,7 +10,7 @@ import { toast } from 'react-toastify'
 
 
 const SickLeave =({sick_leave})=>{
-    const format_date = "DD-MM-YYYY"
+    const format_date = "YYYY-MM-DD"
 
     const [startDate, setStartdate]=useState('')
     const [endDate, setEnddate]=useState('')
@@ -87,6 +87,7 @@ const SickLeave =({sick_leave})=>{
         setStartdate('')
         setEnddate('')
         setSickreason('')
+        sick_handleClose();
     }
     const onSubmit=(data)=>{
         const item = JSON.parse(localStorage.getItem('data'));    
@@ -208,7 +209,7 @@ const SickLeave =({sick_leave})=>{
                             <Button className="btn btn-danger p-2 m-2 rounded-4 fs-6" onClick={onCancel}>Cancel</Button>
                         </Col>
                         <Col className='text-end'>
-                            <Button onSubmit={onSubmit} className="btn btn-success p-2 m-2 rounded-4 fs-6">Save</Button>
+                            <Button onClick={onSubmit} className="btn btn-success p-2 m-2 rounded-4 fs-6">Save</Button>
                         </Col>
                     </Row>
                 </Modal.Body>

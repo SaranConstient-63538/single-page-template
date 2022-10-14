@@ -96,6 +96,7 @@ const Permissionslider =()=>{
     setStartTime('')
     setEndTime('')
     setPer_reason('')
+    per_handleClose();
   }
   const isWeekday = (date) => {
     const day = date.getDay(date);
@@ -103,6 +104,7 @@ const Permissionslider =()=>{
   };
 
   const onPermission =()=>{
+    console.log("hello world")
     const user = JSON.parse(localStorage.getItem('data'));      
     if(user.role === "trainee" && user.token !== null){
       instance.post(process.env.REACT_APP_PERMISSION, _permission)
@@ -238,7 +240,7 @@ const Permissionslider =()=>{
                 <Button className="btn btn-danger p-2 m-2 rounded-4 fs-6" onClick={onCancel}>Cancel</Button>
             </Col>
             <Col className='text-end'>
-                <Button onSubmit={onPermission} className="btn btn-success p-2 m-2 rounded-4 fs-6">Save</Button>
+                <Button onClick={onPermission} className="btn btn-success p-2 m-2 rounded-4 fs-6">Save</Button>
             </Col>
           </Row>
         </Modal.Body>

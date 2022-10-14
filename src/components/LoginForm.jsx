@@ -1,4 +1,4 @@
-import React,{useEffect} from "react";
+import React,{useEffect, useState} from "react";
 import logimage from "../assets/images/logimage.svg";
 import cgsimg from "../assets/images/cgslogo.png";
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -26,6 +26,12 @@ const LoginForm = () => {
   const { handleSubmit, register, formState:{errors}} = useForm({
     resolver: yupResolver(schema)
   });
+
+  const[show,setShow]=useState(false);
+
+const handleShow=()=>{
+  setShow(!show)
+}
   
   useEffect(()=>{
     if(isLogin())navigate('/home');
@@ -74,10 +80,11 @@ const LoginForm = () => {
             </div>
             <div className="text-center m-auto py-2 position-relative">
             <span className="mailinput position-absolute"><img src={passwordicon}  className="passcon"/></span>
-            <button className="mailinput1 position-absolute border-0"><img src={passwordshow} className="passshowcon"/></button>   
-                <input type="password"
+            <span className="btn mailinput1 position-absolute border-0" onClick={handleShow}><img src={passwordshow} className="passshowcon"/></span>   
+                <input type={show?"text":"password"}
                 {...register('password')}
-                  className="log-input form-control border-0 shadow-none rounded-pill text-center" placeholder="Password"/>   
+                  className="log-input form-control border-0 shadow-none rounded-pill text-center" placeholder="Password"                 
+                  />   
                 <p className="text-danger m-0">{errors.password?.message}</p>           
             </div>
             <div className="text-center py-4 mb-2">
