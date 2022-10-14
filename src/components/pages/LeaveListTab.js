@@ -28,9 +28,9 @@ const LeaveListTab = () => {
     const [emp_id, setEmp_id]=useState('') //emp id 
     useEffect(() => {
       instance.get(`${process.env.REACT_APP_APPROVALIST}?type_of_leave=${_key}`).then( res =>{
-        console.log('hi',_key,res); 
+        console.log('hi',_key,res.data.result); 
         if(res && res.data && res.data.result && res.data.result.length > 0){
-            setList([...res.data.result] )
+            setList([res.data.result] )
         }else{
             setList([])
         }          
@@ -98,7 +98,6 @@ const LeaveListTab = () => {
         // }
       
     }
-
   return (
     <Col className="px-3 py-3 mt-3 mb-3">     
         <Tabs
@@ -108,7 +107,7 @@ const LeaveListTab = () => {
             className="mb-3"
             activeKey={_key} onSelect={ e => setKey(e)}
         >
-            <Tab eventKey="casual_leave" title={`Casual ${getCount('casual_leave')}`}>
+            <Tab eventKey="casual_leave" title={`Casual ${getCount("casual_leave")}`}>
                 <Table className="table-responsive">
                     <thead>
                         <tr>
@@ -123,17 +122,18 @@ const LeaveListTab = () => {
                     </thead>
                     <tbody>                       
                         { list?.length ?
-                            list.map((item,idx)=>{   
+                            list.map((item,idx)=>{  
+                                console.log(item.type_of_leave)
                                 return(
                                     <tr key={idx}>
-                                        <td>{item.updated_by}</td>
-                                        <td>{moment.utc(item.from_date).format('DD-MM-YYYY')}</td>
+                                        <td>{item.updated_by} </td>
+                                        {/* <td>{moment.utc(item.from_date).format('DD-MM-YYYY')}</td>
                                         <td>{moment.utc(item.to_date).format('DD-MM-YYYY')}</td>
                                         <td>{item.no_of_days}</td>
                                         <td>{item.description}</td>
                                         <td>
                                             <>
-                                                <Button className="btn-success btn btn-sm-success m-1" onClick={
+                                                <Button className="btn-success btn btn-success btn-sm m-1" onClick={
                                                     ()=>{
                                                         setShow(true)  
                                                         setId(idx) 
@@ -144,7 +144,7 @@ const LeaveListTab = () => {
                                                         setFrom_date(moment.utc(item.from_date).format('YYYY-MM-DD'))
                                                     }
                                                 }>Approved</Button>
-                                                <Button className="btn-danger btn btn-sm-danger m-1" onClick={
+                                                <Button className="btn-danger btn btn-danger btn-sm m-1" onClick={
                                                     ()=>{
                                                         
                                                         setId(idx)   
@@ -162,22 +162,17 @@ const LeaveListTab = () => {
                                             {item.type_of_leave === _key  && item.leave_master_id !== null  ? (
                                                     <Button
                                                         onClick={()=>{
-                                                            // console.log(item)
                                                             setView(item)
-                                                            setSpec_show(true)
-                                                            // console.log(item.type_of_leave,item.leave_master_id)                                                              
+                                                            setSpec_show(true)                                                            
                                                         }}
                                                     >
                                                         View
-                                                    </Button>
-                                                        
+                                                    </Button>                                                        
                                                 ):''
                                             }                                    
-                                        </td>                                                                                    
+                                        </td>                                                                                     */}
                                     </tr>
-                                )   
-                                
-                                                          
+                                )                         
                             }                     
                         ): (                       
                             <tr><td colSpan='3'>No Record Founded</td></tr>                      
