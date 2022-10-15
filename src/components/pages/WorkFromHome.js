@@ -59,7 +59,7 @@ const WorkFromHome =({work_from_home})=>{
             return{...prevState,work_from_home_reason:''}
           })
         }
-        if(errorCount==0){
+        if(errorCount === 0){
           const applyForm = {startDate,endDate,work_from_home_reason}
           console.log(applyForm)
           setWfh_show(true);
@@ -88,7 +88,7 @@ const WorkFromHome =({work_from_home})=>{
                 setWork_from_home_reason('')
                 wfh_handleClose()
                 handleClose()
-                toast.success('Successfully apply the Casual Leave',{
+                toast.success('Successfully apply the Work from Home',{
                     position: toast.POSITION.BOTTOM_LEFT,
                 })
 
@@ -182,7 +182,7 @@ const WorkFromHome =({work_from_home})=>{
                     Are you sure ?                
                 </Modal.Header>
                 <Modal.Body>      
-                   <p>To apply the Work from Home  From : {work_from_home_apply.from_date} To : {work_from_home_apply.to_date} </p>                  
+                   <p>To apply the Work from Home  From : {moment.utc(work_from_home_apply.from_date).format('DD-MM-YYYY')} To : {moment.utc(work_from_home_apply.to_date).format('DD-MM-YYYY')} </p>                  
                    <Row>
                         <Col className='text-start'>
                             <Button className="btn btn-danger p-2 m-2 rounded-4 fs-6" onClick={onCancel}>Cancel</Button>

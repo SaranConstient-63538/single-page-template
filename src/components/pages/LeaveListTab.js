@@ -3,8 +3,9 @@ import { Col, Table, Tabs, Tab, Button, Modal, Form} from 'react-bootstrap'
 import instance from '../../service/service'
 import moment from 'moment'
 import { useForm } from 'react-hook-form'
-import SpecificEmp from './SpecificEmp'
+
 import LeaveListTable from '../tables/LeaveListTable'
+import PerLeaveListTable from '../tables/PerLeaveListTable'
 
 const LeaveListTab = () => {
     //header columns
@@ -13,11 +14,12 @@ const LeaveListTab = () => {
         {field:'updated_by',header:'Emp Name'},
         {field:'from_date',header:'Start Date'},
         {field:'to_date',header:'End Date'},
-        {field:'no_of_days',header:'No of Days'},
+        {field:'no_of_days',header:'Days'},
         {field:'description',header:'Reason'},
         {field:'button',header:'Approval status'},
         {field:'action',header:'Action'},
     ]
+    
     const [_key, setKey]=useState('casual_leave')
     const [list, setList]=useState([])
     const [view,setView]=useState([]);
@@ -38,11 +40,11 @@ const LeaveListTab = () => {
     const [status_des, setStatus_des]=useState('');//description
     const [frm_date,setFrom_date]=useState('')//from date
     const [emp_id, setEmp_id]=useState('') //emp id 
-    useEffect(() => {
+    useEffect(() => {   
       instance.get(`${process.env.REACT_APP_APPROVALIST}?type_of_leave=${_key}`).then( res =>{
         console.log('hi',_key,res.data.result); 
         if(res && res.data && res.data.result && res.data.result.length > 0){
-            setList([res.data.result] )
+            setList(res.data.result)
         }else{
             setList([])
         }          
@@ -56,8 +58,9 @@ const LeaveListTab = () => {
     }, [_key]);
 
     const getCount=(typ)=>{
-        let data=count.filter((data=>data[typ]))    
-        if(data&&data.length>0){
+        let data=count.filter((data => data[typ])  ) 
+        console.log(data)
+        if(data && data.length > 0){
             return data[0][typ]
         }  else{
             return 0
@@ -98,16 +101,16 @@ const LeaveListTab = () => {
         }       
        const rejected = list.filter( item => item.from_date === frm_date && item.type_of_leave === leavetype)
         console.log(rejected,appStus)
-        // if(rejected){
-        //      instance.post(process.env.REACT_APP_APPROVALUPDATE,appStus)
-        //     .then( res =>{
-        //         // console.log(res.data,'test');
-        //         setStatus_des('')
-        //         setFrom_date('')
-        //     }).catch(err =>{
-        //         console.log(err.message)
-        //     })
-        // }
+        if(rejected){
+             instance.post(process.env.REACT_APP_APPROVALUPDATE,appStus)
+            .then( res =>{
+                // console.log(res.data,'test');
+                setStatus_des('')
+                setFrom_date('')
+            }).catch(err =>{
+                console.log(err.message)
+            })
+        }
       
     }
   return (
@@ -120,16 +123,16 @@ const LeaveListTab = () => {
             activeKey={_key} onSelect={ e => setKey(e)}
         >
             <Tab eventKey="casual_leave" title={`Casual ${getCount("casual_leave")}`}>
-                <LeaveListTable  list={list}/>                    
+                <LeaveListTable  list={list} _key={_key}/>                
             </Tab>
             <Tab eventKey="sick_leave" title={`Sick ${getCount('sick_leave')}`}>
-                <LeaveListTable  list={list}/>  
+                <LeaveListTable  list={list} _key={_key}/> 
             </Tab>
             <Tab eventKey="work_from_home" title={`Work From Home ${getCount('work_from_home')}`}>
-                <LeaveListTable  list={list}/>  
+               
             </Tab>
             <Tab eventKey="permission" title={`Permission ${getCount('permission')}`}>
-                <LeaveListTable  list={list}/>  
+                <PerLeaveListTable  list={list} _key={_key}/>  
             </Tab>        
         </Tabs>
         <>

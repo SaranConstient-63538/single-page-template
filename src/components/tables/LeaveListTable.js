@@ -1,94 +1,76 @@
-import {Table} from 'react-bootstrap'
+import React,{useState, useEffect} from 'react'
+import { Col, Table, Tabs, Tab, Button, Modal, Form} from 'react-bootstrap'
+import instance from '../../service/service'
+import moment from 'moment'
+import { Approvebtn, Rejectbtn, Viewbtn } from '../buttons/LeaveListBtn'
+import { loading } from '../loading'
+import { useForm } from 'react-hook-form'
 
-const LeaveListTable =({})=>{
+const LeaveListTable =({list,_key})=>{
+    const [show, setShow] = useState(false)
+    console.log(list,_key)
+    const leavelistCol =[
+        {field:'id',header:'S.No'},
+        {field:'updated_by',header:'Emp Name'},
+        {field:'from_date',header:'Start Date'},
+        {field:'to_date',header:'End Date'},
+        {field:'no_of_days',header:'Days'},
+        {field:'description',header:'Reason'},
+        {field:'button',header:'Approval status'},
+        {field:'action',header:'Action'},
+    ]
     return(
         <Table className="table-responsive">
             <thead>
-                {/* <tr>
+                <tr>
                     {leavelistCol.map((head)=>(
                         <th>{head.header}</th>
                     ))}
-                </tr> */}
-                <tr>
-                    <th>Emp Name</th>
-                    <th>From Date</th>
-                    <th>To Date</th>
-                    <th>Days</th>
-                    <th>Reason</th>
-                    <th>Approval Status </th>
-                    <th>Action</th>                            
-                </tr>
+                </tr>            
             </thead>
-            <tbody>     
-                {/* {   list?.length ?
-                    list.map( (row)=>(
-                        <tr>
-                            {leavelistCol.map( (col)=>(
-                                <td>{row[col.field]}</td>
-                            ))}
-                            <td>
-                                
-                            </td>
-                        </tr>
-                    )):(                       
-                        <tr><td colSpan='8'>No Record Founded</td></tr>                      
-                    )
-                }                   */}
-                { list?.length ?
-                    list.map((item)=>(
-                        <tr key={item}>
-                            <td>{item.updated_by} </td>
-                            <td>{moment.utc(item.from_date).format('DD-MM-YYYY')}</td>
-                            <td>{moment.utc(item.to_date).format('DD-MM-YYYY')}</td>
-                            <td>{item.no_of_days}</td>
-                            <td>{item.description}</td>
-                            <td>
-                                <>
-                                    <Button className="btn-success btn btn-success btn-sm m-1" onClick={
-                                        ()=>{
-                                            setShow(true)  
-                                            setId(idx) 
-                                            setBtn_status(1)
-                                            setEmp_id(item.leave_master_id)
-                                            console.log(item.type_of_leave)
-                                            setLeavetype(item.type_of_leave) 
-                                            setFrom_date(moment.utc(item.from_date).format('YYYY-MM-DD'))
-                                        }
-                                    }>Approved</Button>
-                                    <Button className="btn-danger btn btn-danger btn-sm m-1" onClick={
-                                        ()=>{
+            <tbody>   
+
+                { 
+                    list?.length ?
+                        list.map((item,idx)=>{
+                            if(item.type_of_leave === _key  ){
+                                return(
+                                    <tr key={idx}>
+                                        <td>{idx+1}</td>
+                                        <td>{item.updated_by} </td>
+                                        <td>{moment.utc(item.from_date).format('DD-MM-YYYY')}</td>
+                                        <td>{ moment.utc(item.to_date).format('DD-MM-YYYY')}</td>
+                                        <td>{ item.no_of_days}</td>
+                                        <td>{item.description}</td>
+                                        <td>
+                                            <>
+                                                <Approvebtn  item={item} _key={_key}/>
+                                                <Rejectbtn item={item}/>                                               
+                                            </>
+                                        </td>   
+                                        <td>                                                
                                             
-                                            setId(idx)   
-                                        
-                                            _setShow(true)                                                                
-                                            setBtn_status(2)
-                                            setEmp_id(item.leave_master_id)
-                                            setLeavetype(item.type_of_leave)  
-                                            setFrom_date(moment.utc(item.from_date).format('YYYY-MM-DD'))                                                              
-                                        }
-                                    }>Rejected</Button>
-                                </>
-                            </td>   
-                            <td>                                                
-                                {item.type_of_leave === _key  && item.leave_master_id !== null  ? (
-                                        <Button
-                                            onClick={()=>{
-                                                setView(item)
-                                                setSpec_show(true)                                                            
-                                            }}
-                                        >
-                                            View
-                                        </Button>                                                        
-                                    ):''
-                                }                                    
-                            </td>                                                                                    
-                        </tr>
-                                             
-                    )                     
-                ): (                       
-                    <tr><td colSpan='3'>No Record Founded</td></tr>                      
-                )   
-            }
+                                                    <Button className='btn-sm m-1 '
+                                                        onClick={()=>{
+                                                            // setView(item)
+                                                            // setSpec_show(true)                                                            
+                                                        }}
+                                                    >
+                                                        View
+                                                    </Button>                                                        
+                                                
+                                                                            
+                                        </td>                                                                                     
+                                    </tr>
+                                                        
+                                ) 
+                            }
+                            }                   
+                        ): (                       
+                            <tr><td colSpan='8' className='text-center'>No Record Founded</td></tr>                      
+                        )
+                    
+                }
             </tbody>
         </Table>
     )
