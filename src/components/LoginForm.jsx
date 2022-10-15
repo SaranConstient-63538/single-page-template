@@ -2,9 +2,9 @@ import React,{useEffect, useState} from "react";
 import logimage from "../assets/images/logimage.svg";
 import cgsimg from "../assets/images/cgslogo.png";
 import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
-import {toast} from 'react-toastify'
+import * as yup from 'yup';
 import '../App.css';
+
 import {useNavigate} from 'react-router-dom'
 import mailicon from "../assets/images/mailicon.svg";
 import passwordicon from "../assets/images/passwordicon.svg";

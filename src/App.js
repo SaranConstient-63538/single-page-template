@@ -3,12 +3,7 @@ import { ToastContainer } from 'react-toastify'
 import { Routes, Route, BrowserRouter }  from 'react-router-dom';
 import { Spinner } from 'react-bootstrap';
 import PrivateRoute from './components/PrivateRoute';
-<<<<<<< HEAD
 import 'react-toastify/dist/ReactToastify.css';
-=======
-import axios from 'axios'
-import { ToastContainer } from 'react-toastify'
->>>>>>> 1609d78ffd777aafc7f07f0a81cd306865eec0c6
 
 const  LoginForm = lazy(()=> import('./components/LoginForm'));
 const MainPage =lazy(()=> import('./components/MainPage'));

@@ -4,8 +4,20 @@ import instance from '../../service/service'
 import moment from 'moment'
 import { useForm } from 'react-hook-form'
 import SpecificEmp from './SpecificEmp'
+import LeaveListTable from '../tables/LeaveListTable'
 
 const LeaveListTab = () => {
+    //header columns
+    const leavelistCol =[
+        {field:'id',header:'S.No'},
+        {field:'updated_by',header:'Emp Name'},
+        {field:'from_date',header:'Start Date'},
+        {field:'to_date',header:'End Date'},
+        {field:'no_of_days',header:'No of Days'},
+        {field:'description',header:'Reason'},
+        {field:'button',header:'Approval status'},
+        {field:'action',header:'Action'},
+    ]
     const [_key, setKey]=useState('casual_leave')
     const [list, setList]=useState([])
     const [view,setView]=useState([]);
@@ -108,271 +120,16 @@ const LeaveListTab = () => {
             activeKey={_key} onSelect={ e => setKey(e)}
         >
             <Tab eventKey="casual_leave" title={`Casual ${getCount("casual_leave")}`}>
-                <Table className="table-responsive">
-                    <thead>
-                        <tr>
-                            <th>Emp Name</th>
-                            <th>From Date</th>
-                            <th>To Date</th>
-                            <th>Days</th>
-                            <th>Reason</th>
-                            <th>Approval Status </th>
-                            <th>Action</th>                            
-                        </tr>
-                    </thead>
-                    <tbody>                       
-                        { list?.length ?
-                            list.map((item,idx)=>{  
-                                console.log(item.type_of_leave)
-                                return(
-                                    <tr key={idx}>
-                                        <td>{item.updated_by} </td>
-                                        {/* <td>{moment.utc(item.from_date).format('DD-MM-YYYY')}</td>
-                                        <td>{moment.utc(item.to_date).format('DD-MM-YYYY')}</td>
-                                        <td>{item.no_of_days}</td>
-                                        <td>{item.description}</td>
-                                        <td>
-                                            <>
-                                                <Button className="btn-success btn btn-success btn-sm m-1" onClick={
-                                                    ()=>{
-                                                        setShow(true)  
-                                                        setId(idx) 
-                                                        setBtn_status(1)
-                                                        setEmp_id(item.leave_master_id)
-                                                        console.log(item.type_of_leave)
-                                                        setLeavetype(item.type_of_leave) 
-                                                        setFrom_date(moment.utc(item.from_date).format('YYYY-MM-DD'))
-                                                    }
-                                                }>Approved</Button>
-                                                <Button className="btn-danger btn btn-danger btn-sm m-1" onClick={
-                                                    ()=>{
-                                                        
-                                                        setId(idx)   
-                                                    
-                                                        _setShow(true)                                                                
-                                                        setBtn_status(2)
-                                                        setEmp_id(item.leave_master_id)
-                                                        setLeavetype(item.type_of_leave)  
-                                                        setFrom_date(moment.utc(item.from_date).format('YYYY-MM-DD'))                                                              
-                                                    }
-                                                }>Rejected</Button>
-                                            </>
-                                        </td>   
-                                        <td>                                                
-                                            {item.type_of_leave === _key  && item.leave_master_id !== null  ? (
-                                                    <Button
-                                                        onClick={()=>{
-                                                            setView(item)
-                                                            setSpec_show(true)                                                            
-                                                        }}
-                                                    >
-                                                        View
-                                                    </Button>                                                        
-                                                ):''
-                                            }                                    
-                                        </td>                                                                                     */}
-                                    </tr>
-                                )                         
-                            }                     
-                        ): (                       
-                            <tr><td colSpan='3'>No Record Founded</td></tr>                      
-                        )   }
-                    </tbody>
-                </Table>
+                <LeaveListTable  list={list}/>                    
             </Tab>
             <Tab eventKey="sick_leave" title={`Sick ${getCount('sick_leave')}`}>
-                <Table className="table-responsive">
-                    <thead>
-                        <tr>
-                            <th>Emp Name</th>
-                            <th>From Date</th>
-                            <th>To Date</th>
-                            <th>Days</th>
-                            <th>Reason</th>
-                            <th>Approval Status </th>
-                            <th>Action</th>                            
-                        </tr>
-                    </thead>
-                    <tbody>
-                    { list?.length ?
-                        list.map((item,idx)=>{ 
-                            if(item.type_of_leave === 'sick_leave' && item.leave_master_id !== ""){
-                                // console.log(item.type_of_leave)
-                                return(
-                                    <tr key={idx}>
-                                        <td>{item.updated_by}</td>
-                                        <td>{moment.utc(item.from_date).format('DD-MM-YYYY')}</td>
-                                        <td>{moment.utc(item.to_date).format('DD-MM-YYYY')}</td>
-                                        <td>{item.no_of_days}</td>
-                                        <td>{item.description}</td>
-                                        <td>
-                                            <>
-                                                <Button className="btn btn-sm btn-secondary m-2" onClick={
-                                                    ()=>{
-                                                        setShow(true)                                                                
-                                                        setBtn_status(1)
-                                                        setEmp_id(item.leave_master_id)
-                                                        // console.log(item.type_of_leave)
-                                                        setLeavetype(item.type_of_leave)    
-                                                        setFrom_date(moment.utc(item.from_date).format('YYYY-MM-DD'))                                                            
-                                                    }
-                                                }>Approve</Button>
-                                                <Button className="btn btn-sm btn-primary m-2" onClick={
-                                                    ()=>{
-                                                        _setShow(true)                                                                
-                                                        setBtn_status(2)
-                                                        setEmp_id(item.leave_master_id)
-                                                        console.log(item.type_of_leave)
-                                                        setLeavetype(item.type_of_leave)    
-                                                        setFrom_date(moment.utc(item.from_date).format('YYYY-MM-DD'))                                                            
-                                                    }
-                                                }>Reject</Button>
-                                            </>
-                                        </td>
-                                        <td>
-                                            {item.type_of_leave && item.leave_master_id ? (
-                                                <Button
-                                                    onClick={()=>{
-                                                        setSpec_show(true)
-                                                        // console.log(item.type_of_leave,item.leave_master_id)
-                                                    }}
-                                                >
-                                                    View
-                                                </Button>):''
-                                            }                                      
-                                        </td>
-                                    </tr>
-                                )
-                            }
-                            
-                        }):(
-                            <tr><td colSpan='3'>No Record Founded</td></tr>
-                        )
-                    }
-                    </tbody>
-                </Table>
+                <LeaveListTable  list={list}/>  
             </Tab>
             <Tab eventKey="work_from_home" title={`Work From Home ${getCount('work_from_home')}`}>
-                <Table className="table-responsive">
-                    <thead>
-                        <tr>
-                            <th>Emp Name</th>
-                            <th>From Date</th>
-                            <th>To Date</th>
-                            <th>Days</th>
-                            <th>Reason</th>
-                            <th>Approval Status </th>
-                            <th>Action</th>                            
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {list?.length ? 
-                        list.map((item,idx)=>{
-
-                            return(
-                                <tr key={idx}>
-                                    <td>{item.updated_by}</td>
-                                    <td>{moment.utc(item.from_date).format('DD-MM-YYYY')}</td>
-                                    <td>{moment.utc(item.to_date).format('DD-MM-YYYY')}</td>
-                                    <td>{item.no_of_days}</td>
-                                    <td>{item.description}</td>
-                                    <td>
-                                        <>
-                                            <Button className="btn-success btn btn-sm-success m-1" onClick={
-                                                ()=>{
-                                                    setShow(true)                                                                
-                                                    setBtn_status(1)
-                                                    setEmp_id(item.leave_master_id)
-                                                    setLeavetype(item.type_of_leave)                                                                
-                                                }
-                                            }>Approve</Button>
-                                            <Button className="btn-danger btn btn-sm-danger m-1" onClick={
-                                                ()=>{
-                                                    _setShow(true)                                                                
-                                                    setBtn_status(2)
-                                                    setEmp_id(item.leave_master_id)
-                                                    setLeavetype(item.type_of_leave)                                                                
-                                                }
-                                            }>Reject</Button>
-                                        </>
-                                    </td>
-                                    <td>
-                                        
-                                        {item.type_of_leave = _key && item.leave_master_id && (
-                                            <Button
-                                                onClick={()=>{
-                                                    setSpec_show(true)
-                                                    console.log(item.type_of_leave,item.leave_master_id)
-                                                }}
-                                            >
-                                                View
-                                            </Button>)
-                                        }                             
-                                    </td>
-                                    
-                                </tr>
-                            )   
-                        }):(
-                            <tr><td colSpan='3'>No Record Founded</td></tr>
-                        )
-                    }
-                </tbody>
-                </Table>
+                <LeaveListTable  list={list}/>  
             </Tab>
             <Tab eventKey="permission" title={`Permission ${getCount('permission')}`}>
-                <Table className="table-responsive">
-                    <thead>
-                        <tr>
-                            <th>Emp Name</th>
-                            <th>Date</th>
-                            <th>Start Time</th>
-                            <th>End Time</th>
-                            <th>Days</th>
-                            <th>Reason</th>
-                            <th>Approval Status </th>
-                            <th>Action</th>                            
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {list?.length ? 
-                            list.map( (item,idx) =>{
-                                // console.log(item.type_of_leave === 'permission')
-                                return(
-                                        <tr key={idx}>
-                                            <td>{item.updated_by}</td>
-                                            <td>{moment.utc(item.from_date).format('DD-MM-YYYY')}</td>
-                                            <td>{moment.utc(item.from_date).format('h:mm a')}</td>
-                                            <td>{moment.utc(item.from_date).format('h:mm a')}</td>
-                                            <td>{item.no_of_hours}</td>
-                                            <td>{item.description}</td>
-                                            <td>
-                                                <Button className="btn btn-sm btn-secondary m-2">Approve</Button>
-                                                <Button className="btn btn-sm btn-primary m-2">Reject</Button>
-                                            </td>
-                                            <td>
-                                                {/* <SpecificEmp leave={item.type_of_leave} mst_id={item.leave_master_id} item={list} /> */}
-                                                {item.type_of_leave === _key &&  item.leave_master_id !== null && (
-                                                    <Button
-                                                        onClick={()=>{
-                                                            // console.log(item)
-                                                            setSpec_show(true)
-                                                            // setPermission(item.type_of_leave)
-                                                            // set_id(item.leave_master_id)
-                                                        }}
-                                                    >
-                                                        View
-                                                    </Button>)
-                                                }                                      
-                                            </td>
-                                        </tr>
-                                    )
-                                }
-                            ):(
-                                <tr><td colSpan='3'>No Record Founded</td></tr>
-                            )
-                        }
-                    </tbody>
-                </Table>
+                <LeaveListTable  list={list}/>  
             </Tab>        
         </Tabs>
         <>
