@@ -10,6 +10,7 @@ import { motion } from 'framer-motion';
 import moment  from 'moment'
 import * as Ai from  'react-icons/ai'
 import Pagination from './Pagination'
+import { UserLeaveList } from '../tables/UserLeaveList';
 
 const EmpDashboard = () => {
     let user_list;
@@ -108,55 +109,9 @@ const EmpDashboard = () => {
                     </motion.div>
                 </Row>                
            </Col>
-    
-        <motion.div animate={{y:[100,0]}} transition={{duration:5}}>
-            <div className="text-center">
-                <Col className="px-3 mt-3 mb-3">
-                    <h4 className='text-start text-capitalize m-0 fw-bold'>user leave list</h4>                
-                </Col>
-                <Col className="px-3 py-3 mt-3 mb-3">
-                    <Table table-responsive className='table-borderless'>
-                        <thead>
-                            <tr>
-                                <th className='py-3 text-capitalize'>s.no</th>
-                                <th className='py-3 text-capitalize'>leave</th>
-                                <th className='py-3 text-capitalize'>reason</th>
-                                <th className='py-3 text-capitalize'>status</th>                           
-                            </tr>
-                        </thead>
-                        <tbody className="overflow-auto">
-                            { userList?.length ?
-                                userList.map((item,idx)=>{
-                                    return(
-                                        <tr key={idx} className="shadow rounded-pill">
-                                            <td className="py-3">{idx +  1}</td>
-                                            <td className="py-3">{moment().utc(item.from_date).format('DD-MM-YYYY')}</td>
-                                            <td className="py-3">{moment().utc(item.to_date).format('DD-MM-YYYY')}</td>
-                                            <td className="py-3">{item.type_of_leave === 'sick_leave'? 'Sick Leave': item.type_of_leave === 'casual_leave' ? 'Casual Leave':item.type_of_leave === 'work_from_home' ? 'Work From Home':item.type_of_leave === 'permission' ? 'Permission' : ''  }</td>                                      
-                                            <td className="py-3">{item.description}</td>
-                                            <td className="py-3">
-                                                {item.status === 0 ?(
-                                                    <p className='m-0 text-capitalize' >waiting for approval</p>
-                                                ):(
-                                                    <p className='m-0 text-capitalize'>approved</p>
-                                                )
-                                            } 
-                                            </td>
-                                            {/* <td>{}</td> */}
-                                        </tr>
-                                    )
-                                }):(
-                                    <tr><td colSpan='3'>No Record Founded</td></tr>
-                                )
-                                }                      
-                        </tbody>   
-                    </Table>
-                    <>
-                        <Pagination />
-                    </>
-                </Col>
-            </div>   
-        </motion.div>    
+            <>
+                <UserLeaveList />
+            </> 
     </motion.div>
   )
 }

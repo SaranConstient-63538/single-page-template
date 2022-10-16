@@ -1,5 +1,5 @@
-import React,{useState, useEffect} from 'react'
-import { Col, Table, Tabs, Tab, Button, Modal, Form} from 'react-bootstrap'
+import React,{useState} from 'react'
+import { Table} from 'react-bootstrap'
 import instance from '../../service/service'
 import moment from 'moment'
 import { Approvebtn, Rejectbtn, Viewbtn } from '../buttons/LeaveListBtn'
@@ -29,7 +29,6 @@ const LeaveListTable =({list,_key})=>{
                 </tr>            
             </thead>
             <tbody>   
-
                 { 
                     list?.length ?
                         list.map((item,idx)=>{
@@ -45,21 +44,11 @@ const LeaveListTable =({list,_key})=>{
                                         <td>
                                             <>
                                                 <Approvebtn  item={item} _key={_key}/>
-                                                <Rejectbtn item={item}/>                                               
+                                                <Rejectbtn item={item} _key={_key}/>                                               
                                             </>
                                         </td>   
                                         <td>                                                
-                                            
-                                                    <Button className='btn-sm m-1 '
-                                                        onClick={()=>{
-                                                            // setView(item)
-                                                            // setSpec_show(true)                                                            
-                                                        }}
-                                                    >
-                                                        View
-                                                    </Button>                                                        
-                                                
-                                                                            
+                                            <><Viewbtn item={item}/></>                                
                                         </td>                                                                                     
                                     </tr>
                                                         

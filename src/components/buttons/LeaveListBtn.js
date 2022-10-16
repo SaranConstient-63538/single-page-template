@@ -48,13 +48,16 @@ export const Rejectbtn =({item})=>{
         
     )
 }
-// export const Viewbtn =()=>{
-//     return(
-//         <Button className="btn btn-primay btn-sm m-1">
-//             View
-//         </Button>
-//     )
-// }
+export const Viewbtn =({item})=>{
+    const onClick = ()=>{
+        console.log(item)
+    }
+    return(
+        <Button className="btn btn-primay btn-sm m-1" onClick={onClick}>
+            View
+        </Button>
+    )
+}
 
 const ApprovedModals =({show, setShow, btn_status,item})=>{
     
@@ -112,16 +115,14 @@ const RejectedModals =({show, setShow, btn_status,item})=>{
 
     const [frm_date,setfrm_date]=useState(moment.utc(item.from_date).format('DD-MM-YYYY'))
     
-    const onSubmit =()=>{
-        
+    const onSubmit =()=>{        
         const appStatus={
             status: btn_status,
             type_of_leave: item.type_of_leave,
             status_description: item.description,
             leave_master_id: item.leave_master_id,
             from_date: moment.utc(item.from_date).format('YYYY-MM-DD'),
-        }  
-        
+        }          
         instance.post(process.env.REACT_APP_APPROVALUPDATE,appStatus)
         .then( res =>{
             if(res.status === 200 ){
@@ -158,3 +159,4 @@ const RejectedModals =({show, setShow, btn_status,item})=>{
         </Modal>
     )
 }
+

@@ -41,6 +41,7 @@ const LeaveListTab = () => {
     const [frm_date,setFrom_date]=useState('')//from date
     const [emp_id, setEmp_id]=useState('') //emp id 
     useEffect(() => {   
+        console.log(list)
       instance.get(`${process.env.REACT_APP_APPROVALIST}?type_of_leave=${_key}`).then( res =>{
         console.log('hi',_key,res.data.result); 
         if(res && res.data && res.data.result && res.data.result.length > 0){
@@ -136,7 +137,7 @@ const LeaveListTab = () => {
             </Tab>        
         </Tabs>
         <>
-            <Modal show={show} onHide={()=> setShow(false)}>
+            {/* <Modal show={show} onHide={()=> setShow(false)}>
                 <Modal.Header closeButton></Modal.Header>
                 <Modal.Body>
                     <Form>
@@ -145,8 +146,7 @@ const LeaveListTab = () => {
                         <Form.Label>From Date</Form.Label>
                         <Form.Control value={frm_date} onChange={(event)=>setFrom_date(event.target.value)} type="text" />
                         <Button onClick={onApproved}>Save</Button>
-                    </Form>
-                    
+                    </Form>                    
                 </Modal.Body>
             </Modal>
             <Modal show={_show} onHide={()=> _setShow(false)}>
@@ -160,7 +160,7 @@ const LeaveListTab = () => {
                     </Form>
                     <Button onClick={onRejected}>Save</Button>
                 </Modal.Body>
-            </Modal>
+            </Modal> */}
             <Modal show={spec_show} onHide={()=> setSpec_show(false)}>
                 <Modal.Header closeButton>
                     <Modal.Title>Specfic Employee List</Modal.Title>
