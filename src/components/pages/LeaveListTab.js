@@ -41,7 +41,7 @@ const LeaveListTab = () => {
     const [frm_date,setFrom_date]=useState('')//from date
     const [emp_id, setEmp_id]=useState('') //emp id 
     useEffect(() => {   
-        console.log(list)
+        console.log(list) 
       instance.get(`${process.env.REACT_APP_APPROVALIST}?type_of_leave=${_key}`).then( res =>{
         console.log('hi',_key,res.data.result); 
         if(res && res.data && res.data.result && res.data.result.length > 0){

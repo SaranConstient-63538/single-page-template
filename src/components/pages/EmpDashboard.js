@@ -20,17 +20,7 @@ const EmpDashboard = () => {
     const [work_from_home, setWork_from_home]=useState('')
     const [permission, setPermission]=useState('')
     const [userList, setUserList]=useState([])
-    //pagination
-    const [perPage, setPerpage]=useState(6)
-    // const [currentPage, setCurrentPage]=useState(1)
-    // const [pageLimit]=useState(5)
-    // const [minPage, setMinpage]=useState(0)
-    // const [maxPage, setMaxpage]=useState(5)
-
-    // const lastPage = currentPage * perPage;
-    // const firstPage = lastPage - perPage;
-  
-    // const curItem = user_list.slice(firstPage,lastPage)
+   
     
     const items = JSON.parse(localStorage.getItem('data'))
     const onSorting =(col)=>{
@@ -53,9 +43,8 @@ const EmpDashboard = () => {
     useEffect(()=>{          
 
         instance.get(process.env.REACT_APP_USERS_LEAVELIST).then(res => {
-            // console.log(res.data)
+           
             user_list = res.data
-            // console.log('api',user_list)
             user_list.sort((a,b)=> a.from_date.localeCompare(b.from_date))
             setUserList(user_list)
         }) 
@@ -76,12 +65,6 @@ const EmpDashboard = () => {
         })  
     },[user_list])
     
-    const listData =[];
-    const listLen = Math.ceil( userList.length/perPage)
-    for ( var i=0; i<=listLen; i++ ){
-        listData.push(i)
-    }
-    // console.log(listData,userList.length)
 
   return (
     <motion.div initial={{opacity: 1}} animate={{y:0}}>
