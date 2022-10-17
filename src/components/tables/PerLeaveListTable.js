@@ -18,6 +18,57 @@ const PerLeaveListTable =({list,_key})=>{
         {field:'button',header:'Approval status'},
         {field:'action',header:'Action'},
     ]
+    const [currentPage, setCurrentpage]=useState(1)
+  const [perPage,setPerpage]=useState(8)
+
+  const [pageLimit]=useState(5)
+  const [maxPage, setMaxpage]=useState(5)
+  const [minPage, setMinpage]=useState(0)
+ 
+  
+  const lastPage = currentPage * perPage;
+  const firstPage = lastPage - perPage;
+  const currentItem = data.slice(firstPage,lastPage);
+
+
+//pagination
+  const univerData = [];
+  const univerLen = Math.ceil(data.length/perPage);
+  for(var i=1; i<=univerLen;i++){
+    univerData.push(i)
+  }
+
+  const handleClick =(event)=>{
+    setCurrentpage(Number(event.target.id))
+  }  
+
+  const pageNumber = univerData.map( number =>{
+    if(number < maxPage + 1 &&  number  > minPage ){
+      return(
+        <li key={number} id={number} className={currentPage == number ? "active page-item": null} onClick={handleClick}>
+          {number}
+        </li>
+      )
+    }else{
+      return null;
+    }
+  })
+  //previous pagination onclick function
+  const handleNextbtn =()=>{
+    setCurrentpage(currentPage + 1)
+    if(currentPage+1>maxPage){
+      setMaxpage(maxPage + pageLimit);
+      setMinpage(minPage + pageLimit)
+    }
+  }
+  //Next pagination onclick function
+  const handlePrevbtn=()=>{
+    setCurrentpage(currentPage - 1)
+    if((currentPage-1)%pageLimit === 0){
+      setMaxpage(maxPage - pageLimit);
+      setMinpage(minPage - pageLimit)
+    }
+  }
     return(
         <Table className="table-responsive">
             <thead>

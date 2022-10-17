@@ -85,8 +85,7 @@ const TlDashboard = () => {
                 </Col>
             </Row>            
             <LeaveListTab />
-        </Card>
-    
+        </Card>    
         <Modal show={btn_req_show} onHide={req_handleClose} size="xl" centered>
             <Modal.Header closeButton>
                 Leave Request            

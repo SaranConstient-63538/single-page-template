@@ -3,6 +3,8 @@ import {useEffect, useState} from 'react'
 import { Col, Table } from 'react-bootstrap'
 import instance from '../../service/service'
 import {Pagination} from './Pagination'
+import moment from 'moment'
+
 export const UserLeaveList =()=>{
 
     const userListCol = [
@@ -19,6 +21,58 @@ export const UserLeaveList =()=>{
         console.log(col,order,'sorting')
     }
 
+    const [currentPage, setCurrentpage]=useState(1)
+  const [perPage,setPerpage]=useState(8)
+
+  const [pageLimit]=useState(5)
+  const [maxPage, setMaxpage]=useState(5)
+  const [minPage, setMinpage]=useState(0)
+ 
+  
+  const lastPage = currentPage * perPage;
+  const firstPage = lastPage - perPage;
+  const currentItem = data.slice(firstPage,lastPage);
+
+
+//pagination
+  const univerData = [];
+  const univerLen = Math.ceil(data.length/perPage);
+  for(var i=1; i<=univerLen;i++){
+    univerData.push(i)
+  }
+
+  const handleClick =(event)=>{
+    setCurrentpage(Number(event.target.id))
+  }  
+
+  const pageNumber = univerData.map( number =>{
+    if(number < maxPage + 1 &&  number  > minPage ){
+      return(
+        <li key={number} id={number} className={currentPage == number ? "active page-item": null} onClick={handleClick}>
+          {number}
+        </li>
+      )
+    }else{
+      return null;
+    }
+  })
+  //previous pagination onclick function
+  const handleNextbtn =()=>{
+    setCurrentpage(currentPage + 1)
+    if(currentPage+1>maxPage){
+      setMaxpage(maxPage + pageLimit);
+      setMinpage(minPage + pageLimit)
+    }
+  }
+  //Next pagination onclick function
+  const handlePrevbtn=()=>{
+    setCurrentpage(currentPage - 1)
+    if((currentPage-1)%pageLimit === 0){
+      setMaxpage(maxPage - pageLimit);
+      setMinpage(minPage - pageLimit)
+    }
+  }
+
     useEffect(()=>{
         instance.get(process.env.REACT_APP_USERS_LEAVELIST)
         .then( res =>{
@@ -31,6 +85,8 @@ export const UserLeaveList =()=>{
             console.log(err.message);
         })
     },[])
+
+
     return(
         <motion.div animate={{y:[100,0]}} transition={{duration:5}}>
             <div className='="text-center'>
@@ -57,7 +113,7 @@ export const UserLeaveList =()=>{
                                 </tr>
                             ))}
                         </tbody>
-                        {/* <tbody className="overflow-auto">
+                        <tbody className="overflow-auto">
                             { userList?.length ?
                                 userList.map((item,idx)=>{
                                     return(
@@ -82,11 +138,11 @@ export const UserLeaveList =()=>{
                                     <tr><td colSpan='8'>No Record Founded</td></tr>
                                 )
                                 }                      
-                        </tbody>    */}
+                        </tbody>   
                     </Table>
                 </Col>
                 <Col>
-                    <Pagination data={data}/>
+                    <Pagination data={data} pageNumber={pageNumber} handlePrevbtn={handlePrevbtn} handleNextbtn={handleNextbtn}/>
                 </Col>
             </div>
         </motion.div>
