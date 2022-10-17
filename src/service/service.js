@@ -1,7 +1,6 @@
 import axios from 'axios'
 // import { tokenService } from './tokenService'
 
-
 // const token = tokenService.getAccessToken()
 const token = localStorage.getItem('token')
 const instance = axios.create({
