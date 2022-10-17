@@ -41,3 +41,11 @@
 		background-position: 0% 50%;
 	}
 }
+.leave-card{
+    transform: rotate(0);
+    transition: transform 0.4s ease;  
+  }
+  
+  .leave-card:hover{
+      transform: rotate(360deg);
+  }

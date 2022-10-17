@@ -29,39 +29,42 @@ const Topbar = ({handleShow}) => {
        
     }
     return (
-        <Navbar expand="md"  className="shadow-sm topbar bg-white py-0 px-0 mt-0 flex-row position-fixed w-100">              
+        <Navbar expand="md"  className="shadow topbar bg-white py-0 px-0 mt-0 flex-row position-fixed w-100">              
             <div className='navbar-brand-wrapper '>
                 <Navbar.Brand href="#home" className="logoIcon text-center">
                     <img src={logoImg} alt="logo"  className='text-sm-center'/>
                 </Navbar.Brand> 
             </div>  
-            <Button className="btn btn-primary text-white rounded-4 " onClick={handleShow}>                   
-                <Ai.AiOutlineMenu aria-controls="#basic-navbar-nav" size={20} /> 
-            </Button>               
+            {/* <Button className="btn text-white menubox-btn" onClick={handleShow}>                    */}
+                {/* <Ai.AiOutlineMenu aria-controls="#basic-navbar-nav" size={20} />  */}
+                <span className="btn menubox-btn fs-2 border-0" onClick={handleShow}><i class="bi bi-list"></i></span>
+            {/* </Button>                */}
             <Navbar.Collapse id="basic-navbar-nav d-md-block">                
                 <SearchBarTop />
-                <Nav className="ms-auto flex-sm-column flex-md-row">                     
-                    <div className='d-flex justify-content-between py-2 px-4'>
+                <Nav className="flex-sm-column flex-md-row">                     
+                    <div className='d-flex justify-content-between py-2 px-4 align-items-center'>
                         <Nav.Item className="p-2">
-                            <Nav.Link href="#link">
-                                <MessageOutlined />
+                            <Nav.Link href="#link" className='mssg-btn'>
+                                {/* <MessageOutlined /> */}
+                                <span className='fs-4'><i class="bi bi-chat"></i></span>
                             </Nav.Link>
                         </Nav.Item>
                         
                         <Nav.Item className="p-2"   >
-                            <Nav.Link href="#link">
-                                <NotificationsNoneOutlined  className="dropdown-toggle"/>
+                            <Nav.Link href="#link" className='notify-btn'>
+                                {/* <NotificationsNoneOutlined  className="dropdown-toggle"/> */}
+                                <span className='fs-4'><i class="bi bi-bell"></i></span>
                             </Nav.Link>
                         </Nav.Item>                           
                         <Nav.Item>
                             <Nav.Link >   
                                 <Dropdown>
-                                    <Dropdown.Toggle>
+                                    <Dropdown.Toggle className='logtog-btn border-0 rounded-circle shadow'>
                                         <Ai.AiOutlinePoweroff size={20}/>
                                     </Dropdown.Toggle>
                                     <Dropdown.Menu  align="end">
-                                        <Dropdown.Item onClick={Logout} > 
-                                            <div className="w-100 btn-primary">Logout</div>
+                                        <Dropdown.Item onClick={Logout} className="lgout-btn rounded-pill"> 
+                                            <div className="w-100 text-center fw-bold text-capitalize lgout-btn rounded-pill">logout</div>
                                         </Dropdown.Item>
                                     </Dropdown.Menu>    
                                 </Dropdown>

@@ -76,12 +76,12 @@ const TlDashboard = () => {
   return (
     <>  
         <Card className="border mt-4 mb-4 px-2 mx-3 m-auto shadow-lg rounded-4">
-            <Row className='pt-5 mt-5'>
-                <Col className="px-3 mt-3 mb-3">
-                    <h4 className='text-start'>Welcome  {items.username}</h4>                
+            <Row className='pt-5 mt-5 align-items-center px-5'>
+                <Col>
+                    <p className='text-start text-capitalize fw-bold fs-4 m-0'>welcome  {items.username}</p>                
                 </Col>
-                <Col className="px-3 mt-3 mb-3 text-end">
-                    <Button className="btn btn-primary" onClick={req_handleShow} >Leave Request</Button>
+                <Col className="text-end">
+                    <Button className="btn lr-btn border-0 rounded-pill text-capitalize fw-bold shadow" onClick={req_handleShow} >leave request</Button>
                 </Col>
             </Row>            
             <LeaveListTab />
@@ -89,13 +89,13 @@ const TlDashboard = () => {
     
         <Modal show={btn_req_show} onHide={req_handleClose} size="xl" centered>
             <Modal.Header closeButton>
-                Leave Request            
+            <p className='text-capitalize fw-bold m-0 fs-5'>leave request</p>          
             </Modal.Header>
             <Modal.Body> 
                 <>
-                    <Card className="border mt-4 mb-4 px-2 mx-3 m-auto shadow rounded-4">            
+                    <div className="py-5">            
                         <Col >
-                            <Row className="justify-content-around px-3 mb-3  ">   
+                            <Row className="justify-content-around">   
                                 <Col sm md>
                                     <Permissionslider  />                    
                                 </Col>
@@ -110,7 +110,7 @@ const TlDashboard = () => {
                                 </Col>
                             </Row>                
                         </Col>                
-                    </Card>
+                    </div>
                     <Card className="">
                         <Col className="px-3 py-3 mt-3 mb-3">
                             <Table striped bordered hover responsive className='caption-top'>
