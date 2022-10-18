@@ -5,7 +5,6 @@ import moment from 'moment'
 import { useForm } from 'react-hook-form'
 
 import LeaveListTable from '../tables/LeaveListTable'
-import PerLeaveListTable from '../tables/PerLeaveListTable'
 
 const LeaveListTab = () => {
     //header columns
@@ -132,16 +131,16 @@ const LeaveListTab = () => {
             activeKey={_key} onSelect={ e => setKey(e)}
         >
             <Tab eventKey="casual_leave" title={`Casual ${getCount("casual_leave")}`}>
-                <LeaveListTable  list={list} _key={_key}/>                
+                <LeaveListTable  list={list} _key={_key} setList={setList}/>                
             </Tab>
             <Tab eventKey="sick_leave" title={`Sick ${getCount('sick_leave')}`} >
-                <LeaveListTable  list={list} _key={_key}/> 
+                <LeaveListTable  list={list} _key={_key} setList={setList}/> 
             </Tab>
             <Tab eventKey="work_from_home" title={`Work From Home ${getCount('work_from_home')}`}>
-            <LeaveListTable  list={list} _key={_key}/> 
+                <LeaveListTable  list={list} _key={_key} setList={setList}/> 
             </Tab>
             <Tab eventKey="permission" title={`Permission ${getCount('permission')}`} >
-                <PerLeaveListTable  list={list} _key={_key}/>  
+                <LeaveListTable  list={list} _key={_key} setList={setList}/>  
             </Tab>        
         </Tabs>
         <>
@@ -205,12 +204,10 @@ const LeaveListTab = () => {
                             }
                             
                             })
-                        }
-                            
+                        }                            
                            
                         </tbody>
                     </Table>
-
                 </Modal.Body>
             </Modal>
             

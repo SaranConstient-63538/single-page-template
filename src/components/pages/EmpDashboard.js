@@ -24,12 +24,7 @@ const EmpDashboard = () => {
     
     useEffect(()=>{         
 
-        instance.get(process.env.REACT_APP_USERS_LEAVELIST).then(res => {
-           
-            user_list = res.data
-            user_list.sort((a,b)=> a.from_date.localeCompare(b.from_date))
-            setUserList(user_list)
-        }) 
+       
 
         instance.post(process.env.REACT_APP_LEAVELIST).then(res =>{
             // console.log( res.data,'emp');
@@ -79,7 +74,7 @@ const EmpDashboard = () => {
                 <Col className="px-3 mt-3 mb-3">
                     <h4 className='text-start text-capitalize m-0 fw-bold user-tab-list'>user leave list</h4>                
                 </Col>
-                <UserLeaveList />                
+                <UserLeaveList setUserList={setUserList} userList={userList}/>                
             </div>
         </motion.div>
             
