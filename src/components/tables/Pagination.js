@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 import './pagination.css'
 
 export const Pagination =({pageNumber, handleNextbtn, handlePrevbtn})=>{
@@ -17,3 +18,14 @@ export const Pagination =({pageNumber, handleNextbtn, handlePrevbtn})=>{
 
 
   
+=======
+import {useState} from 'react'
+
+
+export const Pagination =({data})=>{
+    const [currentPage, setCurrentPage] = useState(1)
+    const [perPage, setPerPage] = useState(5)
+
+    console.log('pagination',data)
+}
+>>>>>>> 34bedcf131a8b03a07e2eae487186b810627a82e

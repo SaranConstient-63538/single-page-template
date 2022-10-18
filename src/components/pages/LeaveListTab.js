@@ -40,10 +40,18 @@ const LeaveListTab = () => {
     const [status_des, setStatus_des]=useState('');//description
     const [frm_date,setFrom_date]=useState('')//from date
     const [emp_id, setEmp_id]=useState('') //emp id 
+<<<<<<< HEAD
    
     const onClick=(col)=>{
         instance.get(`${process.env.REACT_APP_APPROVALIST}?type_of_leave=${col}`).then( res =>{
             console.log(res.data)
+=======
+    useEffect(() => {   
+        console.log(list) 
+      instance.get(`${process.env.REACT_APP_APPROVALIST}?type_of_leave=${_key}`).then( res =>{
+        console.log('hi',_key,res.data.result); 
+        if(res && res.data && res.data.result && res.data.result.length > 0){
+>>>>>>> 34bedcf131a8b03a07e2eae487186b810627a82e
             setList(res.data.result)
         })
         .catch( err =>{

@@ -17,6 +17,7 @@ const EmpDashboard = () => {
     const [casual_leave, setCasual_leave]=useState('')
     const [work_from_home, setWork_from_home]=useState('')
     const [permission, setPermission]=useState('')
+<<<<<<< HEAD
     const [data, setData]=useState([])
     //pagination
     const [perPage, setPerpage]=useState(6)
@@ -29,12 +30,25 @@ const EmpDashboard = () => {
     // const firstPage = lastPage - perPage;
   
     // const curItem = user_list.slice(firstPage,lastPage)
+=======
+    const [userList, setUserList]=useState([])
+   
+>>>>>>> 34bedcf131a8b03a07e2eae487186b810627a82e
     
     const items = JSON.parse(localStorage.getItem('data'))
     
     useEffect(()=>{         
 
+<<<<<<< HEAD
        
+=======
+        instance.get(process.env.REACT_APP_USERS_LEAVELIST).then(res => {
+           
+            user_list = res.data
+            user_list.sort((a,b)=> a.from_date.localeCompare(b.from_date))
+            setUserList(user_list)
+        }) 
+>>>>>>> 34bedcf131a8b03a07e2eae487186b810627a82e
 
         instance.post(process.env.REACT_APP_LEAVELIST).then(res =>{
             // console.log( res.data,'emp');
@@ -50,8 +64,13 @@ const EmpDashboard = () => {
         }).catch( err =>{
             console.log(err.message)
         })  
+<<<<<<< HEAD
     },[])
 
+=======
+    },[user_list])
+    
+>>>>>>> 34bedcf131a8b03a07e2eae487186b810627a82e
 
   return (
     <motion.div initial={{opacity: 1}} animate={{y:0}}>
