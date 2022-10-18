@@ -29,7 +29,7 @@ const Topbar = ({handleShow}) => {
        
     }
     return (
-        <Navbar expand="md"  className="shadow topbar bg-white py-0 px-0 mt-0 flex-row position-fixed w-100">              
+        <Navbar expand="md"  className="shadow-lg topbar bg-dark py-0 px-0 mt-0 flex-row position-fixed w-100">              
             <div className='navbar-brand-wrapper '>
                 <Navbar.Brand href="#home" className="logoIcon text-center">
                     <img src={logoImg} alt="logo"  className='text-sm-center'/>

@@ -24,12 +24,11 @@
     background-color: #7BD433 !important;
 }
 
-/* body {
-	background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+ body {
+	background: linear-gradient(-45deg, #0E77C0, #7BD433, #027BFF, #A7DAFD);
 	background-size: 400% 400%;
-	animation: gradient 15s ease infinite;
-} */
-
+	animation: gradient 14s ease infinite;
+} 
 @keyframes gradient {
 	0% {
 		background-position: 0% 50%;
@@ -41,11 +40,17 @@
 		background-position: 0% 50%;
 	}
 }
-.leave-card{
+
+.user-tab-list{
+    color: white;
+    text-shadow: 9px 9px 5px black, 0 0 25px black, 0 0 5px black;
+}
+
+/* .leave-card{
     transform: rotate(0);
     transition: transform 0.4s ease;  
   }
   
   .leave-card:hover{
       transform: rotate(360deg);
-  }
+  } */

@@ -75,8 +75,8 @@ const TlDashboard = () => {
     
   return (
     <>  
-        <Card className="border mt-4 mb-4 px-2 mx-3 m-auto shadow-lg rounded-4">
-            <Row className='pt-5 mt-5 align-items-center px-5'>
+        <Card className="shadow-lg rounded-4">
+            <Row className='pt-5 align-items-center px-5'>
                 <Col>
                     <p className='text-start text-capitalize fw-bold fs-4 m-0'>welcome  {items.username}</p>                
                 </Col>
@@ -112,7 +112,7 @@ const TlDashboard = () => {
                         </Col>                
                     </div>
                     <Card className="">
-                        <Col className="px-3 py-3 mt-3 mb-3">
+                        <Col className="px-3 py-3">
                             <Table striped bordered hover responsive className='caption-top'>
                                 <caption>                
                                     <h4 className='text-start'>My leaves</h4>

@@ -68,8 +68,8 @@ const CasualLeavel =({casual_leave})=>{
     }
     const casual_handleClose =()=> setCasual_show(false)
     const casual_apply ={
-        from_date: moment(startDate).format(format_date),
-        to_date: moment(endDate).format(format_date),
+        from_date: moment(startDate).format("YYYY-MM-DD"),
+        to_date: moment(endDate).format("YYYY-MM-DD"),
         type_of_leave: casual_leave.type_of_leave,
         description: casual_reason,
     }
@@ -155,7 +155,7 @@ const CasualLeavel =({casual_leave})=>{
     }
     return (
         <>
-           <Card className='text-center leave-card m-auto shadow'>
+           <Card className='text-center leave-card m-auto shadow-lg'>
         <div className='my-auto'>
           <Card.Subtitle className="text-capitalize my-1 fw-bold">casual leave</Card.Subtitle>                            
             <Button onClick={handleShow} className="rounded-pill border-0 my-1 la-btn shadow">Apply</Button>
@@ -205,7 +205,7 @@ const CasualLeavel =({casual_leave})=>{
                     Are you sure ?                
                 </Modal.Header>
                 <Modal.Body>      
-                    <p>To apply the  Casual leave From: {casual_apply.from_date} To: {casual_apply.to_date} </p>                  
+                    <p>To apply the  Casual leave From: {moment.utc(casual_apply.from_date).format("DD-MM-YYYY")} To: {moment.utc(casual_apply.to_date).format("DD-MM-YYYY")} </p>                  
  
                     <Row>
                         <Col className='text-start'>

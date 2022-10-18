@@ -1,6 +1,5 @@
 .topbar{
-    height:70px;
-    background-color: #0E77C0 !important;    
+    height:70px;    
     z-index: 1;
     /* background: rgb(162,68,219); */
 /* background: linear-gradient(90deg, rgba(162,68,219,1) 0%, rgba(139,7,204,1) 45%); */
@@ -66,6 +65,9 @@
 .menubox-btn{
 color: #FFFFFF;
 }
+.menubox-btn:hover {
+    color: #FFFFFF !important;
+}
 .mssg-btn{
     color: #FFFFFF;
     transform: rotate(0);
@@ -91,3 +93,4 @@ color: #FFFFFF;
 .lr-btn:hover{
     background-color: #7BD433 !important;
 }
+

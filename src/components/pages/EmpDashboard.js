@@ -86,7 +86,7 @@ const EmpDashboard = () => {
   return (
     <motion.div initial={{opacity: 1}} animate={{y:0}}>
             <Col className="px-3 my-3">
-                <motion.h4 animate={{  x:[100,0], opacity:1}} transition={{duration:3}}  className='text-start pt-5 mt-5 m-0 fw-bold text-capitalize'>welcome {items.username}</motion.h4>                
+                <motion.h4 animate={{  x:[100,0], opacity:1}} transition={{duration:3}}  className='text-start m-0 fw-bold text-capitalize user-tab-list'>welcome {items.username}</motion.h4>                
             </Col>
            <Col >
                 <Row className="justify-content-around px-5 py-5"> 
@@ -109,17 +109,13 @@ const EmpDashboard = () => {
                     </motion.div>
                 </Row>                
            </Col>
-            <>
-                <UserLeaveList />
-            </> 
-    
         <motion.div animate={{y:[100,0]}} transition={{duration:5}}>
             <div className="text-center">
                 <Col className="px-3 mt-3 mb-3">
-                    <h4 className='text-start text-capitalize m-0 fw-bold'>user leave list</h4>                
+                    <h4 className='text-start text-capitalize m-0 fw-bold user-tab-list'>user leave list</h4>                
                 </Col>
                 <Col className="px-3 py-3 mt-3 mb-3">
-                    <Table table-responsive className='table-borderless'>
+                    <Table table-responsive className='table-borderless bg-white rounded-5'>
                         <thead>
                             <tr>
                                 <th className='py-3 text-capitalize'>s.no</th>
@@ -139,9 +135,11 @@ const EmpDashboard = () => {
                                             <td className="py-3">{item.description}</td>
                                             <td className="py-3">
                                                 {item.status === 0 ?(
-                                                    <p className='m-0 text-capitalize' >waiting for approval</p>
-                                                ):(
+                                                   <p className='m-0 text-capitalize' >pending</p>
+                                                ):item.status === 1 ?(
                                                     <p className='m-0 text-capitalize'>approved</p>
+                                                ):(
+                                                    <p className='m-0 text-capitalize'>rejected</p>
                                                 )
                                             } 
                                             </td>

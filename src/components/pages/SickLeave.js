@@ -77,8 +77,8 @@ const SickLeave =({sick_leave})=>{
         return date.setDate(date.getDate() + period)        
     }     
     const sick_apply ={
-        from_date: moment(startDate).format(format_date),
-        to_date: moment(endDate).format(format_date),
+        from_date: moment(startDate).format("YYYY-MM-DD"),
+        to_date: moment(endDate).format("YYYY-MM-DD"),
         type_of_leave: sick_leave.type_of_leave,
         description: sick_reason,
     }  
@@ -155,7 +155,7 @@ const SickLeave =({sick_leave})=>{
     }  
     return (
         <>
-            <Card className='text-center leave-card m-auto shadow'>
+            <Card className='text-center leave-card m-auto shadow-lg'>
         <div className='my-auto'>
           <Card.Subtitle className="text-capitalize my-1 fw-bold">sick leave</Card.Subtitle>                            
             <Button onClick={handleShow} className="rounded-pill border-0 my-1 la-btn shadow">Apply</Button>
@@ -208,7 +208,7 @@ const SickLeave =({sick_leave})=>{
                     Are you sure ?                
                 </Modal.Header>
                 <Modal.Body>      
-                    <p>To apply the Sick leave From :  {sick_apply.from_date} To : {sick_apply.to_date} </p>                  
+                    <p>To apply the Sick leave From :  {moment.utc(sick_apply.from_date).format("DD-MM-YYYY")} To: {moment.utc(sick_apply.to_date).format("DD-MM-YYYY")} </p>                  
                     <Row>
                         <Col className='text-start'>
                             <Button className="btn btn-danger p-2 m-2 rounded-4 fs-6" onClick={onCancel}>Cancel</Button>
