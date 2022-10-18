@@ -1,0 +1,77 @@
+.page-number{
+    list-style: none;
+    display: flex;
+}
+.page-number li{
+    padding: 10px 15px;
+    cursor: pointer;
+    border: 1px solid #4285F4;
+    color:#4285F4;
+    background-color: white;
+    font-size: 18px;
+}
+.page-number li.active{
+    color:white;
+    background-color: #4285F4;
+}
+.page-number li button{
+    border:none;
+    background-color: transparent;
+    color:#4285f4;
+    font-size: 18px;
+}
+.page-number li button:hover{
+    background-color: #4285f4;
+    color:white;
+}
+.search-icon{
+    margin: 5px auto;
+    justify-content: start;
+    left: 500px;
+    top: 28px;
+    font-size: 22px;
+}
+.incline-line{  
+    border: 1px solid black;
+    width: 1px;
+    height: 350px;  
+    transform: rotate(180deg);
+}
+.backtologin{
+    font-size: 15px;
+    list-style: none;
+    text-decoration: none;
+}
+.icon-password-success{
+    color:green;
+    position: absolute;
+    left: 300px;
+    margin-top:-25px;
+}
+.icon-password-error{
+    color:red;
+    position: absolute;
+    left: 300px;
+    margin-top:-25px;
+}
+.icon-email-success{
+    color:green;
+    position: absolute;
+    left: 300px;
+    margin-top:-25px;
+}
+.icon-email-error{
+    color:red;
+    position: absolute;
+    left: 300px;
+    margin-top:-25px;
+}
+.addbutton{
+    width: 120px;
+}
+.errcolor{
+    color:red;
+}
+.card-radius{
+    border-radius: 18px;
+}

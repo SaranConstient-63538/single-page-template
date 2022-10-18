@@ -1,17 +1,23 @@
 import {  Row, Col, Modal, Card, Button, Form} from 'react-bootstrap'
 import DatePicker from "react-datepicker";
+import {lazy} from 'react'
 
 import React,{useState} from 'react'
 import './leave.css'
+
 import moment from 'moment';
 import instance from '../../service/service';
 import { motion } from 'framer-motion'
 import { toast } from 'react-toastify'
+// const Dropzone = lazy(()=> import('react-dropzone'))
 
 
 const SickLeave =({sick_leave})=>{
     const format_date = "YYYY-MM-DD"
-
+    
+    const [file_upload, setFile_upload] = useState([]);
+  
+    
     const [startDate, setStartdate]=useState('')
     const [endDate, setEnddate]=useState('')
     const [sick_reason,setSickreason]=useState('')
@@ -20,7 +26,7 @@ const SickLeave =({sick_leave})=>{
     const [sick_show,setSick_show]=useState(false)
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const [inputErrors,setInputErrors] = useState({startDate:'',endDate:'',sick_reason:''})
+    const [inputErrors,setInputErrors] = useState({startDate:'',endDate:'',sick_reason:'',file_upload:''})
 
     const sick_handleShow =()=> {
         let errorCount=0
@@ -66,7 +72,7 @@ const SickLeave =({sick_leave})=>{
             })
         }
         if(errorCount==0){
-        const applyForm = {startDate,endDate,sick_reason}
+        const applyForm = {startDate,endDate,sick_reason,file_upload}
         console.log(applyForm)
         setSick_show(true);
         }
@@ -81,7 +87,9 @@ const SickLeave =({sick_leave})=>{
         to_date: moment(endDate).format("YYYY-MM-DD"),
         type_of_leave: sick_leave.type_of_leave,
         description: sick_reason,
-    }  
+        file: file_upload,
+    }
+  
     const onCancel =()=>{
         console.log('cancel')
         setStartdate('')
@@ -153,6 +161,11 @@ const SickLeave =({sick_leave})=>{
     const onSickReason = (e)=>{
         setSickreason(e.target.value)
     }  
+    const handleDrop = event =>{
+        setFile_upload(event.target.files[0]);
+        console.log(event.target.files[0])
+    }
+    
     return (
         <>
             <Card className='text-center leave-card m-auto shadow-lg'>
@@ -198,7 +211,19 @@ const SickLeave =({sick_leave})=>{
                         <Form.Control as="textarea" rows={3} className="mb-2" 
                             value={sick_reason} onChange={onSickReason} 
                         />    
-                        {inputErrors.sick_reason && <p className='text-danger'>{inputErrors.sick_reason}</p>}                   
+                        {inputErrors.sick_reason && <p className='text-danger'>{inputErrors.sick_reason}</p>} 
+                        <h6 className='mb-3 mt-3'>Doc Upload </h6>
+                        <Form.Control className="mb-2" type="file" onChange={handleDrop} multiple />    
+                        {/* <Dropzone onDrop={handleDrop}>
+                            {({ getRootProps, getInputProps }) => (
+                            <div {...getRootProps({ className: "dropzone" })}>
+                                <input {...getInputProps()} />
+                                <p>Drag'n'drop files, or click to select files</p>
+                            </div>
+                            )}
+                        </Dropzone> */}
+                        {inputErrors.sick_reason && <p className='text-danger'>{inputErrors.file_upload}</p>} 
+                            
                         <Button onClick={sick_handleShow} className="m-1 p-2 rounded-4">Submit</Button>                                                                 
                     </Col>              
                 </Modal.Body>

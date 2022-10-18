@@ -18,6 +18,7 @@ const PerLeaveListTable =({list,_key})=>{
         {field:'button',header:'Approval status'},
         {field:'action',header:'Action'},
     ]
+   
     return(
         <Table className="table-responsive">
             <thead>
@@ -26,32 +27,9 @@ const PerLeaveListTable =({list,_key})=>{
                         <th>{head.header}</th>
                     ))}
                 </tr>
-                {/* <tr>
-                    <th>Emp Name</th>
-                    <th>From Date</th>
-                    <th>To Date</th>
-                    <th>Days</th>
-                    <th>Reason</th>
-                    <th>Approval Status </th>
-                    <th>Action</th>                            
-                </tr> */}
             </thead>
             <tbody>     
-                {/* {   list?.length ?
-
-                    list.map( (row)=>(
-                        <tr>
-                            {leavelistCol.map( (col)=>(
-                                <td>{row[col.field]}</td>
-                            ))}
-                            <td>
-                                
-                            </td>
-                        </tr>
-                    )):(                       
-                        <tr><td colSpan='8'>No Record Founded</td></tr>                      
-                    )
-                }                   */}
+                
                 { list && list.length > 0 ?
                     list.map((item,idx)=>{
                         console.log(item.length,item.type_of_leave,_key)

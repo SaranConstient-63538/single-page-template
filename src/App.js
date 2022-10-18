@@ -3,16 +3,11 @@ import { ToastContainer } from 'react-toastify'
 import { Routes, Route, BrowserRouter }  from 'react-router-dom';
 import { Spinner } from 'react-bootstrap';
 import PrivateRoute from './components/PrivateRoute';
+import {loading} from './components/loading'
 import 'react-toastify/dist/ReactToastify.css';
 
 const  LoginForm = lazy(()=> import('./components/LoginForm'));
 const MainPage =lazy(()=> import('./components/MainPage'));
-
-const loading =(
-  <div className="text-center align-items-center">
-    <Spinner animation="border" variant="primary" />
-  </div>
-);
 
 const App = () => {
   // const access_token =localStorage.getItem('token')
