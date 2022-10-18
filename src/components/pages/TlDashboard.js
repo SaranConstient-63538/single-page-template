@@ -107,8 +107,8 @@ const TlDashboard = () => {
                             </Row>                
                         </Col>                
                     </div>
-                    <Card className="">
-                        <motion.div animate={{y:[100,0]}} transition={{duration:5}}>
+                    <Card className="border-0">
+                        <motion.div animate={{y:[100,0]}} transition={{duration:2}}>
                             <div className='="text-center'>
                                 <Col className="px-3 mt-3 mb-3">
                                     <h4 className='text-start text-capitalize m-0 fw-bold'>My leaves</h4>                

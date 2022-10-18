@@ -46,7 +46,7 @@ export const UserLeaveList =({_key})=>{
   const pageNumber = dataList.map( number =>{
     if(number < maxPage + 1 &&  number  > minPage ){
       return(
-        <li key={number} id={number} className={currentPage == number ? "active page-item": null} onClick={handleClick}>
+        <li key={number} id={number} className="border-0 rounded-pill my-auto px-3 py-2 text-dark" onClick={handleClick}>
           {number}
         </li>
       )
@@ -105,8 +105,8 @@ export const UserLeaveList =({_key})=>{
 
     return(
         <>
-            <Col className="px-3 py-3 mt-3 mb-3">
-                    <Table  className='table-borderless'>
+            <Col className="px-3 py-3">
+                    <Table  className='table-borderless bg-white rounded-5 text-center'>
                         <thead>
                             <tr>
                                 {userListCol.map((head) =>(                                    
@@ -122,8 +122,8 @@ export const UserLeaveList =({_key})=>{
                                     return(
                                         <tr key={idx} className="shadow rounded-pill">
                                             <td className="py-3">{(perPage *(currentPage-1))+idx +  1}</td>
-                                            <td className="py-3">{moment().utc(item.from_date).format('DD-MM-YYYY')}</td>
-                                            <td className="py-3">{moment().utc(item.to_date).format('DD-MM-YYYY')}</td>
+                                            <td className="py-3">{moment.utc(item.from_date).format('DD-MM-YYYY')}</td>
+                                            <td className="py-3">{moment.utc(item.to_date).format('DD-MM-YYYY')}</td>
                                             <td className="py-3">{item.type_of_leave === 'sick_leave'? 'Sick Leave': item.type_of_leave === 'casual_leave' ? 'Casual Leave':item.type_of_leave === 'work_from_home' ? 'Work From Home':item.type_of_leave === 'permission' ? 'Permission' : ''  }</td>                                      
                                             <td className="py-3">{item.description}</td>
                                             <td className="py-3">

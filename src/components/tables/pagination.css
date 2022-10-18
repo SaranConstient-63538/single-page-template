@@ -14,7 +14,7 @@
     color:white;
     background-color: #4285F4;
 }
-.page-number li button{
+/* .page-number li button{
     border:none;
     background-color: transparent;
     color:#4285f4;
@@ -23,7 +23,7 @@
 .page-number li button:hover{
     background-color: #4285f4;
     color:white;
-}
+} */
 .search-icon{
     margin: 5px auto;
     justify-content: start;
@@ -75,3 +75,8 @@
 .card-radius{
     border-radius: 18px;
 }
+
+
+/* {currentPage == number ? "active page-item": null} */
+
+/* {currentPage == number ? "active page-item": null} */

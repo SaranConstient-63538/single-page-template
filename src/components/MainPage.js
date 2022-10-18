@@ -18,7 +18,7 @@ const MainPage = () => {
   }  
   return (
     <div className="wrapper d-flex align-items-stretch">      
-      <Container fluid className="overflow-hidden p-0">     
+      <Container fluid className="overflow-hidden p-0 bg-grad">     
           <Topbar handleShow={handleShow}/>   
           <Container fluid className="page-body-wrapper py-0 px-0">
             <Sidebar show={show}/>

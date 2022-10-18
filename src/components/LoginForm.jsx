@@ -68,6 +68,7 @@ const handleShow=()=>{
   }   
   return (
     <Container>
+      <div className="form-bg position-absolute"></div>
       {/* {(isLogin())&&navigate('/home')} */}
       <div className="row my-md-5 py-md-5">
         <div className="col-md-6 col-12 align-self-center text-center">

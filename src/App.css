@@ -178,19 +178,13 @@ a#navbarScrollingDropdown, .bell-icn, .notifi-icn{
   color: white;
 }
 
-body {
-	background: linear-gradient(-45deg, #0E77C0, #7BD433, #027BFF, #A7DAFD);
-	background-size: 400% 400%;
-	animation: gradient 13s ease infinite;
-} 
-@keyframes gradient {
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
+.form-bg{
+  z-index: -1;
+top: 0px;
+right: 0px;
+width: 1195px;
+height: 625px;
+background: transparent url("../src/assets/images/loginbg-img.svg") 0% 0% no-repeat padding-box;
+opacity: 1;
 }
+

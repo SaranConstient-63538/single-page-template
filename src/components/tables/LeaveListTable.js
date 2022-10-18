@@ -49,7 +49,7 @@ const LeaveListTable =({list,_key})=>{
   const pageNumber = dataList.map( number =>{
     if(number < maxPage + 1 &&  number  > minPage ){
       return(
-        <li key={number} id={number} className={currentPage == number ? "active page-item": null} onClick={handleClick}>
+        <li key={number} id={number} className="border-0 rounded-pill my-auto px-3 py-2 bg-dark text-white" onClick={handleClick}>
           {number}
         </li>
       )
