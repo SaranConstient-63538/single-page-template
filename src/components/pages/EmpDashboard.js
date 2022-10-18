@@ -8,12 +8,10 @@ import SickLeave from './SickLeave';
 import instance from '../../service/service';
 import { motion } from 'framer-motion';
 import moment  from 'moment'
-import * as Ai from  'react-icons/ai'
-import Pagination from './Pagination'
 import { UserLeaveList } from '../tables/UserLeaveList';
 
 const EmpDashboard = () => {
-    let user_list;
+    const user_list = ''
     const [order,setOrder ]=useState('ASC')
     const [sick_leave, setSick_leave]=useState('')
     const [casual_leave, setCasual_leave]=useState('')
@@ -23,31 +21,10 @@ const EmpDashboard = () => {
    
     
     const items = JSON.parse(localStorage.getItem('data'))
-    const onSorting =(col)=>{
-        if(order === 'ASC'){
-            const sorted = [...userList].sort((a,b)=>
-                a[col]>b[col] ? 1 :-1
-              
-            )
-            setUserList(sorted)
-            setOrder('DSC')
-        }
-        if(order === 'DSC'){
-            const sorted = [...userList].sort((a,b)=>
-                a[col]>b[col]? 1 : -1
-            )
-            setUserList(sorted)
-            setOrder('ASC')
-        }
-    }
-    useEffect(()=>{          
+    
+    useEffect(()=>{         
 
-        instance.get(process.env.REACT_APP_USERS_LEAVELIST).then(res => {
-           
-            user_list = res.data
-            user_list.sort((a,b)=> a.from_date.localeCompare(b.from_date))
-            setUserList(user_list)
-        }) 
+       
 
         instance.post(process.env.REACT_APP_LEAVELIST).then(res =>{
             // console.log( res.data,'emp');
@@ -69,7 +46,7 @@ const EmpDashboard = () => {
   return (
     <motion.div initial={{opacity: 1}} animate={{y:0}}>
             <Col className="px-3 my-3">
-                <motion.h4 animate={{  x:[100,0], opacity:1}} transition={{duration:3}}  className='text-start pt-5 mt-5 m-0 fw-bold text-capitalize'>welcome {items.username}</motion.h4>                
+                <motion.h4 animate={{  x:[100,0], opacity:1}} transition={{duration:3}}  className='text-start m-0 fw-bold text-capitalize user-tab-list'>welcome {items.username}</motion.h4>                
             </Col>
            <Col >
                 <Row className="justify-content-around px-5 py-5"> 
@@ -92,9 +69,15 @@ const EmpDashboard = () => {
                     </motion.div>
                 </Row>                
            </Col>
-            <>
-                <UserLeaveList />
-            </> 
+           <motion.div animate={{y:[100,0]}} transition={{duration:5}}>
+            <div className='="text-center'>
+                <Col className="px-3 mt-3 mb-3">
+                    <h4 className='text-start text-capitalize m-0 fw-bold user-tab-list'>user leave list</h4>                
+                </Col>
+                <UserLeaveList setUserList={setUserList} userList={userList}/>                
+            </div>
+        </motion.div>
+            
     </motion.div>
   )
 }

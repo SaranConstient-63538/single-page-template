@@ -173,10 +173,18 @@ a#navbarScrollingDropdown, .bell-icn, .notifi-icn{
 .mailcon{
   width: 15px;
 }
-
-
-
 .toast_success{
   background-color: #00FF00;
   color: white;
 }
+
+.form-bg{
+  z-index: -1;
+top: 0px;
+right: 0px;
+width: 1195px;
+height: 625px;
+background: transparent url("../src/assets/images/loginbg-img.svg") 0% 0% no-repeat padding-box;
+opacity: 1;
+}
+

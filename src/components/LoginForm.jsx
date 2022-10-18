@@ -27,6 +27,7 @@ const schema = yup.object({
 }).required();
 
 const LoginForm = () => {
+
   const navigate = useNavigate();
   const { handleSubmit, register, formState:{errors}} = useForm({
     resolver: yupResolver(schema)
@@ -59,7 +60,6 @@ const LoginForm = () => {
         localStorage.setItem('data',_data)
         // instance.defaults.headers.common['Authorization']=`Bearer ${res.data.token}`
         localStorage.setItem('token', res.data.responseResult.token)
-
         navigate('/home')     
         toast.success('Successfully Login',{       
           position: toast.POSITION.BOTTOM_LEFT,
@@ -71,109 +71,73 @@ const LoginForm = () => {
     })    
     
   }   
-  return (    
+  return (
     <Container>
+      <div className="form-bg position-absolute"></div>
       {/* {(isLogin())&&navigate('/home')} */}
       <div className="row my-md-5 py-md-5">
         <div className="col-md-6 col-12 align-self-center text-center">
           <div className="w-auto h-auto my-3 my-md-0">
-            <img src={logimage} className="w-100 h-100" alt="Employee image"/>
+            <img src={logimage} className="w-100 h-100" alt="Employee image" />
           </div>
         </div>
         <div className="col-md-6 col-12 align-self-center text-center">
-          {reset ? (
-            <Form className="d-flex flex-column shadow-lg rounded-5 my-3 my-md-0" onSubmit={handleSubmit(onSubmit)}>
-              <div className="swing py-1 shadow-md m-auto my-5 rounded-3">
-                <img src={cgsimg} alt="cgs image" className="fs-3 px-3 py-2" />
-              </div>
-              <div className=" text-center m-auto py-2 position-relative">
-                <span className="mailinput position-absolute"><img src={mailicon} className="mailcon"/></span>
-                  <input type="text" 
-                    {...register('email')}
-                    placeholder="Email" 
-                    className="log-input form-control border-0 shadow-none rounded-pill text-center"
-                    />
-                  <p className="text-danger m-0">{errors.email?.message}</p>
-              </div>
-              <div className="text-center m-auto py-2 position-relative">
-                <span className="mailinput position-absolute">
-                  <img src={passwordicon}  className="passcon" alt="password icon"/>
-                </span>
-                <span className="btn mailinput1 position-absolute border-0" onClick={handleShow}>
-                  <img src={passwordshow} className="passshowcon" alt="passshow icon"/>
-                </span>
-                <input className="log-input form-control border-0 shadow-none rounded-pill text-center"
-                  {...register('password')}
-                  type={show ? "text" : "password"}                  
-                   placeholder="Password"                 
-                />  
-                <p className="text-danger m-0">{errors.password?.message}</p>   
-              </div>
-              <div className="text-center py-4 mb-2">
-                <button className="log-button border-0 w-25 py-1 text-uppercase rounded-pill shadow">login</button>
-              </div>
-              <a onClick={handleReset}>reset password</a>
-          </Form>          
-          ): <Resetpassword />}
-          
+          <Form
+            className="d-flex flex-column shadow-lg rounded-5 my-3 my-md-0 bg-white"
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <div className="swing py-1 shadow-md m-auto my-5 rounded-3">
+              <img src={cgsimg} alt="cgs image" className="fs-3 px-3 py-2" />
+            </div>
+            <div className=" text-center m-auto py-2 position-relative">
+              <span className="mailinput position-absolute">
+                <img src={mailicon} className="mailcon" />
+              </span>
+              <input
+                type="text"
+                {...register("email")}
+                placeholder="Email"
+                className="log-input form-control border-0 shadow-none rounded-pill text-center"
+              />
+              <p className="text-danger m-0">{errors.email?.message}</p>
+            </div>
+            <div className="text-center m-auto py-2 position-relative">
+              <span className="mailinput position-absolute">
+                <img src={passwordicon} className="passcon" />
+              </span>
+              <span
+                className="btn mailinput1 position-absolute border-0"
+                onClick={handleShow}
+              >
+                <img src={passwordshow} className="passshowcon" />
+              </span>
+              <input
+                type={show ? "text" : "password"}
+                {...register("password")}
+                className="log-input form-control border-0 shadow-none rounded-pill text-center"
+                placeholder="Password"
+              />
+              <p className="text-danger m-0">{errors.password?.message}</p>
+            </div>
+            <div className="text-center py-4">
+              <button className="log-button border-0 w-25 py-1 text-uppercase rounded-pill shadow">
+                login
+              </button>
+            </div>
+
+            <div className="pb-4">
+              <a
+                href="#"
+                className="text-decoration-none fw-bold"
+              >
+                <i class="bi bi-key-fill pe-1"></i>reset password
+              </a>
+            </div>
+          </Form>
         </div>
       </div>
     </Container>
   );
 };
-export const Resetpassword =()=>{
-  const { handleSubmit, register, formState:{errors}} = useForm();
-  return (
-    <Form className="d-flex flex-column shadow-lg rounded-5 my-3 my-md-0" onSubmit={handleSubmit(onSubmit)}>
-      <div className="swing py-1 shadow-md m-auto my-5 rounded-3">
-        <img src={cgsimg} alt="cgs image" className="fs-3 px-3 py-2" />
-      </div>
-      <div className=" text-center m-auto py-2 position-relative">
-        <span className="mailinput position-absolute">
-          <img src={passwordicon}  className="passcon" alt="password icon"/>
-        </span>
-        <span className="btn mailinput1 position-absolute border-0" onClick={handleShow}>
-          <img src={passwordshow} className="passshowcon" alt="passshow icon"/>
-        </span>
-        <input type="password" 
-          {...register('oldpassword')}
-          placeholder="Email" 
-          className="log-input form-control border-0 shadow-none rounded-pill text-center"
-        />
-          <p className="text-danger m-0">{errors.oldpassword?.message}</p>
-      </div>
-      <div className=" text-center m-auto py-2 position-relative">
-        <span className="mailinput position-absolute">
-          <img src={passwordicon}  className="passcon" alt="password icon"/>
-        </span>
-        <span className="btn mailinput1 position-absolute border-0" onClick={handleShow}>
-          <img src={passwordshow} className="passshowcon" alt="passshow icon"/>
-        </span>
-        <input type="password" 
-          {...register('newpassword',{required:true})}
-          placeholder="Password" 
-          className="log-input form-control border-0 shadow-none rounded-pill text-center"
-        />
-          <p className="text-danger m-0" {errors.newpassword?.message}>Please  </p>
-      </div>
-      <div className="text-center m-auto py-2 position-relative">
-        <span className="mailinput position-absolute">
-          <img src={passwordicon}  className="passcon" alt="password icon"/>
-        </span>
-        <span className="btn mailinput1 position-absolute border-0" onClick={handleShow}>
-          <img src={passwordshow} className="passshowcon" alt="passshow icon"/>
-        </span>
-        <input className="log-input form-control border-0 shadow-none rounded-pill text-center"
-          {...register('password')}
-          type={show ? "text" : "password"}                  
-            placeholder="Password"                 
-        />  
-        <p className="text-danger m-0">{errors.password?.message}</p>   
-      </div>
-      <div className="text-center py-4 mb-2">
-        <button className="log-button border-0 w-25 py-1 text-uppercase rounded-pill shadow">login</button>
-      </div>
-    </Form> 
-  )  
-}
+
 export default LoginForm;

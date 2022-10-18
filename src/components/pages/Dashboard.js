@@ -14,7 +14,7 @@ const Dashboard = () => {
   return (
     <>
       <Col >
-          <Row className="justify-content-around px-3 mb-3  ">    
+          <Row className="justify-content-around pt-5 mt-5 px-5">    
             { items.role === "trainee" ?
                 (
                     <EmpDashboard  />

@@ -61,7 +61,7 @@ export const Viewbtn =({item})=>{
 
 const ApprovedModals =({show, setShow, btn_status,item})=>{
     
-    const [desc,setDesc]=useState(item.description)
+    const [desc,setDesc]=useState('')
 
     const [frm_date,setfrm_date]=useState(moment.utc(item.from_date).format('DD-MM-YYYY'))
     
@@ -70,7 +70,7 @@ const ApprovedModals =({show, setShow, btn_status,item})=>{
         const appStatus={
             status: btn_status,
             type_of_leave: item.type_of_leave,
-            status_description: item.description,
+            status_description: desc,
             leave_master_id: item.leave_master_id,
             from_date: moment.utc(item.from_date).format('YYYY-MM-DD'),
         }  
@@ -111,7 +111,7 @@ const ApprovedModals =({show, setShow, btn_status,item})=>{
 
 const RejectedModals =({show, setShow, btn_status,item})=>{
     
-    const [desc,setDesc]=useState(item.description)
+    const [desc,setDesc]=useState('')
 
     const [frm_date,setfrm_date]=useState(moment.utc(item.from_date).format('DD-MM-YYYY'))
     
@@ -119,7 +119,7 @@ const RejectedModals =({show, setShow, btn_status,item})=>{
         const appStatus={
             status: btn_status,
             type_of_leave: item.type_of_leave,
-            status_description: item.description,
+            status_description: desc,
             leave_master_id: item.leave_master_id,
             from_date: moment.utc(item.from_date).format('YYYY-MM-DD'),
         }          

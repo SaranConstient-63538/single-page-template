@@ -131,7 +131,7 @@ const WorkFromHome =({work_from_home})=>{
 
     return (
         <>
-           <Card className='text-center leave-card m-auto shadow'>
+           <Card className='text-center leave-card m-auto shadow-lg'>
         <div className='my-auto'>
           <Card.Subtitle className="text-uppercase my-1 fw-bold">wfh</Card.Subtitle>                            
             <Button onClick={handleShow} className="rounded-pill border-0 my-1 la-btn shadow">Apply</Button>

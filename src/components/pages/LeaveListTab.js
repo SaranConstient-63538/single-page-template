@@ -5,7 +5,6 @@ import moment from 'moment'
 import { useForm } from 'react-hook-form'
 
 import LeaveListTable from '../tables/LeaveListTable'
-import PerLeaveListTable from '../tables/PerLeaveListTable'
 
 const LeaveListTab = () => {
     //header columns
@@ -40,23 +39,30 @@ const LeaveListTab = () => {
     const [status_des, setStatus_des]=useState('');//description
     const [frm_date,setFrom_date]=useState('')//from date
     const [emp_id, setEmp_id]=useState('') //emp id 
+
+    
     useEffect(() => {   
-        console.log(list) 
-      instance.get(`${process.env.REACT_APP_APPROVALIST}?type_of_leave=${_key}`).then( res =>{
-        console.log('hi',_key,res.data.result); 
-        if(res && res.data && res.data.result && res.data.result.length > 0){
-            setList(res.data.result)
-        }else{
-            setList([])
-        }          
-      })
-      instance.get(process.env.REACT_APP_APPROVAL_COUNT).then(res =>{
-        setCount(res.data)
-      })
-      .catch((err)=> {
-        console.log(err.message)
+        instance.get(`${process.env.REACT_APP_APPROVALIST}?type_of_leave=${_key}`).then( res =>{
+            console.log('hi',_key,res.data.result); 
+            if(res && res.data && res.data.result && res.data.result.length > 0){
+                setList(res.data.result)
+            }
         })
+        .catch( err =>{
+            console.log(err.message)
+        })
+         
+        
     }, [_key]);
+
+    useEffect(() => {          
+        instance.get(process.env.REACT_APP_APPROVAL_COUNT).then(res =>{
+          setCount(res.data)
+        })
+        .catch((err)=> {
+          console.log(err.message)
+          })
+      }, []);
 
     const getCount=(typ)=>{
         let data=count.filter((data => data[typ])  ) 
@@ -114,6 +120,7 @@ const LeaveListTab = () => {
         }
       
     }
+    
   return (
     <Col className="px-3 py-3 mt-3 mb-3">     
         <Tabs
@@ -124,43 +131,19 @@ const LeaveListTab = () => {
             activeKey={_key} onSelect={ e => setKey(e)}
         >
             <Tab eventKey="casual_leave" title={`Casual ${getCount("casual_leave")}`}>
-                <LeaveListTable  list={list} _key={_key}/>                
+                <LeaveListTable  list={list} _key={_key} setList={setList}/>                
             </Tab>
-            <Tab eventKey="sick_leave" title={`Sick ${getCount('sick_leave')}`}>
-                <LeaveListTable  list={list} _key={_key}/> 
+            <Tab eventKey="sick_leave" title={`Sick ${getCount('sick_leave')}`} >
+                <LeaveListTable  list={list} _key={_key} setList={setList}/> 
             </Tab>
             <Tab eventKey="work_from_home" title={`Work From Home ${getCount('work_from_home')}`}>
-               
+                <LeaveListTable  list={list} _key={_key} setList={setList}/> 
             </Tab>
-            <Tab eventKey="permission" title={`Permission ${getCount('permission')}`}>
-                <PerLeaveListTable  list={list} _key={_key}/>  
+            <Tab eventKey="permission" title={`Permission ${getCount('permission')}`} >
+                <LeaveListTable  list={list} _key={_key} setList={setList}/>  
             </Tab>        
         </Tabs>
         <>
-            {/* <Modal show={show} onHide={()=> setShow(false)}>
-                <Modal.Header closeButton></Modal.Header>
-                <Modal.Body>
-                    <Form>
-                        <Form.Label>Status Description</Form.Label>
-                        <Form.Control value={status_des} onChange={(event)=>setStatus_des(event.target.value)} type="text"/>
-                        <Form.Label>From Date</Form.Label>
-                        <Form.Control value={frm_date} onChange={(event)=>setFrom_date(event.target.value)} type="text" />
-                        <Button onClick={onApproved}>Save</Button>
-                    </Form>                    
-                </Modal.Body>
-            </Modal>
-            <Modal show={_show} onHide={()=> _setShow(false)}>
-                <Modal.Header closeButton></Modal.Header>
-                <Modal.Body>
-                    <Form>
-                        <Form.Label>Status Description</Form.Label>
-                        <Form.Control value={status_des} onChange={(e)=>setStatus_des(e.target.value)} type="text"/>
-                        <Form.Label>From Date</Form.Label>
-                        <Form.Control value={frm_date} onChange={(e)=>setFrom_date(e.target.value)} type="text" />
-                    </Form>
-                    <Button onClick={onRejected}>Save</Button>
-                </Modal.Body>
-            </Modal> */}
             <Modal show={spec_show} onHide={()=> setSpec_show(false)}>
                 <Modal.Header closeButton>
                     <Modal.Title>Specfic Employee List</Modal.Title>
@@ -221,12 +204,10 @@ const LeaveListTab = () => {
                             }
                             
                             })
-                        }
-                            
+                        }                            
                            
                         </tbody>
                     </Table>
-
                 </Modal.Body>
             </Modal>
             
