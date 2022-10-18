@@ -53,6 +53,7 @@ export const UserLeaveList =()=>{
       return null;
     }
   })
+  console.log(currentPage, 'current page',maxPage,'max page', minPage, 'min page')
   //previous pagination onclick function
   const handleNextbtn =()=>{
     setCurrentpage(currentPage + 1)
@@ -95,8 +96,7 @@ export const UserLeaveList =()=>{
             console.log(err.message);
         })       
     },[])
-
-
+    console.log(curItem.length > 0)
     return(
         <>
             <Col className="px-3 py-3 mt-3 mb-3">
@@ -139,7 +139,16 @@ export const UserLeaveList =()=>{
                     </Table>
                 </Col>
                 <Col>
-                    <Pagination pageNumber={pageNumber} handlePrevbtn={handlePrevbtn} handleNextbtn={handleNextbtn}/>
+                    {curItem.length > 0 ? 
+                        <Pagination 
+                            curItem={curItem} 
+                            currentPage={currentPage} 
+                            minPage={minPage} 
+                            maxPage={maxPage} 
+                            pageNumber={pageNumber} 
+                            handlePrevbtn={handlePrevbtn} 
+                            handleNextbtn={handleNextbtn}
+                        />: ''}
                 </Col>
         </>
     )

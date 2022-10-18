@@ -47,7 +47,7 @@ const LeaveListTable =({list,_key,setList})=>{
   
   const lastPage = currentPage * perPage;
   const firstPage = lastPage - perPage;
-  const curData = list.slice(firstPage,lastPage);
+  const curItem = list.slice(firstPage,lastPage);
 
 
 
@@ -128,9 +128,9 @@ const LeaveListTable =({list,_key,setList})=>{
                     </thead>
                     <tbody>   
                         { 
-                            curData?.length ?
-                              curData.type_of_leave !== "permission" ?
-                                curData.map((item,idx)=>{
+                            curItem.length > 0 ?
+                              curItem.type_of_leave !== "permission" ?
+                                curItem.map((item,idx)=>{
                                     if(item.type_of_leave === _key  ){
                                         return(
                                             <tr key={idx}>
@@ -154,15 +154,15 @@ const LeaveListTable =({list,_key,setList})=>{
                                         ) 
                                     }}                   
                                 ):
-                                curData.map((item,idx)=>{
+                                curItem.map((item,idx)=>{
                                   console.log(item.length,item.type_of_leave,_key)
                                   if(item.type_of_leave === _key  ){
                                       return(
                                           <tr key={idx}>
                                               <td>{idx+1}</td>
                                               <td>{item.updated_by} </td>
-                                              <td>{moment.utc(item.from_date).format('DD-MM-YYYY')}</td>
-                                              <td>{ moment.utc(item.from_date).format('hh : mm')}</td>
+                                              <td>{moment().utc(item.from_date).format('DD-MM-YYYY')}</td>
+                                              <td>{ moment().utc(item.from_date).format('hh : mm')}</td>
                                               <td>{ moment.utc(item.to_date).format('hh : mm')}</td>
                                               <td>{ item.type_of_leave === 'permission'? item.no_of_hours: item.no_of_days}</td>
                                               <td>{item.description}</td>
@@ -174,8 +174,7 @@ const LeaveListTable =({list,_key,setList})=>{
                                               </td>   
                                               <td>                                                
                                                   
-                                                <><Viewbtn item={item}/></>  
-                                                      
+                                                <><Viewbtn item={item}/></>                                                        
                                                                                   
                                               </td>                                                                                     
                                           </tr>
@@ -183,8 +182,7 @@ const LeaveListTable =({list,_key,setList})=>{
                                       ) 
                                   }
                                    }                   
-                              )
-                                
+                              )                                
                                 :(                       
                                     <tr><td colSpan='8' className='text-center'>
                                       No Record Founded</td></tr>                      
@@ -195,7 +193,16 @@ const LeaveListTable =({list,_key,setList})=>{
                 </Table>
             </Col>
             <Col>
-                <Pagination pageNumber={pageNumber} handlePrevbtn={handlePrevbtn} handleNextbtn={handleNextbtn}/>
+                  {curItem.length > 0 ? 
+                        <Pagination 
+                            curItem={curItem} 
+                            currentPage={currentPage} 
+                            minPage={minPage} 
+                            maxPage={maxPage} 
+                            pageNumber={pageNumber} 
+                            handlePrevbtn={handlePrevbtn} 
+                            handleNextbtn={handleNextbtn}
+                        />: ''}
             </Col>
         </>
 

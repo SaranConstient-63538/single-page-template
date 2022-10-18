@@ -53,7 +53,6 @@ const handleShow=()=>{
         localStorage.setItem('data',_data)
         // instance.defaults.headers.common['Authorization']=`Bearer ${res.data.token}`
         localStorage.setItem('token', res.data.responseResult.token)
-
         navigate('/home')     
         toast.success('Successfully Login',{       
           position: toast.POSITION.BOTTOM_LEFT,

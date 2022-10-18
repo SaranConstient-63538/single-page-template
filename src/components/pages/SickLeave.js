@@ -15,7 +15,7 @@ import { toast } from 'react-toastify'
 const SickLeave =({sick_leave})=>{
     const format_date = "YYYY-MM-DD"
     
-    const [file_upload, setFile_upload] = useState(null);
+    const [file_upload, setFile_upload] = useState([]);
   
     
     const [startDate, setStartdate]=useState('')
@@ -72,9 +72,9 @@ const SickLeave =({sick_leave})=>{
             })
         }
         if(errorCount==0){
-        const applyForm = {startDate,endDate,sick_reason,file_upload}
-        console.log(applyForm)
-        setSick_show(true);
+            const applyForm = {startDate,endDate,sick_reason,file_upload}
+            console.log(applyForm)
+            setSick_show(true);
         }
     }
     const sick_handleClose =()=> setSick_show(false)
@@ -190,6 +190,8 @@ const SickLeave =({sick_leave})=>{
                                    maxDate={addDays(new Date(), 15)}
                                    dateFormat="dd-MM-yyyy"
                                    filterDate={isWeekday}
+                                   isClearable={true}
+                                   
                                 /> 
                                 {inputErrors.startDate && <p className='text-danger'>{inputErrors.startDate}</p>}
                             </Col>
@@ -200,9 +202,11 @@ const SickLeave =({sick_leave})=>{
                                      selected={endDate}
                                      onChange={(date) => setEnddate(date)}
                                      selectsEnd
+                                     isClearable={endDate ? false : true}
                                      maxDate={addDays(new Date(), 15)}
                                      dateFormat="dd-MM-yyyy"  
-                                     filterDate={isWeekday}                                     
+                                     filterDate={isWeekday}   
+                                     type="date"                                  
                                 />
                                   {inputErrors.endDate && <p className='text-danger'>{inputErrors.endDate}</p>}       
                             </Col>
