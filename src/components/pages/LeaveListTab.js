@@ -40,16 +40,20 @@ const LeaveListTab = () => {
     const [status_des, setStatus_des]=useState('');//description
     const [frm_date,setFrom_date]=useState('')//from date
     const [emp_id, setEmp_id]=useState('') //emp id 
-    useEffect(() => {   
-        console.log(list)
-      instance.get(`${process.env.REACT_APP_APPROVALIST}?type_of_leave=${_key}`).then( res =>{
-        console.log('hi',_key,res.data.result); 
-        if(res && res.data && res.data.result && res.data.result.length > 0){
+   
+    const onClick=(col)=>{
+        instance.get(`${process.env.REACT_APP_APPROVALIST}?type_of_leave=${col}`).then( res =>{
+            console.log(res.data)
             setList(res.data.result)
-        }else{
-            setList([])
-        }          
-      })
+        })
+        .catch( err =>{
+            console.log(err.message)
+        })
+    }
+    useEffect(() => {   
+       
+       
+       
       instance.get(process.env.REACT_APP_APPROVAL_COUNT).then(res =>{
         setCount(res.data)
       })
@@ -114,6 +118,7 @@ const LeaveListTab = () => {
         }
       
     }
+    
   return (
     <Col className="px-3 py-3 mt-3 mb-3">     
         <Tabs
@@ -123,16 +128,16 @@ const LeaveListTab = () => {
             className="mb-3"
             activeKey={_key} onSelect={ e => setKey(e)}
         >
-            <Tab eventKey="casual_leave" title={`Casual ${getCount("casual_leave")}`}>
+            <Tab eventKey="casual_leave" title={`Casual ${getCount("casual_leave")}`} onClick={onClick(_key)}>
                 <LeaveListTable  list={list} _key={_key}/>                
             </Tab>
-            <Tab eventKey="sick_leave" title={`Sick ${getCount('sick_leave')}`}>
+            <Tab eventKey="sick_leave" title={`Sick ${getCount('sick_leave')}`} onClick={onClick(_key)}>
                 <LeaveListTable  list={list} _key={_key}/> 
             </Tab>
-            <Tab eventKey="work_from_home" title={`Work From Home ${getCount('work_from_home')}`}>
+            <Tab eventKey="work_from_home" title={`Work From Home ${getCount('work_from_home')}`} onClick={onClick(_key)}>
                
             </Tab>
-            <Tab eventKey="permission" title={`Permission ${getCount('permission')}`}>
+            <Tab eventKey="permission" title={`Permission ${getCount('permission')}`} onClick={onClick(_key)}>
                 <PerLeaveListTable  list={list} _key={_key}/>  
             </Tab>        
         </Tabs>

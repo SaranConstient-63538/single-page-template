@@ -8,18 +8,16 @@ import SickLeave from './SickLeave';
 import instance from '../../service/service';
 import { motion } from 'framer-motion';
 import moment  from 'moment'
-import * as Ai from  'react-icons/ai'
-import Pagination from './Pagination'
 import { UserLeaveList } from '../tables/UserLeaveList';
 
 const EmpDashboard = () => {
-    let user_list;
+    
     const [order,setOrder ]=useState('ASC')
     const [sick_leave, setSick_leave]=useState('')
     const [casual_leave, setCasual_leave]=useState('')
     const [work_from_home, setWork_from_home]=useState('')
     const [permission, setPermission]=useState('')
-    const [userList, setUserList]=useState([])
+    const [data, setData]=useState([])
     //pagination
     const [perPage, setPerpage]=useState(6)
     // const [currentPage, setCurrentPage]=useState(1)
@@ -33,32 +31,10 @@ const EmpDashboard = () => {
     // const curItem = user_list.slice(firstPage,lastPage)
     
     const items = JSON.parse(localStorage.getItem('data'))
-    const onSorting =(col)=>{
-        if(order === 'ASC'){
-            const sorted = [...userList].sort((a,b)=>
-                a[col]>b[col] ? 1 :-1
-              
-            )
-            setUserList(sorted)
-            setOrder('DSC')
-        }
-        if(order === 'DSC'){
-            const sorted = [...userList].sort((a,b)=>
-                a[col]>b[col]? 1 : -1
-            )
-            setUserList(sorted)
-            setOrder('ASC')
-        }
-    }
-    useEffect(()=>{          
+    
+    useEffect(()=>{         
 
-        instance.get(process.env.REACT_APP_USERS_LEAVELIST).then(res => {
-            // console.log(res.data)
-            user_list = res.data
-            // console.log('api',user_list)
-            user_list.sort((a,b)=> a.from_date.localeCompare(b.from_date))
-            setUserList(user_list)
-        }) 
+       
 
         instance.post(process.env.REACT_APP_LEAVELIST).then(res =>{
             // console.log( res.data,'emp');
@@ -74,14 +50,8 @@ const EmpDashboard = () => {
         }).catch( err =>{
             console.log(err.message)
         })  
-    },[user_list])
-    
-    const listData =[];
-    const listLen = Math.ceil( userList.length/perPage)
-    for ( var i=0; i<=listLen; i++ ){
-        listData.push(i)
-    }
-    // console.log(listData,userList.length)
+    },[])
+
 
   return (
     <motion.div initial={{opacity: 1}} animate={{y:0}}>
@@ -109,9 +79,15 @@ const EmpDashboard = () => {
                     </motion.div>
                 </Row>                
            </Col>
-            <>
-                <UserLeaveList />
-            </> 
+           <motion.div animate={{y:[100,0]}} transition={{duration:5}}>
+            <div className='="text-center'>
+                <Col className="px-3 mt-3 mb-3">
+                    <h4 className='text-start text-capitalize m-0 fw-bold'>user leave list</h4>                
+                </Col>
+                <UserLeaveList />                
+            </div>
+        </motion.div>
+            
     </motion.div>
   )
 }
