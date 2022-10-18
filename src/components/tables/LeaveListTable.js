@@ -5,10 +5,12 @@ import moment from 'moment'
 import { Pagination } from './Pagination'
 import { Approvebtn, Rejectbtn, Viewbtn } from '../buttons/LeaveListBtn'
 import { loading } from '../loading'
+import * as Ai from 'react-icons/ai'
 import { useForm } from 'react-hook-form'
 
-const LeaveListTable =({list,_key})=>{
+const LeaveListTable =({list,_key,setList})=>{
     const [show, setShow] = useState(false)
+    const [order, setOrder]=useState('ASC')
     console.log(list,_key)
     const leavelistCol =[
         {field:'id',header:'S.No'},
@@ -20,7 +22,19 @@ const LeaveListTable =({list,_key})=>{
         {field:'button',header:'Approval status'},
         {field:'action',header:'Action'},
     ]
-
+    const perleavelistCol =[
+        {field:'id',header:'S.No'},
+        {field:'updated_by',header:'Emp Name'},
+        {field:'from_date',header:'Start Date'},
+        {field:'frm_time',header:'Start Time'},
+        {field:'end_time',header:'End Time'},
+        {field:'no_of_hours',header:'Hours'},
+        {field:'description',header:'Reason'},
+        {field:'button',header:'Approval status'},
+        {field:'action',header:'Action'},
+    ]
+  
+    console.log(_key)
     
 
     const [currentPage, setCurrentpage]=useState(1)
@@ -34,6 +48,7 @@ const LeaveListTable =({list,_key})=>{
   const lastPage = currentPage * perPage;
   const firstPage = lastPage - perPage;
   const curData = list.slice(firstPage,lastPage);
+
 
 
 //pagination
@@ -73,6 +88,22 @@ const LeaveListTable =({list,_key})=>{
       setMinpage(minPage - pageLimit)
     }
   }
+  const onSorting =(col)=>{
+    if(order === 'ASC'){
+        const sorted = [...list].sort((a,b)=>
+            a[col]>b[col] ? 1 :-1              
+        )
+        setList(sorted)
+        setOrder('DSC')
+    }
+    if(order === 'DSC'){
+        const sorted = [...list].sort((a,b)=>
+            a[col]>b[col]? 1 : -1
+        )
+        setList(sorted)
+        setOrder('ASC')
+    }
+}
 
     return(
         <>
@@ -80,14 +111,25 @@ const LeaveListTable =({list,_key})=>{
                 <Table className="table-responsive">
                     <thead>
                         <tr>
-                            {leavelistCol.map((head)=>(
-                                <th>{head.header}</th>
-                            ))}
+
+                            { list.type_of_leave !== 'permission' ? 
+                              leavelistCol.map((head)=>(
+                                <th key={head.field} onClick={() => onSorting(head.header)}>
+                                  {head.header}{<span><Ai.AiOutlineArrowUp /> <Ai.AiOutlineArrowDown /></span>}
+                                </th>
+                              )):
+                              perleavelistCol.map((head)=>(
+                                <th key={head.field} onClick={() => onSorting(head.header)}>
+                                  {head.header}{<span><Ai.AiOutlineArrowUp /> <Ai.AiOutlineArrowDown /></span>}
+                                </th>
+                              ))
+                          }
                         </tr>            
                     </thead>
                     <tbody>   
                         { 
                             curData?.length ?
+                              curData.type_of_leave !== "permission" ?
                                 curData.map((item,idx)=>{
                                     if(item.type_of_leave === _key  ){
                                         return(
@@ -110,10 +152,42 @@ const LeaveListTable =({list,_key})=>{
                                             </tr>
                                                                 
                                         ) 
-                                    }
-                                    }                   
-                                ): (                       
-                                    <tr><td colSpan='8' className='text-center'>No Record Founded</td></tr>                      
+                                    }}                   
+                                ):
+                                curData.map((item,idx)=>{
+                                  console.log(item.length,item.type_of_leave,_key)
+                                  if(item.type_of_leave === _key  ){
+                                      return(
+                                          <tr key={idx}>
+                                              <td>{idx+1}</td>
+                                              <td>{item.updated_by} </td>
+                                              <td>{moment.utc(item.from_date).format('DD-MM-YYYY')}</td>
+                                              <td>{ moment.utc(item.from_date).format('hh : mm')}</td>
+                                              <td>{ moment.utc(item.to_date).format('hh : mm')}</td>
+                                              <td>{ item.type_of_leave === 'permission'? item.no_of_hours: item.no_of_days}</td>
+                                              <td>{item.description}</td>
+                                              <td>
+                                                  <>                                       
+                                                      <Approvebtn  item={item} _key={_key}/>
+                                                      <Rejectbtn item={item}/>                                               
+                                                  </>                                            
+                                              </td>   
+                                              <td>                                                
+                                                  
+                                                <><Viewbtn item={item}/></>  
+                                                      
+                                                                                  
+                                              </td>                                                                                     
+                                          </tr>
+                                                              
+                                      ) 
+                                  }
+                                   }                   
+                              )
+                                
+                                :(                       
+                                    <tr><td colSpan='8' className='text-center'>
+                                      No Record Founded</td></tr>                      
                                 )
                             
                         }

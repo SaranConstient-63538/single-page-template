@@ -6,8 +6,7 @@ import {Pagination} from './Pagination'
 import moment from 'moment'
 import * as Ai from  'react-icons/ai'
 
-export const UserLeaveList =({_key})=>{
-    let user_list;
+export const UserLeaveList =()=>{
     const userListCol = [
         {field:'id',header:'S.No'},
         {field:'from_date',header:'Start Date'},
@@ -70,7 +69,7 @@ export const UserLeaveList =({_key})=>{
       setMinpage(minPage - pageLimit)
     }
   }
-    const onSorting =(col)=>{
+    const onSorting = (col)=>{ 
         if(order === 'ASC'){
             const sorted = [...data].sort((a,b)=>
                 a[col]>b[col] ? 1 :-1              
@@ -89,14 +88,9 @@ export const UserLeaveList =({_key})=>{
 
     useEffect(()=>{
         instance.get(process.env.REACT_APP_USERS_LEAVELIST)
-        .then( res =>{
-            console.log(res)
-            if(res.status === 200){
-                // user_list = res.data
-                // user_list.sort((a,b)=> a.from_date.localeCompare(b.from_date))
-                setData(res.data)
-            }
-        })
+            .then(res => {     
+            setData(res.data)
+        }) 
         .catch( err =>{
             console.log(err.message);
         })       
@@ -110,8 +104,8 @@ export const UserLeaveList =({_key})=>{
                         <thead>
                             <tr>
                                 {userListCol.map((head) =>(                                    
-                                    <th className='py-3 text-capitalize' key={head.field} >{/*onClick={onSorting(head.header)} */}
-                                        {head.header}
+                                    <th className='py-3 text-capitalize' key={head.field} onClick={() => onSorting(head.header)}>{/*onClick={onSorting(head.header)} */}
+                                        {head.header}{<span><Ai.AiOutlineArrowUp /> <Ai.AiOutlineArrowDown /></span>}
                                     </th>
                                 ))}                                                           
                             </tr>

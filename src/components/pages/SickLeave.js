@@ -15,7 +15,7 @@ import { toast } from 'react-toastify'
 const SickLeave =({sick_leave})=>{
     const format_date = "YYYY-MM-DD"
     
-    const [file_upload, setFile_upload] = useState([]);
+    const [file_upload, setFile_upload] = useState(null);
   
     
     const [startDate, setStartdate]=useState('')
