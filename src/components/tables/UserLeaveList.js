@@ -43,7 +43,6 @@ export const UserLeaveList =({_key})=>{
   const handleClick =(event)=>{
     setCurrentpage(Number(event.target.id))
   }  
-
   const pageNumber = dataList.map( number =>{
     if(number < maxPage + 1 &&  number  > minPage ){
       return(

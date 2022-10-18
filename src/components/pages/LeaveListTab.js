@@ -40,35 +40,30 @@ const LeaveListTab = () => {
     const [status_des, setStatus_des]=useState('');//description
     const [frm_date,setFrom_date]=useState('')//from date
     const [emp_id, setEmp_id]=useState('') //emp id 
-<<<<<<< HEAD
-   
-    const onClick=(col)=>{
-        instance.get(`${process.env.REACT_APP_APPROVALIST}?type_of_leave=${col}`).then( res =>{
-            console.log(res.data)
-=======
+
+    
     useEffect(() => {   
-        console.log(list) 
-      instance.get(`${process.env.REACT_APP_APPROVALIST}?type_of_leave=${_key}`).then( res =>{
-        console.log('hi',_key,res.data.result); 
-        if(res && res.data && res.data.result && res.data.result.length > 0){
->>>>>>> 34bedcf131a8b03a07e2eae487186b810627a82e
-            setList(res.data.result)
+        instance.get(`${process.env.REACT_APP_APPROVALIST}?type_of_leave=${_key}`).then( res =>{
+            console.log('hi',_key,res.data.result); 
+            if(res && res.data && res.data.result && res.data.result.length > 0){
+                setList(res.data.result)
+            }
         })
         .catch( err =>{
             console.log(err.message)
         })
-    }
-    useEffect(() => {   
-       
-       
-       
-      instance.get(process.env.REACT_APP_APPROVAL_COUNT).then(res =>{
-        setCount(res.data)
-      })
-      .catch((err)=> {
-        console.log(err.message)
-        })
+         
+        
     }, [_key]);
+
+    useEffect(() => {          
+        instance.get(process.env.REACT_APP_APPROVAL_COUNT).then(res =>{
+          setCount(res.data)
+        })
+        .catch((err)=> {
+          console.log(err.message)
+          })
+      }, []);
 
     const getCount=(typ)=>{
         let data=count.filter((data => data[typ])  ) 
@@ -136,44 +131,20 @@ const LeaveListTab = () => {
             className="mb-3"
             activeKey={_key} onSelect={ e => setKey(e)}
         >
-            <Tab eventKey="casual_leave" title={`Casual ${getCount("casual_leave")}`} onClick={onClick(_key)}>
+            <Tab eventKey="casual_leave" title={`Casual ${getCount("casual_leave")}`}>
                 <LeaveListTable  list={list} _key={_key}/>                
             </Tab>
-            <Tab eventKey="sick_leave" title={`Sick ${getCount('sick_leave')}`} onClick={onClick(_key)}>
+            <Tab eventKey="sick_leave" title={`Sick ${getCount('sick_leave')}`} >
                 <LeaveListTable  list={list} _key={_key}/> 
             </Tab>
-            <Tab eventKey="work_from_home" title={`Work From Home ${getCount('work_from_home')}`} onClick={onClick(_key)}>
-               
+            <Tab eventKey="work_from_home" title={`Work From Home ${getCount('work_from_home')}`}>
+            <LeaveListTable  list={list} _key={_key}/> 
             </Tab>
-            <Tab eventKey="permission" title={`Permission ${getCount('permission')}`} onClick={onClick(_key)}>
+            <Tab eventKey="permission" title={`Permission ${getCount('permission')}`} >
                 <PerLeaveListTable  list={list} _key={_key}/>  
             </Tab>        
         </Tabs>
         <>
-            {/* <Modal show={show} onHide={()=> setShow(false)}>
-                <Modal.Header closeButton></Modal.Header>
-                <Modal.Body>
-                    <Form>
-                        <Form.Label>Status Description</Form.Label>
-                        <Form.Control value={status_des} onChange={(event)=>setStatus_des(event.target.value)} type="text"/>
-                        <Form.Label>From Date</Form.Label>
-                        <Form.Control value={frm_date} onChange={(event)=>setFrom_date(event.target.value)} type="text" />
-                        <Button onClick={onApproved}>Save</Button>
-                    </Form>                    
-                </Modal.Body>
-            </Modal>
-            <Modal show={_show} onHide={()=> _setShow(false)}>
-                <Modal.Header closeButton></Modal.Header>
-                <Modal.Body>
-                    <Form>
-                        <Form.Label>Status Description</Form.Label>
-                        <Form.Control value={status_des} onChange={(e)=>setStatus_des(e.target.value)} type="text"/>
-                        <Form.Label>From Date</Form.Label>
-                        <Form.Control value={frm_date} onChange={(e)=>setFrom_date(e.target.value)} type="text" />
-                    </Form>
-                    <Button onClick={onRejected}>Save</Button>
-                </Modal.Body>
-            </Modal> */}
             <Modal show={spec_show} onHide={()=> setSpec_show(false)}>
                 <Modal.Header closeButton>
                     <Modal.Title>Specfic Employee List</Modal.Title>
