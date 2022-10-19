@@ -9,8 +9,8 @@ import { toast } from 'react-toastify'
 import "./leave.css";
 
 const Permissionslider =()=>{
-  const format_date = "DD-MM-YYYY"
-  const format_time = "h:mm"
+  const format_date = "YYYY-MM-DD"
+  const format_time = "hh:mm"
 
   const [startDate,setStartDate]=useState('')
   const [startTime, setStartTime]=useState('')
@@ -174,6 +174,9 @@ const Permissionslider =()=>{
                   dateFormat="dd-MM-yyyy"
                   value={startDate}
                   filterDate={isWeekday}
+                  onKeyDown={(e) => {
+                    e.preventDefault();
+                }}
                 />
                 {inputErrors.startDate && <p className='text-danger'>{inputErrors.startDate}</p>}
               </Col>
@@ -191,6 +194,9 @@ const Permissionslider =()=>{
                   dateFormat="h:mm a"
                   timeCaption="Time"
                   value={startTime}
+                  onKeyDown={(e) => {
+                    e.preventDefault();
+                }}
                 />         
                   {inputErrors.startTime && <p className='text-danger'>{inputErrors.startTime}</p>}     
               </Col>
@@ -208,6 +214,9 @@ const Permissionslider =()=>{
                   dateFormat="h:mm a"
                   timeCaption="Time"
                   value={endTime}
+                  onKeyDown={(e) => {
+                    e.preventDefault();
+                }}
                 />
                 {inputErrors.endTime && <p className='text-danger'>{inputErrors.endTime}</p>}
               </Col>                               

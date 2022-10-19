@@ -154,6 +154,9 @@ const WorkFromHome =({work_from_home})=>{
                                     minDate={addDays(new Date(),4)}
                                     maxDate={addDays(new Date(),30)}
                                     dateFormat="dd-MM-yyyy"
+                                    onKeyDown={(e) => {
+                                        e.preventDefault();
+                                    }}
                                 />
                                 {inputErrors.startDate && <p className='text-danger'>{inputErrors.startDate}</p>}
                             </Col>
@@ -166,6 +169,9 @@ const WorkFromHome =({work_from_home})=>{
                                     minDate={addDays(new Date(),4)}
                                     maxDate={addDays(new Date(),30)}
                                     dateFormat="dd-MM-yyyy"
+                                    onKeyDown={(e) => {
+                                        e.preventDefault();
+                                    }}
                                 />
                                 {inputErrors.endDate && <p className='text-danger'>{inputErrors.endDate}</p>}
                             </Col>

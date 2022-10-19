@@ -14,19 +14,20 @@ const Topbar = ({handleShow}) => {
     const Logout =()=>{
         instance.post(process.env.REACT_APP_LOGOUT)
         .then( res =>{            
-            tokenService.removeAccessToken();
-            tokenService.removeUser();
+            // tokenService.removeAccessToken();
+            // tokenService.removeUser();
+            localStorage.clear('token');
+            localStorage.clear('user');
             navigate('/')
 
         }).catch(err =>{
             console.log(err.message)
         })
-        tokenService.removeAccessToken();
-        tokenService.removeUser();
-        console.log(tokenService.removeAccessToken())
-        console.log(tokenService.removeUser())
-        navigate('/')
-       
+        // tokenService.removeAccessToken();
+        // tokenService.removeUser();
+        // console.log(tokenService.removeAccessToken())
+        // console.log(tokenService.removeUser())
+        navigate('/')       
     }
     return (
         <Navbar expand="md"  className="shadow-lg topbar bg-dark py-0 px-0 mt-0 flex-row position-fixed w-100">              
