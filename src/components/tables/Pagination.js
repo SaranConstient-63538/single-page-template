@@ -1,7 +1,6 @@
 
 import {useState} from 'react'
-
-import './pagination.css'
+import "./pagination.css";
 export const Pagination =(props)=>{
   const {pageNumber, handleNextbtn, handlePrevbtn , maxPage, currentPage, minPage, curItem} = props;
   // console.log(props.currentPage)
