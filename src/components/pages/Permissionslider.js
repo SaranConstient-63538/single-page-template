@@ -11,6 +11,7 @@ import "./leave.css";
 const Permissionslider =()=>{
   const format_date = "DD-MM-YYYY"
   const format_time = "h:mm"
+  
 
   const [startDate,setStartDate]=useState('')
   const [startTime, setStartTime]=useState('')
@@ -23,7 +24,7 @@ const Permissionslider =()=>{
   const [per_reason,setPer_reason]=useState('')
 
   const [inputErrors,setInputErrors] = useState({startDate:'',startTime:'',endTime:'',per_reason:''})
-  const nows = moment().toDate();
+  const now = moment().toDate();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -159,13 +160,13 @@ const Permissionslider =()=>{
       </Card>
       <Modal show={show} onHide={handleClose} size="lg" centered>
         <Modal.Header closeButton>
-            <Modal.Title>Permission Leave</Modal.Title>
+            <Modal.Title className="text-secondary fw-bold">Permission </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Col xs="12" >      
             <Row>
-              <Col sm md className="mb-3">
-                <h6>Date:</h6>
+              <Col sm md className="mb-2">
+                <h6 className="text-primary fw-bold">Date:</h6>
                 <DatePicker
                   selected={startDate}
                   className='form-control mb-2'  
@@ -177,14 +178,16 @@ const Permissionslider =()=>{
                 />
                 {inputErrors.startDate && <p className='text-danger'>{inputErrors.startDate}</p>}
               </Col>
-              <Col sm md  className="mb-3">
-                <h6>Start Time:</h6>
+              <Col sm md  className="mb-2">
+                <h6 className="text-primary fw-bold">From:</h6>
                 <DatePicker
                   className="form-control mb-2"
                   selected={startTime}
                   onChange={date => setStartTime(date)}
                   startTime={startTime}
-                  endTime={endTime}                    
+                  endTime={endTime}     
+                  minTime={moment().hours(9).minutes(30)}
+                  maxTime={moment().hours(23).minutes(45)}               
                   showTimeSelect
                   showTimeSelectOnly
                   timeIntervals={60}      
@@ -194,8 +197,8 @@ const Permissionslider =()=>{
                 />         
                   {inputErrors.startTime && <p className='text-danger'>{inputErrors.startTime}</p>}     
               </Col>
-              <Col sm md className="mb-3">          
-                <h6>End Time: </h6>       
+              <Col sm md className="mb-2">          
+                <h6 className="text-primary fw-bold">To: </h6>       
                 <DatePicker
                   className="form-control mb-2"
                   selected={endTime}
@@ -212,19 +215,24 @@ const Permissionslider =()=>{
                 {inputErrors.endTime && <p className='text-danger'>{inputErrors.endTime}</p>}
               </Col>                               
             </Row>
-            <h6 className='mb-3 mt-3'>Reason For </h6>
-            <Form.Control 
-              as="textarea" rows={3} className="mb-2" value={per_reason} 
-              onChange={(event)=> setPer_reason(event.target.value)}
-            />
-            {inputErrors.per_reason && ( 
-              <p className='text-danger'>
-                {inputErrors.per_reason}
-              </p>
-            )} 
-            <Button className="mb-3 rounded-4 ms-1" onClick={onSave}>
-              Submit
-            </Button>
+            <Col sm md className="mb-2" >
+                <h6 className="text-primary fw-bold mb-2 mt-2">Reason </h6>
+                <Form.Control 
+                  as="textarea" rows={3} className="mb-2" value={per_reason} 
+                  onChange={(event)=> setPer_reason(event.target.value)}
+                />
+                {inputErrors.per_reason && ( 
+                  <p className='text-danger'>
+                    {inputErrors.per_reason}
+                  </p>
+                )} 
+            </Col>            
+            <div className="text-end">
+              <Button className="mb-3 rounded-4 me-1" onClick={onSave}>
+                Apply
+              </Button>
+            </div>
+            
           </Col>            
         </Modal.Body>
       </Modal>  
