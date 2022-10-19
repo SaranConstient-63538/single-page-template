@@ -2,27 +2,29 @@ import React,{lazy, useEffect, useState} from "react";
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
+import { Form, Container } from 'react-bootstrap';
+import { isLogin }  from './isLogin';
 import '../App.css';
 
 import { useNavigate } from 'react-router-dom'
-const logimage =lazy(()=>import( '../assets/images/logimage.svg'));
-const cgsimg = lazy(()=> import('../assets/images/cgslogo.png'))
+import logimage  from '../assets/images/logimage.svg';
+import cgsimg from '../assets/images/cgslogo.png'
 
 
 
 
 
-const mailicon = lazy(()=> import('../assets/images/mailicon.svg'))
-const passwordicon = lazy( ()=> import('../assets/images/passwordicon.svg'))
-const passwordshow = lazy(()=> import('../assets/images/passwordshow.svg'));
+import mailicon from '../assets/images/mailicon.svg'
+import passwordicon from '../assets/images/passwordicon.svg'
+import passwordshow from '../assets/images/passwordshow.svg';
 
 
-const { Form, Container, Col, Row, InputGroup } = lazy(()=>import('react-bootstrap'));
-const instance = lazy(()=>import("../service/service"));
-const { isLogin } = lazy(()=>import('./isLogin'));
-const  { motion } = lazy(()=>import('framer-motion'));
-const { toast } = lazy(()=>import('react-toastify'));
-const { tokenService } = lazy(()=>import('../service/tokenService'));
+
+import instance from "../service/service";
+
+import  { motion } from 'framer-motion'
+import { toast }  from 'react-toastify';
+import { tokenService } from '../service/tokenService';
 
 const schema = yup.object({
   email: yup.string().email('must be valid e-mail address').required('* E-mail is required'),
