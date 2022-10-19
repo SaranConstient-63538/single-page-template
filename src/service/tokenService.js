@@ -4,14 +4,14 @@
         return token;
     }
     const removeAccessToken =()=>{
-        localStorage.removeItem('token');  
-        localStorage.clear()    
+        localStorage.removeItem('token');     
     }
     const setAccessToken =(token)=>{
         localStorage.setItem('token',JSON.stringify(token));      
     }
-    const setUser=(user)=>{
-        localStorage.setItem('user', JSON.stringify(user));
+    const setUser=(data)=>{
+        const _data = JSON.stringify(data)
+        localStorage.setItem('data', _data);
     }
     const getUser =()=>{
         return JSON.parse(localStorage.getItem('user'))

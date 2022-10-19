@@ -1,6 +1,3 @@
-/* .mainpage{
-    background-color: lightgrey;
-} */
 .wrapper{
     width: 100%;
 }
@@ -13,7 +10,6 @@
     flex-direction: row;
 }
 .main-panel{
-    /* width: calc(100%-170px); */
     flex-direction: column;
     display: flex;
     width: 100%;
