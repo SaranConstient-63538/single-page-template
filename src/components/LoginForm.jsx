@@ -1,19 +1,22 @@
 import React,{lazy, useEffect, useState} from "react";
 import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
 import '../App.css';
 
+import { useNavigate } from 'react-router-dom'
 const logimage =lazy(()=>import( '../assets/images/logimage.svg'));
 const cgsimg = lazy(()=> import('../assets/images/cgslogo.png'))
-const { yupResolver } = lazy(()=>import('@hookform/resolvers/yup'));
 
 
 
-const { useNavigate } = lazy( ()=> import('react-router-dom'))
+
+
 const mailicon = lazy(()=> import('../assets/images/mailicon.svg'))
 const passwordicon = lazy( ()=> import('../assets/images/passwordicon.svg'))
 const passwordshow = lazy(()=> import('../assets/images/passwordshow.svg'));
 
-const { useForm } = lazy(()=>import('react-hook-form'));
+
 const { Form, Container, Col, Row, InputGroup } = lazy(()=>import('react-bootstrap'));
 const instance = lazy(()=>import("../service/service"));
 const { isLogin } = lazy(()=>import('./isLogin'));
@@ -73,7 +76,7 @@ const LoginForm = () => {
   }   
   return (
     <Container>
-      <div className="form-bg position-absolute"></div>
+      {/* <div className="form-bg position-absolute"></div> */}
       {/* {(isLogin())&&navigate('/home')} */}
       <div className="row my-md-5 py-md-5">
         <div className="col-md-6 col-12 align-self-center text-center">
