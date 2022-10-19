@@ -35,11 +35,11 @@ const LoginForm = () => {
   const [reset,setReset]=useState(false)
 
   const handleShow=()=>{
-    setShow(true)
+    setShow(!show)
   }
-  const handleReset=()=>{
-    setReset(true)
-  }
+  // const handleReset=()=>{
+  //   setReset(true)
+  // }
   
   useEffect(()=>{
     if(isLogin())navigate('/home');
@@ -123,14 +123,14 @@ const LoginForm = () => {
               </button>
             </div>
 
-            <div className="pb-4">
+            {/* <div className="pb-4">
               <a
                 href="#"
                 className="text-decoration-none fw-bold"
               >
                 <i class="bi bi-key-fill pe-1"></i>reset password
               </a>
-            </div>
+            </div> */}
           </Form>
         </div>
       </div>

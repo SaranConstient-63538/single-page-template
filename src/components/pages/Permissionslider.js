@@ -84,8 +84,8 @@ const Permissionslider =()=>{
     
   }      
   const _permission ={
-    from_date: moment(startDate).format(format_date).concat(' '+ moment(startTime).hour() +''),  
-    to_date: moment(startDate).format(format_date).concat(' '+ moment(endTime).hour() +''),  
+    from_date: moment(startDate).format(format_date).concat(' '+ moment(startTime).format('HH:mm')+' '),  
+    to_date: moment(startDate).format(format_date).concat(' '+ moment(endTime).format("HH:mm")+' '),  
     start_time:parseFloat(start_time), 
     end_time:parseFloat(end_time),
     type_of_leave:'permission',
@@ -159,7 +159,7 @@ const Permissionslider =()=>{
       </Card>
       <Modal show={show} onHide={handleClose} size="lg" centered>
         <Modal.Header closeButton>
-            <Modal.Title>Permission Leave</Modal.Title>
+            <Modal.Title>Permission</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Col xs="12" >      
@@ -231,9 +231,11 @@ const Permissionslider =()=>{
                 {inputErrors.per_reason}
               </p>
             )} 
-            <Button className="mb-3 rounded-4 ms-1" onClick={onSave}>
+            <div className='text-center text-lg-end'>
+            <Button className="rounded-pill" onClick={onSave}>
               Submit
             </Button>
+            </div>
           </Col>            
         </Modal.Body>
       </Modal>  
@@ -242,14 +244,14 @@ const Permissionslider =()=>{
             Are you sure ?                
         </Modal.Header>
         <Modal.Body>      
-          <p >To apply the Permission on date: {moment(startDate).format('DD-MM-YYYY')} & time:  {moment(startTime).hour()} To {moment(endTime).hour()} </p>                  
+          <p >To apply the Permission on date: {moment(startDate).format('DD-MM-YYYY')} & time:  {moment(startTime).format('hh:mm a')} To {moment(endTime).format('hh:mm a')} </p>                  
           
           <Row>
             <Col className='text-start'>
-                <Button className="btn btn-danger p-2 m-2 rounded-4 fs-6" onClick={onCancel}>Cancel</Button>
+                <Button className="btn btn-danger p-2 m-2 rounded-4 fs-6 text-capitalize" onClick={onCancel}>Cancel</Button>
             </Col>
             <Col className='text-end'>
-                <Button onClick={onPermission} className="btn btn-success p-2 m-2 rounded-4 fs-6">Save</Button>
+                <Button onClick={onPermission} className="btn text-capitalize btn-success p-2 m-2 rounded-4 fs-6">apply</Button>
             </Col>
           </Row>
         </Modal.Body>

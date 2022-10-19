@@ -44,19 +44,19 @@ const Topbar = ({handleShow}) => {
                 <SearchBarTop />
                 <Nav className="flex-sm-column flex-md-row">                     
                     <div className='d-flex justify-content-between py-2 px-4 align-items-center'>
-                        <Nav.Item className="p-2">
-                            <Nav.Link href="#link" className='mssg-btn'>
+                        {/* <Nav.Item className="p-2"> */}
+                            {/* <Nav.Link href="#link" className='mssg-btn'> */}
                                 {/* <MessageOutlined /> */}
-                                <span className='fs-4'><i class="bi bi-chat"></i></span>
-                            </Nav.Link>
-                        </Nav.Item>
+                                {/* <span className='fs-4'><i class="bi bi-chat"></i></span> */}
+                            {/* </Nav.Link> */}
+                        {/* </Nav.Item> */}
                         
-                        <Nav.Item className="p-2"   >
-                            <Nav.Link href="#link" className='notify-btn'>
+                        {/* <Nav.Item className="p-2"   > */}
+                            {/* <Nav.Link href="#link" className='notify-btn'> */}
                                 {/* <NotificationsNoneOutlined  className="dropdown-toggle"/> */}
-                                <span className='fs-4'><i class="bi bi-bell"></i></span>
-                            </Nav.Link>
-                        </Nav.Item>                           
+                                {/* <span className='fs-4'><i class="bi bi-bell"></i></span> */}
+                            {/* </Nav.Link> */}
+                        {/* </Nav.Item>                            */}
                         <Nav.Item>
                             <Nav.Link >   
                                 <Dropdown>
