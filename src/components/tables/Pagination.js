@@ -4,7 +4,7 @@ import "./pagination.css";
 
 export const Pagination =(props)=>{
   const {pageNumber, handleNextbtn, handlePrevbtn , maxPage, currentPage, minPage, curItem} = props;
-  // console.log(props.currentPage)
+  console.log(props.currentPage)
   return(
     <ul className="page-number">
     <li className='border-0 rounded-pill'>

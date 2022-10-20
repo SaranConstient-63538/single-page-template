@@ -16,23 +16,23 @@ const LeaveListTable =({list,_key,setList})=>{
     const leavelistCol =[
         {field:'id',header:'S.No'},
         {field:'updated_by',header:'Emp Name'},
-        {field:'from_date',header:'Start Date'},
-        {field:'to_date',header:'End Date'},
+        {field:'from_date',header:'From'},
+        {field:'to_date',header:'To'},
         {field:'no_of_days',header:'Days'},
         {field:'description',header:'Reason'},
-        {field:'button',header:'Approval status'},
-        {field:'action',header:'Action'},
+        {field:'button',header:'status'},
+        // {field:'action',header:'Action'},
     ]
     const perleavelistCol =[
         {field:'id',header:'S.No'},
         {field:'updated_by',header:'Emp Name'},
-        {field:'from_date',header:'Start Date'},
+        {field:'from_date',header:'Date'},
         {field:'frm_time',header:'Start Time'},
         {field:'end_time',header:'End Time'},
         {field:'no_of_hours',header:'Hours'},
         {field:'description',header:'Reason'},
-        {field:'button',header:'Approval status'},
-        {field:'action',header:'Action'},
+        {field:'button',header:'Status'},
+        // {field:'action',header:'Action'},
     ]
   
     console.log(_key)
@@ -91,14 +91,14 @@ const LeaveListTable =({list,_key,setList})=>{
   }
   const onSorting =(col)=>{
     if(order === 'ASC'){
-        const sorted = [...list].sort((a,b)=>
+        const sorted = [...curItem].sort((a,b)=>
             a[col]>b[col] ? 1 :-1              
         )
         setList(sorted)
         setOrder('DSC')
     }
     if(order === 'DSC'){
-        const sorted = [...list].sort((a,b)=>
+        const sorted = [...curItem].sort((a,b)=>
             a[col]>b[col]? 1 : -1
         )
         setList(sorted)
@@ -142,14 +142,14 @@ const LeaveListTable =({list,_key,setList})=>{
                                                 <td>{ item.no_of_days}</td>
                                                 <td>{item.description}</td>
                                                 <td>
-                                                    <>
+                                                    <div className='d-flex flex-row'>
                                                         <Approvebtn  item={item} _key={_key}/>
                                                         <Rejectbtn item={item} _key={_key}/>                                               
-                                                    </>
+                                                    </div>
                                                 </td>   
-                                                <td>                                                
+                                                {/* <td>                                                
                                                     <><Viewbtn item={item}/></>                                
-                                                </td>                                                                                     
+                                                </td>                                                                                      */}
                                             </tr>
                                                                 
                                         ) 
@@ -173,11 +173,11 @@ const LeaveListTable =({list,_key,setList})=>{
                                                       <Rejectbtn item={item}/>                                               
                                                   </>                                            
                                               </td>   
-                                              <td>                                                
+                                              {/* <td>                                                
                                                   
                                                 <><Viewbtn item={item}/></>                                                        
                                                                                   
-                                              </td>                                                                                     
+                                              </td>                                                                                      */}
                                           </tr>
                                                               
                                       ) 
@@ -193,7 +193,7 @@ const LeaveListTable =({list,_key,setList})=>{
                     </tbody>
                 </Table>
             </Col>
-            <Col>
+            {/* <Col>
                   {curItem.length > 0 ? 
                         <Pagination 
                             curItem={curItem} 
@@ -204,7 +204,7 @@ const LeaveListTable =({list,_key,setList})=>{
                             handlePrevbtn={handlePrevbtn} 
                             handleNextbtn={handleNextbtn}
                         />: ''}
-            </Col>
+            </Col> */}
         </>
 
     )

@@ -76,23 +76,35 @@ const handleShow=()=>{
             <div className="swing py-1 shadow-md m-auto my-5 rounded-3">
               <img src={cgsimg} alt="cgs image" className="fs-3 px-3 py-2" />
             </div>
-            <div className=" text-center m-auto py-2 position-relative">
-            <span className="mailinput position-absolute"><img src={mailicon} className="mailcon"/></span>
-                <input type="text" 
-                  {...register('email')}
-                  placeholder="Email" 
-                  className="log-input form-control border-0 shadow-none rounded-pill text-center"
-                  />
-                <p className="text-danger m-0">{errors.email?.message}</p>
+            <div className=" text-center mx-5 px-5 py-2 position-relative">
+              <span className="mailinput position-absolute">
+                <img src={mailicon} className="mailcon" />
+              </span>
+              <input
+                type="text"
+                {...register("email")}
+                placeholder="Email"
+                className="log-input form-control border-0 shadow-none rounded-pill text-center"
+              />
+              <p className="text-danger m-0">{errors.email?.message}</p>
             </div>
-            <div className="text-center m-auto py-2 position-relative">
-            <span className="mailinput position-absolute"><img src={passwordicon}  className="passcon"/></span>
-            <span className="btn mailinput1 position-absolute border-0" onClick={handleShow}><img src={passwordshow} className="passshowcon"/></span>   
-                <input type={show?"text":"password"}
-                {...register('password')}
-                  className="log-input form-control border-0 shadow-none rounded-pill text-center" placeholder="Password"                 
-                  />   
-                <p className="text-danger m-0">{errors.password?.message}</p>           
+            <div className="text-center mx-5 px-5 py-2 position-relative">
+              <span className="mailinput position-absolute">
+                <img src={passwordicon} className="passcon" />
+              </span>
+              <span
+                className="btn mailinput1 position-absolute border-0"
+                onClick={handleShow}
+              >
+                <img src={passwordshow} className="passshowcon" />
+              </span>
+              <input
+                type={show ? "text" : "password"}
+                {...register("password")}
+                className="log-input form-control border-0 shadow-none rounded-pill text-center"
+                placeholder="Password"
+              />
+              <p className="text-danger m-0">{errors.password?.message}</p>
             </div>
             <div className="text-center py-4 mb-2">
               <button className="log-button border-0 w-25 py-1 text-uppercase rounded-pill shadow">login</button>

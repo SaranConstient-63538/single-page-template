@@ -91,6 +91,8 @@ const Permissionslider =()=>{
     type_of_leave:'permission',
     description: per_reason,
   }
+  console.log(_permission)
+  
   const onCancel =()=>{
     setStartDate('')
     setStartTime('')
@@ -223,22 +225,20 @@ const Permissionslider =()=>{
                 {inputErrors.endTime && <p className='text-danger'>{inputErrors.endTime}</p>}
               </Col>                               
             </Row>
-            <Col sm md className="mb-2" >
-                <h6 className="text-primary fw-bold mb-2 mt-2">Reason </h6>
-                <Form.Control 
-                  as="textarea" rows={3} className="mb-2" value={per_reason} 
-                  onChange={(event)=> setPer_reason(event.target.value)}
-                />
-                {inputErrors.per_reason && ( 
-                  <p className='text-danger'>
-                    {inputErrors.per_reason}
-                  </p>
-                )} 
-            </Col>            
-            <div className="text-end">
-              <Button className="mb-3 rounded-4 me-1" onClick={onSave}>
-                Apply
-              </Button>
+            <h6 className='mb-3 mt-3'>Reason</h6>
+            <Form.Control 
+              as="textarea" rows={3} className="mb-2" value={per_reason} 
+              onChange={(event)=> setPer_reason(event.target.value)}
+            />
+            {inputErrors.per_reason && ( 
+              <p className='text-danger'>
+                {inputErrors.per_reason}
+              </p>
+            )} 
+            <div className='text-end'>
+            <Button className="rounded-pill" onClick={onSave}>
+              Submit
+            </Button>
             </div>
             
           </Col>            
@@ -249,14 +249,14 @@ const Permissionslider =()=>{
             Are you sure ?                
         </Modal.Header>
         <Modal.Body>      
-          <p >To apply the Permission on date: {moment(startDate).format('DD-MM-YYYY')} & time:  {moment(startTime).format('hh:mm a')} To {moment(endTime).format('hh:mm a')} </p>                  
+          <p >To apply the Permission on date: {moment.utc(startDate).format('DD-MM-YYYY')} & time:  {moment(startTime).format('hh:mm a')} To {moment(endTime).format('hh:mm a')} </p>                  
           
           <Row>
-            <Col className='text-start'>
-                <Button className="btn btn-danger p-2 m-2 rounded-4 fs-6 text-capitalize" onClick={onCancel}>Cancel</Button>
+          <Col className='text-start'>
+                <Button onClick={onPermission} className="btn text-capitalize btn-success p-2 m-2 rounded-4 fs-6">apply</Button>
             </Col>
             <Col className='text-end'>
-                <Button onClick={onPermission} className="btn text-capitalize btn-success p-2 m-2 rounded-4 fs-6">apply</Button>
+                <Button className="btn btn-danger p-2 m-2 rounded-4 fs-6 text-capitalize" onClick={onCancel}>Cancel</Button>
             </Col>
           </Row>
         </Modal.Body>
