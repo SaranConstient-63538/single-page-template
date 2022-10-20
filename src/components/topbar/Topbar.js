@@ -9,25 +9,28 @@ import {NotificationsNoneOutlined,  MessageOutlined} from '@mui/icons-material';
 import instance from '../../service/service'
 import { tokenService } from '../../service/tokenService';
 
+import { toast } from 'react-toastify'
+
 const Topbar = ({handleShow}) => {   
     const navigate = useNavigate();
     const Logout =()=>{
+        
         instance.post(process.env.REACT_APP_LOGOUT)
-        .then( res =>{            
-            // tokenService.removeAccessToken();
-            // tokenService.removeUser();
-            localStorage.clear('token');
-            localStorage.clear('user');
-            navigate('/')
+        .then( res =>{    
+            tokenService.removeAccessToken()
+            tokenService.removeUser()
+            // if(res.status === 200){
+                localStorage.clear();
+                navigate('/')
+            // }
+            console.log(res.data, 'data')
 
         }).catch(err =>{
+            toast.error(`${err.message}`,{
+                position: toast.POSITION.TOP_RIGHT
+              })
             console.log(err.message)
-        })
-        // tokenService.removeAccessToken();
-        // tokenService.removeUser();
-        // console.log(tokenService.removeAccessToken())
-        // console.log(tokenService.removeUser())
-        navigate('/')       
+        })    
     }
     return (
         <Navbar expand="md"  className="shadow-lg topbar bg-dark py-0 px-0 mt-0 flex-row position-fixed w-100">              

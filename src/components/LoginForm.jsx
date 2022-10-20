@@ -14,23 +14,12 @@ import passwordicon from "../assets/images/passwordicon.svg";
 import passwordshow from "../assets/images/passwordshow.svg";
 
 import * as Ai from 'react-icons/ai'
-<<<<<<< HEAD
 import instance from "../service/service";
-=======
-import {useForm} from 'react-hook-form'
-import { Form, Container, Col, Row, InputGroup } from 'react-bootstrap'
-import instance from "../service/service";
-import { isLogin } from "./isLogin";
->>>>>>> ff939b38476cfb599f05a9f0b545b6cb3d8fccc8
 import  { motion } from 'framer-motion'
 import { toast } from 'react-toastify'
 import { tokenService } from '../service/tokenService'
 
-<<<<<<< HEAD
 const schema = yup.object().shape({
-=======
-const schema = yup.object({
->>>>>>> ff939b38476cfb599f05a9f0b545b6cb3d8fccc8
   email: yup.string().email('must be valid e-mail address').required('* E-mail is required'),
   password: yup.string().required('* password is required'),
 }).required();
@@ -59,21 +48,17 @@ const handleShow=()=>{
    
     instance.post(process.env.REACT_APP_LOGIN,login_data).then( res =>{ 
       if( res.status === 200){
-        tokenService.setAccessToken(res.data.responseResult)
-        console.log(res.data.responseResult);
-        const _data = JSON.stringify( res.data.responseResult)
-        localStorage.setItem('data',_data)
-        // instance.defaults.headers.common['Authorization']=`Bearer ${res.data.token}`
-        localStorage.setItem('token', res.data.responseResult.token)
-
-        navigate('/home')     
-        toast.success('Successfully Login',{       
-          position: toast.POSITION.BOTTOM_LEFT,
-        }) 
+        console.log(res)
+        localStorage.setItem('token',res.data.responseResult.token)
+        localStorage.setItem('data',JSON.stringify( res.data.responseResult))
+        navigate('/home') 
       }
       
-    }).catch( err => {
-      console.log(err.message)
+    }).catch( error => {
+      console.log(error)
+      toast.error(`${error.response.data.message}`,{
+        position: toast.POSITION.TOP_RIGHT
+      })
     })    
     
   }   
@@ -109,26 +94,9 @@ const handleShow=()=>{
                   />   
                 <p className="text-danger m-0">{errors.password?.message}</p>           
             </div>
-<<<<<<< HEAD
             <div className="text-center py-4 mb-2">
               <button className="log-button border-0 w-25 py-1 text-uppercase rounded-pill shadow">login</button>
             </div>
-=======
-            <div className="text-center py-4">
-              <button className="log-button border-0 w-25 py-1 text-uppercase rounded-pill shadow">
-                login
-              </button>
-            </div>
-
-            {/* <div className="pb-4">
-              <a
-                href="#"
-                className="text-decoration-none fw-bold"
-              >
-                <i class="bi bi-key-fill pe-1"></i>reset password
-              </a>
-            </div> */}
->>>>>>> ff939b38476cfb599f05a9f0b545b6cb3d8fccc8
           </Form>
         </div>
       </div>

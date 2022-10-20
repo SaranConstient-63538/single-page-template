@@ -9,14 +9,8 @@ import { toast } from 'react-toastify'
 import "./leave.css";
 
 const Permissionslider =()=>{
-<<<<<<< HEAD
-  const format_date = "DD-MM-YYYY"
-  const format_time = "h:mm"
-  
-=======
   const format_date = "YYYY-MM-DD"
   const format_time = "hh:mm"
->>>>>>> ff939b38476cfb599f05a9f0b545b6cb3d8fccc8
 
   const [startDate,setStartDate]=useState('')
   const [startTime, setStartTime]=useState('')
@@ -90,8 +84,8 @@ const Permissionslider =()=>{
     
   }      
   const _permission ={
-    from_date: moment(startDate).format(format_date).concat(' '+ moment(startTime).format('HH:mm')+' '),  
-    to_date: moment(startDate).format(format_date).concat(' '+ moment(endTime).format("HH:mm")+' '),  
+    from_date: moment(startDate).format(format_date).concat(' '+ moment(startTime).format('hh:mm')+' '),  
+    to_date: moment(startDate).format(format_date).concat(' '+ moment(endTime).format("hh:mm")+' '),  
     start_time:parseFloat(start_time), 
     end_time:parseFloat(end_time),
     type_of_leave:'permission',
@@ -165,11 +159,7 @@ const Permissionslider =()=>{
       </Card>
       <Modal show={show} onHide={handleClose} size="lg" centered>
         <Modal.Header closeButton>
-<<<<<<< HEAD
-            <Modal.Title className="text-secondary fw-bold">Permission </Modal.Title>
-=======
             <Modal.Title>Permission</Modal.Title>
->>>>>>> ff939b38476cfb599f05a9f0b545b6cb3d8fccc8
         </Modal.Header>
         <Modal.Body>
           <Col xs="12" >      
@@ -233,7 +223,6 @@ const Permissionslider =()=>{
                 {inputErrors.endTime && <p className='text-danger'>{inputErrors.endTime}</p>}
               </Col>                               
             </Row>
-<<<<<<< HEAD
             <Col sm md className="mb-2" >
                 <h6 className="text-primary fw-bold mb-2 mt-2">Reason </h6>
                 <Form.Control 
@@ -252,23 +241,6 @@ const Permissionslider =()=>{
               </Button>
             </div>
             
-=======
-            <h6 className='mb-3 mt-3'>Reason For </h6>
-            <Form.Control 
-              as="textarea" rows={3} className="mb-2" value={per_reason} 
-              onChange={(event)=> setPer_reason(event.target.value)}
-            />
-            {inputErrors.per_reason && ( 
-              <p className='text-danger'>
-                {inputErrors.per_reason}
-              </p>
-            )} 
-            <div className='text-center text-lg-end'>
-            <Button className="rounded-pill" onClick={onSave}>
-              Submit
-            </Button>
-            </div>
->>>>>>> ff939b38476cfb599f05a9f0b545b6cb3d8fccc8
           </Col>            
         </Modal.Body>
       </Modal>  

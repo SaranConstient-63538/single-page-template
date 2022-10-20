@@ -7,6 +7,7 @@ import { Approvebtn, Rejectbtn, Viewbtn } from '../buttons/LeaveListBtn'
 import { loading } from '../loading'
 import * as Ai from 'react-icons/ai'
 import { useForm } from 'react-hook-form'
+import './pagination.css'
 
 const LeaveListTable =({list,_key,setList})=>{
     const [show, setShow] = useState(false)
@@ -136,8 +137,8 @@ const LeaveListTable =({list,_key,setList})=>{
                                             <tr key={idx}>
                                                 <td>{(perPage *(currentPage-1))+idx+1}</td>
                                                 <td>{item.updated_by} </td>
-                                                <td>{moment.utc(item.from_date).format('DD-MM-YYYY')}</td>
-                                                <td>{ moment.utc(item.to_date).format('DD-MM-YYYY')}</td>
+                                                <td>{moment().utc(item.from_date).format('DD-MM-YYYY')}</td>
+                                                <td>{moment().utc(item.to_date).format('DD-MM-YYYY')}</td>
                                                 <td>{ item.no_of_days}</td>
                                                 <td>{item.description}</td>
                                                 <td>

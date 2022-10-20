@@ -8,6 +8,7 @@ import SickLeave from './SickLeave';
 import instance from '../../service/service'
 import EmpDashboard from './EmpDashboard';
 import TlDashboard from './TlDashboard';
+import { tokenService } from '../../service/tokenService';
 
 const Dashboard = () => {
    const items = JSON.parse(localStorage.getItem('data'))
@@ -15,7 +16,7 @@ const Dashboard = () => {
     <>
       <Col >
           <Row className="justify-content-around pt-5 mt-5 px-md-5">    
-            { items.role === "trainee" ?
+            { items.role === "trainee" && items.token !== null ?
                 (
                     <EmpDashboard  />
                 ):(
