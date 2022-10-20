@@ -3,7 +3,6 @@ import logimage from "../assets/images/logimage.svg";
 import cgsimg from "../assets/images/cgslogo.png";
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { Form, Container } from 'react-bootstrap';
 import { isLogin }  from './isLogin';
@@ -15,15 +14,12 @@ import passwordicon from "../assets/images/passwordicon.svg";
 import passwordshow from "../assets/images/passwordshow.svg";
 
 import * as Ai from 'react-icons/ai'
-import {useForm} from 'react-hook-form'
-import { Form, Container, Col, Row, InputGroup } from 'react-bootstrap'
 import instance from "../service/service";
-import { isLogin } from "./isLogin";
 import  { motion } from 'framer-motion'
 import { toast } from 'react-toastify'
 import { tokenService } from '../service/tokenService'
 
-const schema = yup.object({
+const schema = yup.object().shape({
   email: yup.string().email('must be valid e-mail address').required('* E-mail is required'),
   password: yup.string().required('* password is required'),
 }).required();
@@ -40,9 +36,10 @@ const handleShow=()=>{
   setShow(!show)
 }
   
-  // useEffect(()=>{
-  //   if(isLogin())navigate('/home');
-  // },[])
+  useEffect(()=>{
+    if(isLogin())navigate('/home');
+  },[])
+  
   const onSubmit = (data)=>{        
     let login_data={
       email:data.email,
