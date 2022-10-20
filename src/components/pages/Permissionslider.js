@@ -23,7 +23,7 @@ const Permissionslider =()=>{
   const [per_reason,setPer_reason]=useState('')
 
   const [inputErrors,setInputErrors] = useState({startDate:'',startTime:'',endTime:'',per_reason:''})
-  const nows = moment().toDate();
+  const now = moment().toDate();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -84,8 +84,8 @@ const Permissionslider =()=>{
     
   }      
   const _permission ={
-    from_date: moment(startDate).format(format_date).concat(' '+ moment(startTime).format('HH:mm')+' '),  
-    to_date: moment(startDate).format(format_date).concat(' '+ moment(endTime).format("HH:mm")+' '),  
+    from_date: moment(startDate).format(format_date).concat(' '+ moment(startTime).format('hh:mm')+' '),  
+    to_date: moment(startDate).format(format_date).concat(' '+ moment(endTime).format("hh:mm")+' '),  
     start_time:parseFloat(start_time), 
     end_time:parseFloat(end_time),
     type_of_leave:'permission',
@@ -166,8 +166,8 @@ const Permissionslider =()=>{
         <Modal.Body>
           <Col xs="12" >      
             <Row>
-              <Col sm md className="mb-3">
-                <h6>Date:</h6>
+              <Col sm md className="mb-2">
+                <h6 className="text-primary fw-bold">Date:</h6>
                 <DatePicker
                   selected={startDate}
                   className='form-control mb-2'  
@@ -182,14 +182,16 @@ const Permissionslider =()=>{
                 />
                 {inputErrors.startDate && <p className='text-danger'>{inputErrors.startDate}</p>}
               </Col>
-              <Col sm md  className="mb-3">
-                <h6>Start Time:</h6>
+              <Col sm md  className="mb-2">
+                <h6 className="text-primary fw-bold">From:</h6>
                 <DatePicker
                   className="form-control mb-2"
                   selected={startTime}
                   onChange={date => setStartTime(date)}
                   startTime={startTime}
-                  endTime={endTime}                    
+                  endTime={endTime}     
+                  minTime={moment().hours(9).minutes(30)}
+                  maxTime={moment().hours(23).minutes(45)}               
                   showTimeSelect
                   showTimeSelectOnly
                   timeIntervals={60}      
@@ -202,8 +204,8 @@ const Permissionslider =()=>{
                 />         
                   {inputErrors.startTime && <p className='text-danger'>{inputErrors.startTime}</p>}     
               </Col>
-              <Col sm md className="mb-3">          
-                <h6>End Time: </h6>       
+              <Col sm md className="mb-2">          
+                <h6 className="text-primary fw-bold">To: </h6>       
                 <DatePicker
                   className="form-control mb-2"
                   selected={endTime}
@@ -223,7 +225,7 @@ const Permissionslider =()=>{
                 {inputErrors.endTime && <p className='text-danger'>{inputErrors.endTime}</p>}
               </Col>                               
             </Row>
-            <h6 className='mb-3 mt-3'>Reason For </h6>
+            <h6 className='mb-3 mt-3'>Reason</h6>
             <Form.Control 
               as="textarea" rows={3} className="mb-2" value={per_reason} 
               onChange={(event)=> setPer_reason(event.target.value)}
@@ -238,6 +240,7 @@ const Permissionslider =()=>{
               Submit
             </Button>
             </div>
+            
           </Col>            
         </Modal.Body>
       </Modal>  

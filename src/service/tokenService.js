@@ -4,22 +4,30 @@
         return token;
     }
     const removeAccessToken =()=>{
-        localStorage.removeItem('token');  
-        localStorage.clear()    
+        localStorage.removeItem('token'); 
+        localStorage.clear()      
     }
     const setAccessToken =(token)=>{
-        localStorage.setItem('token',JSON.stringify(token));      
+        const _token = JSON.stringify(token)
+        localStorage.setItem('token',_token);      
     }
-    const setUser=(user)=>{
-        localStorage.setItem('user', JSON.stringify(user));
+    const setUser=(data)=>{
+        const _data = JSON.stringify(data)
+        localStorage.setItem('data', _data);
     }
     const getUser =()=>{
-        return JSON.parse(localStorage.getItem('user'))
+        const _data =JSON.parse(localStorage.getItem('data'))
+        return _data;
     }
     const removeUser =()=>{
-        localStorage.removeItem('user')
+        localStorage.removeItem('data')
         localStorage.clear()
     }
+  
+
+   
+ 
+ 
     export let tokenService =  { 
         getAccessToken,
         setUser,

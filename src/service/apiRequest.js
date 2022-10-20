@@ -5,13 +5,14 @@ instance.interceptors.request.use(
     async config =>{
         const token = tokenService.getAccessToken()
         if(token){
-            config.headers['Authorization'] = 'Bearer' + token;
+            config.headers={
+                'Authorization' : `Bearer ${token}`,
+                // 'Accept': 'application/json',
+                "Content-type": "application/json", 
+                // 'Content-Type': 'application/x-www-form-urlencoded'
+            }
         }
-        config.headers={
-            'Authorization' : `Bearer ${token}`,
-            'Accept': 'application/json',
-            'Content-Type': 'application/x-www-form-urlencoded'
-        }
+        
         return config;
     },
     error =>{
