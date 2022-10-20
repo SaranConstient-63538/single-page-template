@@ -91,6 +91,8 @@ const Permissionslider =()=>{
     type_of_leave:'permission',
     description: per_reason,
   }
+  console.log(_permission)
+  
   const onCancel =()=>{
     setStartDate('')
     setStartTime('')
@@ -231,7 +233,7 @@ const Permissionslider =()=>{
                 {inputErrors.per_reason}
               </p>
             )} 
-            <div className='text-center text-lg-end'>
+            <div className='text-end'>
             <Button className="rounded-pill" onClick={onSave}>
               Submit
             </Button>
@@ -244,14 +246,14 @@ const Permissionslider =()=>{
             Are you sure ?                
         </Modal.Header>
         <Modal.Body>      
-          <p >To apply the Permission on date: {moment(startDate).format('DD-MM-YYYY')} & time:  {moment(startTime).format('hh:mm a')} To {moment(endTime).format('hh:mm a')} </p>                  
+          <p >To apply the Permission on date: {moment.utc(startDate).format('DD-MM-YYYY')} & time:  {moment(startTime).format('hh:mm a')} To {moment(endTime).format('hh:mm a')} </p>                  
           
           <Row>
-            <Col className='text-start'>
-                <Button className="btn btn-danger p-2 m-2 rounded-4 fs-6 text-capitalize" onClick={onCancel}>Cancel</Button>
+          <Col className='text-start'>
+                <Button onClick={onPermission} className="btn text-capitalize btn-success p-2 m-2 rounded-4 fs-6">apply</Button>
             </Col>
             <Col className='text-end'>
-                <Button onClick={onPermission} className="btn text-capitalize btn-success p-2 m-2 rounded-4 fs-6">apply</Button>
+                <Button className="btn btn-danger p-2 m-2 rounded-4 fs-6 text-capitalize" onClick={onCancel}>Cancel</Button>
             </Col>
           </Row>
         </Modal.Body>

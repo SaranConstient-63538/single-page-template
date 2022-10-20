@@ -21,7 +21,7 @@ export const Approvebtn =({item})=>{
             <Button className="btn btn-success btn-sm m-1"
                onClick={approv_btn}
             >
-                Approved
+                Approve
             </Button>
             <ApprovedModals  show={show} setShow={setShow} item={item} btn_status={btn_status}/>
         </div>
@@ -41,23 +41,23 @@ export const Rejectbtn =({item})=>{
         <>
             <Button className="btn btn-danger btn-sm m-1"
                 onClick={reject_btn}>
-                Rejected
+                Reject
             </Button>
             <RejectedModals  show={show} setShow={setShow} item={item} btn_status={btn_status}/>
         </>
         
     )
 }
-export const Viewbtn =({item})=>{
-    const onClick = ()=>{
-        console.log(item)
-    }
-    return(
-        <Button className="btn btn-primay btn-sm m-1" onClick={onClick}>
-            View
-        </Button>
-    )
-}
+// export const Viewbtn =({item})=>{
+//     const onClick = ()=>{
+//         console.log(item)
+//     }
+//     return(
+//         <Button className="btn btn-primay btn-sm m-1" onClick={onClick}>
+//             View
+//         </Button>
+//     )
+// }
 
 const ApprovedModals =({show, setShow, btn_status,item})=>{
     

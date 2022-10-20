@@ -87,7 +87,7 @@ const LoginForm = () => {
             <div className="swing py-1 shadow-md m-auto my-5 rounded-3">
               <img src={cgsimg} alt="cgs image" className="fs-3 px-3 py-2" />
             </div>
-            <div className=" text-center m-auto py-2 position-relative">
+            <div className=" text-center mx-5 px-5 py-2 position-relative">
               <span className="mailinput position-absolute">
                 <img src={mailicon} className="mailcon" />
               </span>
@@ -99,7 +99,7 @@ const LoginForm = () => {
               />
               <p className="text-danger m-0">{errors.email?.message}</p>
             </div>
-            <div className="text-center m-auto py-2 position-relative">
+            <div className="text-center mx-5 px-5 py-2 position-relative">
               <span className="mailinput position-absolute">
                 <img src={passwordicon} className="passcon" />
               </span>

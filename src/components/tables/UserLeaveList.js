@@ -5,6 +5,7 @@ import instance from '../../service/service'
 import {Pagination} from './Pagination'
 import moment from 'moment'
 import * as Ai from  'react-icons/ai'
+import "./pagination.css";
 
 export const UserLeaveList =()=>{
     const userListCol = [
@@ -22,8 +23,8 @@ export const UserLeaveList =()=>{
     const [currentPage, setCurrentpage]=useState(1)
     const [perPage,setPerpage]=useState(3)
 
-  const [pageLimit]=useState(3)
-  const [maxPage, setMaxpage]=useState(3)
+  const [pageLimit]=useState(50)
+  const [maxPage, setMaxpage]=useState(50)
   const [minPage, setMinpage]=useState(0)
  
   
@@ -45,7 +46,7 @@ export const UserLeaveList =()=>{
   const pageNumber = dataList.map( number =>{
     if(number < maxPage + 1 &&  number  > minPage ){
       return(
-        <li key={number} id={number} className="border-0 rounded-pill my-auto px-3 py-2 text-dark" onClick={handleClick}>
+        <li key={number} id={number} className="border-0 rounded-pill my-auto px-3 py-2 text-dark page-number" onClick={handleClick}>
           {number}
         </li>
       )
@@ -91,6 +92,7 @@ export const UserLeaveList =()=>{
         instance.get(process.env.REACT_APP_USERS_LEAVELIST)
             .then(res => {     
             setData(res.data)
+            console.log(res.data)
         }) 
         .catch( err =>{
             console.log(err.message);

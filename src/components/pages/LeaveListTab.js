@@ -144,7 +144,7 @@ const LeaveListTab = () => {
             </Tab>        
         </Tabs>
         <>
-            <Modal show={spec_show} onHide={()=> setSpec_show(false)}>
+            {/* <Modal show={spec_show} onHide={()=> setSpec_show(false)}>
                 <Modal.Header closeButton>
                     <Modal.Title>Specfic Employee List</Modal.Title>
                 </Modal.Header>
@@ -209,7 +209,7 @@ const LeaveListTab = () => {
                         </tbody>
                     </Table>
                 </Modal.Body>
-            </Modal>
+            </Modal> */}
             
                         
         </>

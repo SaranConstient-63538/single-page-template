@@ -146,7 +146,7 @@ const WorkFromHome =({work_from_home})=>{
                         <Row>
                             
                             <Col md sm={6} className='mb-3'>  
-                                <h6 className="mb-3 mt-1">Start Date:</h6>
+                                <h6 className="mb-3 mt-1 text-capitalize">from:</h6>
                                 <DatePicker className='form-control mb-2'
                                     selected={startDate}
                                     onChange={(date) => {setStartDate(date)} }                                
@@ -161,7 +161,7 @@ const WorkFromHome =({work_from_home})=>{
                                 {inputErrors.startDate && <p className='text-danger'>{inputErrors.startDate}</p>}
                             </Col>
                             <Col md sm={6} className='mb-3'>
-                                <h6 className="mb-3 mt-1">End Date:</h6>
+                                <h6 className="mb-3 mt-1 text-capitalize">to:</h6>
                                 <DatePicker className='form-control mb-2'
                                     selected={endDate}
                                     onChange={(date) => setEndDate(date)}
@@ -179,7 +179,9 @@ const WorkFromHome =({work_from_home})=>{
                         <h6 className='mb-3 mt-3'>Reason For </h6>
                         <Form.Control as="textarea" rows={3} className="mb-2" value={work_from_home_reason} onChange={onWorkfromhome}/>
                         {inputErrors.work_from_home_reason && <p className='text-danger'>{inputErrors.work_from_home_reason}</p>}
+                        <div className='text-end'>
                         <Button onClick={wfh_handleShow} className="m-1 p-2 rounded-4">Submit</Button>
+                        </div>
                     </Col>                     
                 </Modal.Body>
             </Modal> 
@@ -194,7 +196,7 @@ const WorkFromHome =({work_from_home})=>{
                             <Button className="btn btn-danger p-2 m-2 rounded-4 fs-6" onClick={onCancel}>Cancel</Button>
                         </Col>
                         <Col className='text-end'>
-                            <Button onClick={onSubmit} className="btn btn-success p-2 m-2 rounded-4 fs-6">Save</Button>
+                            <Button onClick={onSubmit} className="btn btn-success p-2 m-2 rounded-4 fs-6">apply</Button>
                         </Col>
                     </Row>
                 </Modal.Body>
