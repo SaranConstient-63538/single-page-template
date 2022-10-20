@@ -167,7 +167,7 @@ const CasualLeavel =({casual_leave})=>{
                 </Modal.Header>
                 <Modal.Body>
                     <Col xs> 
-                        <Row>.
+                        <Row>
                             <Col md sm={6} className='mb-3'>  
                                 <h6 className="mb-3 mt-1">Start Date:</h6>
                                 <DatePicker className='form-control mb-2'
@@ -177,6 +177,9 @@ const CasualLeavel =({casual_leave})=>{
                                     minDate={addDays(new Date(),4)}
                                     maxDate={addDays(new Date(),30)}
                                     dateFormat="dd-MM-yyyy"
+                                    onKeyDown={(e) => {
+                                        e.preventDefault();
+                                    }}
                                 />
                                  {inputErrors.startDate && <p className='text-danger'>{inputErrors.startDate}</p>}
                             </Col>
@@ -189,6 +192,9 @@ const CasualLeavel =({casual_leave})=>{
                                     minDate={addDays(new Date(),4)}
                                     maxDate={addDays(new Date(),30)}
                                     dateFormat="dd-MM-yyyy"
+                                    onKeyDown={(e) => {
+                                        e.preventDefault();
+                                    }}
                                 />
                                  {inputErrors.endDate && <p className='text-danger'>{inputErrors.endDate}</p>}
                             </Col>

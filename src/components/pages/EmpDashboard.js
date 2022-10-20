@@ -44,7 +44,7 @@ const EmpDashboard = () => {
     
 
   return (
-    <motion.div initial={{opacity: 1}} animate={{y:0}}>
+    <motion.div initial={{opacity: 1}} animate={{y:0}} className="p-0">
             <Col className="px-3 my-3">
                 <motion.h4 animate={{  x:[100,0], opacity:1}} transition={{duration:3}}  className='text-start m-0 fw-bold text-capitalize user-tab-list'>welcome {items.username}</motion.h4>                
             </Col>

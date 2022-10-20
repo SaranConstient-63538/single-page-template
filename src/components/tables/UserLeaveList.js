@@ -96,7 +96,7 @@ export const UserLeaveList =()=>{
             console.log(err.message);
         })       
     },[])
-    console.log(curItem.length > 0)
+    console.log(curItem)
     return(
         <>
             <Col className="px-3 py-3">

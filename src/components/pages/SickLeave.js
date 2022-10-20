@@ -191,7 +191,9 @@ const SickLeave =({sick_leave})=>{
                                    dateFormat="dd-MM-yyyy"
                                    filterDate={isWeekday}
                                    isClearable={true}
-                                   
+                                   onKeyDown={(e) => {
+                                    e.preventDefault();
+                                }}
                                 /> 
                                 {inputErrors.startDate && <p className='text-danger'>{inputErrors.startDate}</p>}
                             </Col>
@@ -206,7 +208,10 @@ const SickLeave =({sick_leave})=>{
                                      maxDate={addDays(new Date(), 15)}
                                      dateFormat="dd-MM-yyyy"  
                                      filterDate={isWeekday}   
-                                     type="date"                                  
+                                     type="date" 
+                                     onKeyDown={(e) => {
+                                        e.preventDefault();
+                                    }}                                 
                                 />
                                   {inputErrors.endDate && <p className='text-danger'>{inputErrors.endDate}</p>}       
                             </Col>
