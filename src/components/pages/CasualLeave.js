@@ -167,9 +167,9 @@ const CasualLeavel =({casual_leave})=>{
                 </Modal.Header>
                 <Modal.Body>
                     <Col xs> 
-                        <Row>.
+                        <Row>
                             <Col md sm={6} className='mb-3'>  
-                                <h6 className="mb-3 mt-1">Start Date:</h6>
+                                <h6 className="mb-3 mt-1 text-capitalize">from:</h6>
                                 <DatePicker className='form-control mb-2'
                                     selected={startDate}
                                     onChange={(date) => setStartDate(date)}
@@ -177,11 +177,14 @@ const CasualLeavel =({casual_leave})=>{
                                     minDate={addDays(new Date(),4)}
                                     maxDate={addDays(new Date(),30)}
                                     dateFormat="dd-MM-yyyy"
+                                    onKeyDown={(e) => {
+                                        e.preventDefault();
+                                    }}
                                 />
                                  {inputErrors.startDate && <p className='text-danger'>{inputErrors.startDate}</p>}
                             </Col>
                             <Col md sm={6} className='mb-3'>
-                            <h6 className="mb-3 mt-1">End Date:</h6>
+                            <h6 className="mb-3 mt-1 text-capitalize">to:</h6>
                                 <DatePicker className='form-control mb-2'
                                     selected={endDate}
                                     onChange={(date) => setEndDate(date)}                              
@@ -189,6 +192,9 @@ const CasualLeavel =({casual_leave})=>{
                                     minDate={addDays(new Date(),4)}
                                     maxDate={addDays(new Date(),30)}
                                     dateFormat="dd-MM-yyyy"
+                                    onKeyDown={(e) => {
+                                        e.preventDefault();
+                                    }}
                                 />
                                  {inputErrors.endDate && <p className='text-danger'>{inputErrors.endDate}</p>}
                             </Col>
@@ -196,7 +202,9 @@ const CasualLeavel =({casual_leave})=>{
                         <h6 className='mb-3 mt-3'>Reason For </h6>
                         <Form.Control as="textarea" rows={3} className="mb-2" value={casual_reason} onChange={onCasualReason}/> 
                         {inputErrors.casual_reason && <p className='text-danger'>{inputErrors.casual_reason}</p>} 
-                        <Button onClick={casual_handleShow} className="m-1 p-2 rounded-4">Submit</Button>                                                                 
+                        <div className='text-end'>
+                        <Button onClick={casual_handleShow} className="m-1 p-2 rounded-4">Submit</Button>  
+                        </div>                                                               
                     </Col>              
                 </Modal.Body>
             </Modal>   
@@ -208,11 +216,11 @@ const CasualLeavel =({casual_leave})=>{
                     <p>To apply the  Casual leave From: {moment.utc(casual_apply.from_date).format("DD-MM-YYYY")} To: {moment.utc(casual_apply.to_date).format("DD-MM-YYYY")} </p>                  
  
                     <Row>
-                        <Col className='text-start'>
-                            <Button className="btn btn-danger p-2 m-2 rounded-4 fs-6" onClick={onCancel}>Cancel</Button>
+                    <Col className='text-start'>
+                            <Button onClick={onSubmit} className="btn btn-success p-2 m-2 rounded-4 fs-6">apply</Button>
                         </Col>
                         <Col className='text-end'>
-                            <Button onClick={onSubmit} className="btn btn-success p-2 m-2 rounded-4 fs-6">Save</Button>
+                            <Button className="btn btn-danger p-2 m-2 rounded-4 fs-6" onClick={onCancel}>Cancel</Button>
                         </Col>
                     </Row>
                 </Modal.Body>

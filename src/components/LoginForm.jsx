@@ -21,7 +21,6 @@ import { toast } from 'react-toastify'
 import { tokenService } from '../service/tokenService'
 
 
-
 const LoginForm = () => {
   const navigate = useNavigate();
   const schema = Yup.object().shape({
@@ -39,12 +38,11 @@ const LoginForm = () => {
 const handleShow=()=>{
   setShow(!show)
 }
-const handleReset=()=>{
-  setReset(!reset)
-}
-  // useEffect(()=>{
-  //   if(isLogin())navigate('/home');
-  // },[])
+  
+  useEffect(()=>{
+    if(isLogin())navigate('/home');
+  },[])
+  
   const onSubmit = (data)=>{        
     let login_data={
       email:data.email,
@@ -53,21 +51,17 @@ const handleReset=()=>{
    
     instance.post(process.env.REACT_APP_LOGIN,login_data).then( res =>{ 
       if( res.status === 200){
-        tokenService.setAccessToken(res.data.responseResult)
-        console.log(res.data.responseResult);
-        const _data = JSON.stringify( res.data.responseResult)
-        localStorage.setItem('data',_data)
-        // instance.defaults.headers.common['Authorization']=`Bearer ${res.data.token}`
-        localStorage.setItem('token', res.data.responseResult.token)
-
-        navigate('/home')     
-        toast.success('Successfully Login',{       
-          position: toast.POSITION.BOTTOM_LEFT,
-        }) 
+        console.log(res)
+        localStorage.setItem('token',res.data.responseResult.token)
+        localStorage.setItem('data',JSON.stringify( res.data.responseResult))
+        navigate('/home') 
       }
       
-    }).catch( err => {
-      console.log(err.message)
+    }).catch( error => {
+      console.log(error)
+      toast.error(`${error.response.data.message}`,{
+        position: toast.POSITION.TOP_RIGHT
+      })
     })    
     
   }   
@@ -81,40 +75,45 @@ const handleReset=()=>{
           </div>
         </div>
         <div className="col-md-6 col-12 align-self-center text-center">
-          {
-            reset ?(
-              <ResetForm />
-            ):
-            (
-              <Form className="d-flex flex-column shadow-lg rounded-5 my-3 my-md-0" onSubmit={handleSubmit(onSubmit)}>
-                <div className="swing py-1 shadow-md m-auto my-5 rounded-3">
-                  <img src={cgsimg} alt="cgs image" className="fs-3 px-3 py-2" />
-                </div>
-                <div className=" text-center m-auto py-2 position-relative">
-                  <span className="mailinput position-absolute"><img src={mailicon} className="mailcon"/></span>
-                  <input type="text" 
-                    {...register('email')}
-                    placeholder="Email" 
-                    className="log-input form-control border-0 shadow-none rounded-pill text-center"
-                    />
-                  <p className="text-danger m-0">{errors.email?.message}</p>
-                </div>
-                <div className="text-center m-auto py-2 position-relative">
-                  <span className="mailinput position-absolute"><img src={passwordicon}  className="passcon"/></span>
-                  <span className="btn mailinput1 position-absolute border-0" onClick={handleShow}><img src={passwordshow} className="passshowcon"/></span>   
-                  <input type={show?"text":"password"}
-                    {...register('password')}
-                      className="log-input form-control border-0 shadow-none rounded-pill text-center" placeholder="Password"                 
-                  />   
-                  <p className="text-danger m-0">{errors.password?.message}</p>           
-                </div>
-                <div className="text-center py-4 mb-2">
-                  <button className="log-button border-0 w-25 py-1 text-uppercase rounded-pill shadow">login</button>
-                </div>
-                <Link to="/" onClick={handleReset}>reset password</Link>
-                
+          <Form className="d-flex flex-column shadow-lg rounded-5 my-3 my-md-0" onSubmit={handleSubmit(onSubmit)}>
+            <div className="swing py-1 shadow-md m-auto my-5 rounded-3">
+              <img src={cgsimg} alt="cgs image" className="fs-3 px-3 py-2" />
+            </div>
+            <div className=" text-center mx-5 px-5 py-2 position-relative">
+              <span className="mailinput position-absolute">
+                <img src={mailicon} className="mailcon" />
+              </span>
+              <input
+                type="text"
+                {...register("email")}
+                placeholder="Email"
+                className="log-input form-control border-0 shadow-none rounded-pill text-center"
+              />
+              <p className="text-danger m-0">{errors.email?.message}</p>
+            </div>
+            <div className="text-center mx-5 px-5 py-2 position-relative">
+              <span className="mailinput position-absolute">
+                <img src={passwordicon} className="passcon" />
+              </span>
+              <span
+                className="btn mailinput1 position-absolute border-0"
+                onClick={handleShow}
+              >
+                <img src={passwordshow} className="passshowcon" />
+              </span>
+              <input
+                type={show ? "text" : "password"}
+                {...register("password")}
+                className="log-input form-control border-0 shadow-none rounded-pill text-center"
+                placeholder="Password"
+              />
+              <p className="text-danger m-0">{errors.password?.message}</p>
+            </div>
+            <div className="text-center py-4 mb-2">
+              <button className="log-button border-0 w-25 py-1 text-uppercase rounded-pill shadow">login</button>
+            </div>
           </Form>
-            )}
+            
         </div>
       </div>
     </Container>

@@ -1,7 +1,7 @@
 import React,{ useState, lazy} from 'react';
 import  './Mainpage.css'
 //library
-const { Container } = lazy(()=>import('react-bootstrap'))
+import { Container } from 'react-bootstrap'
 //components
 const Sidebar = lazy(()=> import('./sidebar/Sidebar'));
 const Topbar = lazy(()=> import('./topbar/Topbar'));

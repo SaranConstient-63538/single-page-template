@@ -9,9 +9,8 @@ import { toast } from 'react-toastify'
 import "./leave.css";
 
 const Permissionslider =()=>{
-  const format_date = "DD-MM-YYYY"
-  const format_time = "h:mm"
-  
+  const format_date = "YYYY-MM-DD"
+  const format_time = "hh:mm"
 
   const [startDate,setStartDate]=useState('')
   const [startTime, setStartTime]=useState('')
@@ -85,13 +84,15 @@ const Permissionslider =()=>{
     
   }      
   const _permission ={
-    from_date: moment(startDate).format(format_date).concat(''+ moment(startTime).format('hh:mm a') +''),  
-    to_date: moment(startDate).format(format_date).concat(''+ moment(endTime).format('hh:mm a') +''),  
+    from_date: moment(startDate).format(format_date),  
+    to_date: moment(startDate).format(format_date).concat(' '+ moment(endTime).format("hh:mm")+' '),  
     start_time:parseFloat(start_time), 
     end_time:parseFloat(end_time),
     type_of_leave:'permission',
     description: per_reason,
   }
+  console.log(_permission)
+  
   const onCancel =()=>{
     setStartDate('')
     setStartTime('')
@@ -160,7 +161,7 @@ const Permissionslider =()=>{
       </Card>
       <Modal show={show} onHide={handleClose} size="lg" centered>
         <Modal.Header closeButton>
-            <Modal.Title className="text-secondary fw-bold">Permission </Modal.Title>
+            <Modal.Title>Permission</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Col xs="12" >      
@@ -175,6 +176,9 @@ const Permissionslider =()=>{
                   dateFormat="dd-MM-yyyy"
                   value={startDate}
                   filterDate={isWeekday}
+                  onKeyDown={(e) => {
+                    e.preventDefault();
+                }}
                 />
                 {inputErrors.startDate && <p className='text-danger'>{inputErrors.startDate}</p>}
               </Col>
@@ -194,6 +198,9 @@ const Permissionslider =()=>{
                   dateFormat="h:mm a"
                   timeCaption="Time"
                   value={startTime}
+                  onKeyDown={(e) => {
+                    e.preventDefault();
+                }}
                 />         
                   {inputErrors.startTime && <p className='text-danger'>{inputErrors.startTime}</p>}     
               </Col>
@@ -211,26 +218,27 @@ const Permissionslider =()=>{
                   dateFormat="h:mm a"
                   timeCaption="Time"
                   value={endTime}
+                  onKeyDown={(e) => {
+                    e.preventDefault();
+                }}
                 />
                 {inputErrors.endTime && <p className='text-danger'>{inputErrors.endTime}</p>}
               </Col>                               
             </Row>
-            <Col sm md className="mb-2" >
-                <h6 className="text-primary fw-bold mb-2 mt-2">Reason </h6>
-                <Form.Control 
-                  as="textarea" rows={3} className="mb-2" value={per_reason} 
-                  onChange={(event)=> setPer_reason(event.target.value)}
-                />
-                {inputErrors.per_reason && ( 
-                  <p className='text-danger'>
-                    {inputErrors.per_reason}
-                  </p>
-                )} 
-            </Col>            
-            <div className="text-end">
-              <Button className="mb-3 rounded-4 me-1" onClick={onSave}>
-                Apply
-              </Button>
+            <h6 className='mb-3 mt-3'>Reason</h6>
+            <Form.Control 
+              as="textarea" rows={3} className="mb-2" value={per_reason} 
+              onChange={(event)=> setPer_reason(event.target.value)}
+            />
+            {inputErrors.per_reason && ( 
+              <p className='text-danger'>
+                {inputErrors.per_reason}
+              </p>
+            )} 
+            <div className='text-end'>
+            <Button className="rounded-pill" onClick={onSave}>
+              Submit
+            </Button>
             </div>
             
           </Col>            
@@ -241,14 +249,14 @@ const Permissionslider =()=>{
             Are you sure ?                
         </Modal.Header>
         <Modal.Body>      
-          <p >To apply the Permission on date: {moment(startDate).format('DD-MM-YYYY')} & time:  {moment(startTime).hour()} To {moment(endTime).hour()} </p>                  
+          <p >To apply the Permission on date: {moment.utc(startDate).format('DD-MM-YYYY')} & time:  {moment(startTime).format('hh:mm a')} To {moment(endTime).format('hh:mm a')} </p>                  
           
           <Row>
-            <Col className='text-start'>
-                <Button className="btn btn-danger p-2 m-2 rounded-4 fs-6" onClick={onCancel}>Cancel</Button>
+          <Col className='text-start'>
+                <Button onClick={onPermission} className="btn text-capitalize btn-success p-2 m-2 rounded-4 fs-6">apply</Button>
             </Col>
             <Col className='text-end'>
-                <Button onClick={onPermission} className="btn btn-success p-2 m-2 rounded-4 fs-6">Save</Button>
+                <Button className="btn btn-danger p-2 m-2 rounded-4 fs-6 text-capitalize" onClick={onCancel}>Cancel</Button>
             </Col>
           </Row>
         </Modal.Body>

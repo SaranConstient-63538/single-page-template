@@ -182,7 +182,7 @@ const SickLeave =({sick_leave})=>{
                     <Col xs> 
                         <Row>                            
                             <Col md sm={6} className='mb-3'>  
-                                <h6 className="mb-3 mt-1">Start Date:</h6>
+                                <h6 className="mb-3 mt-1 text-capitalize">from:</h6>
                                 <DatePicker     className='form-control mb-2'                               
                                    selected={startDate}
                                    onChange={(date) => setStartdate(date)}
@@ -190,23 +190,28 @@ const SickLeave =({sick_leave})=>{
                                    maxDate={addDays(new Date(), 15)}
                                    dateFormat="dd-MM-yyyy"
                                    filterDate={isWeekday}
-                                   isClearable={true}
-                                   
+                                //    isClearable={true}
+                                   onKeyDown={(e) => {
+                                    e.preventDefault();
+                                }}
                                 /> 
                                 {inputErrors.startDate && <p className='text-danger'>{inputErrors.startDate}</p>}
                             </Col>
                             
                             <Col md sm={6} className='mb-3'>
-                            <h6 className="mb-3 mt-1">End Date:</h6>
+                            <h6 className="mb-3 mt-1 text-capitalize">to:</h6>
                                 <DatePicker className='form-control mb-2'
                                      selected={endDate}
                                      onChange={(date) => setEnddate(date)}
                                      selectsEnd
-                                     isClearable={endDate ? false : true}
+                                    //  isClearable={endDate ? false : true}
                                      maxDate={addDays(new Date(), 15)}
                                      dateFormat="dd-MM-yyyy"  
                                      filterDate={isWeekday}   
-                                     type="date"                                  
+                                     type="date" 
+                                     onKeyDown={(e) => {
+                                        e.preventDefault();
+                                    }}                                 
                                 />
                                   {inputErrors.endDate && <p className='text-danger'>{inputErrors.endDate}</p>}       
                             </Col>
@@ -216,8 +221,8 @@ const SickLeave =({sick_leave})=>{
                             value={sick_reason} onChange={onSickReason} 
                         />    
                         {inputErrors.sick_reason && <p className='text-danger'>{inputErrors.sick_reason}</p>} 
-                        <h6 className='mb-3 mt-3'>Doc Upload </h6>
-                        <Form.Control className="mb-2" type="file" onChange={handleDrop} multiple />    
+                        {/* <h6 className='mb-3 mt-3'>Doc Upload </h6>
+                        <Form.Control className="mb-2" type="file" onChange={handleDrop} multiple />     */}
                         {/* <Dropzone onDrop={handleDrop}>
                             {({ getRootProps, getInputProps }) => (
                             <div {...getRootProps({ className: "dropzone" })}>
@@ -226,9 +231,10 @@ const SickLeave =({sick_leave})=>{
                             </div>
                             )}
                         </Dropzone> */}
-                        {inputErrors.sick_reason && <p className='text-danger'>{inputErrors.file_upload}</p>} 
-                            
-                        <Button onClick={sick_handleShow} className="m-1 p-2 rounded-4">Submit</Button>                                                                 
+                        {/* {inputErrors.sick_reason && <p className='text-danger'>{inputErrors.file_upload}</p>}  */}
+                        <div className='text-end'>
+                        <Button onClick={sick_handleShow} className="m-1 p-2 rounded-4">Submit</Button>     
+                        </div>                                                            
                     </Col>              
                 </Modal.Body>
             </Modal>    
@@ -239,11 +245,11 @@ const SickLeave =({sick_leave})=>{
                 <Modal.Body>      
                     <p>To apply the Sick leave From :  {moment.utc(sick_apply.from_date).format("DD-MM-YYYY")} To: {moment.utc(sick_apply.to_date).format("DD-MM-YYYY")} </p>                  
                     <Row>
-                        <Col className='text-start'>
-                            <Button className="btn btn-danger p-2 m-2 rounded-4 fs-6" onClick={onCancel}>Cancel</Button>
+                    <Col className='text-start'>
+                            <Button onClick={onSubmit} className="btn btn-success p-2 m-2 rounded-4 fs-6">apply</Button>
                         </Col>
                         <Col className='text-end'>
-                            <Button onClick={onSubmit} className="btn btn-success p-2 m-2 rounded-4 fs-6">Save</Button>
+                            <Button className="btn btn-danger p-2 m-2 rounded-4 fs-6" onClick={onCancel}>Cancel</Button>
                         </Col>
                     </Row>
                 </Modal.Body>

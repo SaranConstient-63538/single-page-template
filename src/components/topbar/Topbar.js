@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navbar, Nav, Button, Dropdown } from 'react-bootstrap'
 import * as Ai from 'react-icons/ai'
-import logoImg from '../../assets/images/cgslogo.png'
+import logoImg from '../../assets/images/cgstopbar-logo.svg'
 import SearchBarTop from './SearchBarTop';
 import './topbar.css';
 import { useNavigate } from 'react-router-dom'
@@ -9,24 +9,28 @@ import {NotificationsNoneOutlined,  MessageOutlined} from '@mui/icons-material';
 import instance from '../../service/service'
 import { tokenService } from '../../service/tokenService';
 
+import { toast } from 'react-toastify'
+
 const Topbar = ({handleShow}) => {   
     const navigate = useNavigate();
     const Logout =()=>{
+        
         instance.post(process.env.REACT_APP_LOGOUT)
-        .then( res =>{            
-            tokenService.removeAccessToken();
-            tokenService.removeUser();
-            navigate('/')
+        .then( res =>{    
+            tokenService.removeAccessToken()
+            tokenService.removeUser()
+            // if(res.status === 200){
+                localStorage.clear();
+                navigate('/')
+            // }
+            console.log(res.data, 'data')
 
         }).catch(err =>{
+            toast.error(`${err.message}`,{
+                position: toast.POSITION.TOP_RIGHT
+              })
             console.log(err.message)
-        })
-        tokenService.removeAccessToken();
-        tokenService.removeUser();
-        console.log(tokenService.removeAccessToken())
-        console.log(tokenService.removeUser())
-        navigate('/')
-       
+        })    
     }
     return (
         <Navbar expand="md"  className="shadow-lg topbar bg-dark py-0 px-0 mt-0 flex-row position-fixed w-100">              
@@ -43,19 +47,19 @@ const Topbar = ({handleShow}) => {
                 <SearchBarTop />
                 <Nav className="flex-sm-column flex-md-row">                     
                     <div className='d-flex justify-content-between py-2 px-4 align-items-center'>
-                        <Nav.Item className="p-2">
-                            <Nav.Link href="#link" className='mssg-btn'>
+                        {/* <Nav.Item className="p-2"> */}
+                            {/* <Nav.Link href="#link" className='mssg-btn'> */}
                                 {/* <MessageOutlined /> */}
-                                <span className='fs-4'><i class="bi bi-chat"></i></span>
-                            </Nav.Link>
-                        </Nav.Item>
+                                {/* <span className='fs-4'><i class="bi bi-chat"></i></span> */}
+                            {/* </Nav.Link> */}
+                        {/* </Nav.Item> */}
                         
-                        <Nav.Item className="p-2"   >
-                            <Nav.Link href="#link" className='notify-btn'>
+                        {/* <Nav.Item className="p-2"   > */}
+                            {/* <Nav.Link href="#link" className='notify-btn'> */}
                                 {/* <NotificationsNoneOutlined  className="dropdown-toggle"/> */}
-                                <span className='fs-4'><i class="bi bi-bell"></i></span>
-                            </Nav.Link>
-                        </Nav.Item>                           
+                                {/* <span className='fs-4'><i class="bi bi-bell"></i></span> */}
+                            {/* </Nav.Link> */}
+                        {/* </Nav.Item>                            */}
                         <Nav.Item>
                             <Nav.Link >   
                                 <Dropdown>
