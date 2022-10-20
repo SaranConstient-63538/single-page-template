@@ -23,10 +23,10 @@ export const UserLeaveList =()=>{
    
 
     const [currentPage, setCurrentpage]=useState(1)
-    const [perPage,setPerpage]=useState(10)
+    const [perPage,setPerpage]=useState(6)
 
   const [pageLimit]=useState(3)
-  const [maxPage, setMaxpage]=useState(5)
+  const [maxPage, setMaxpage]=useState(4)
   const [minPage, setMinpage]=useState(0)
  
   
@@ -168,7 +168,7 @@ export const UserLeaveList =()=>{
                             currentPage={currentPage} 
                             minPage={minPage} 
                             maxPage={maxPage} 
-                            pageNumber={pageNumber} 
+                            pageNumber={pageNumber}  
                             handlePrevbtn={handlePrevbtn} 
                             handleNextbtn={handleNextbtn}
                         />: ''}

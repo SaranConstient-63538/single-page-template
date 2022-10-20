@@ -84,7 +84,7 @@ const Permissionslider =()=>{
     
   }      
   const _permission ={
-    from_date: moment(startDate).format(format_date).concat(' '+ moment(startTime).format('hh:mm')+' '),  
+    from_date: moment(startDate).format(format_date),  
     to_date: moment(startDate).format(format_date).concat(' '+ moment(endTime).format("hh:mm")+' '),  
     start_time:parseFloat(start_time), 
     end_time:parseFloat(end_time),

@@ -7,12 +7,12 @@ export const Pagination =(props)=>{
   // console.log(props.currentPage)
   return(
     <ul className="page-number">
-    <li>
-      <button onClick={handlePrevbtn} disabled={currentPage > minPage ? 'disable' : 'visiable'}>Prev</button>
+    <li className='border-0 rounded-pill'>
+      <button  className="border-0" onClick={handlePrevbtn} disabled={currentPage > minPage ? 'none' : 'visiable'}>Prev</button>
     </li>
     {pageNumber}
-    <li>
-      <button onClick={handleNextbtn} disabled={currentPage < minPage ? 'disable' : 'visiable'}>Next</button>
+    <li className='border-0 rounded-pill'>
+      <button className="border-0" onClick={handleNextbtn} disabled={currentPage < maxPage ?  'visiable':'none' }>Next</button>
     </li>
   </ul>
     
@@ -24,7 +24,7 @@ export const Pagination =(props)=>{
 
 {/*
 
-    <ul className="page-number border-0">
+    <ul className="page-number border-4">
       <button className='border-0 rounded-pill py-0 my-auto text-dark' disabled={currentPage > minPage ?  'visible':'none'} onClick={handlePrevbtn}>
         <span><i class="bi bi-caret-left"></i></span>Prev
       </button>
