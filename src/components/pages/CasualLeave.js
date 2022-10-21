@@ -216,13 +216,13 @@ const CasualLeavel =({casual_leave})=>{
                     <p>To apply the  Casual leave From: {moment.utc(casual_apply.from_date).format("DD-MM-YYYY")} To: {moment.utc(casual_apply.to_date).format("DD-MM-YYYY")} </p>                  
  
                     <Row>
-                    <Col className='text-start'>
-                            <Button onClick={onSubmit} className="btn btn-success p-2 m-2 rounded-4 fs-6">apply</Button>
-                        </Col>
-                        <Col className='text-end'>
+                        <Col className='text-start'>
                             <Button className="btn btn-danger p-2 m-2 rounded-4 fs-6" onClick={onCancel}>Cancel</Button>
                         </Col>
-                    </Row>
+                        <Col className='text-end'>
+                            <Button onClick={onSubmit} className="btn btn-success p-2 m-2 rounded-4 fs-6">apply</Button>
+                        </Col>                    
+                </Row>
                 </Modal.Body>
             </Modal>      
         </>    

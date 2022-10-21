@@ -23,13 +23,14 @@ const Permissionslider =()=>{
   const [per_reason,setPer_reason]=useState('')
 
   const [inputErrors,setInputErrors] = useState({startDate:'',startTime:'',endTime:'',per_reason:''})
-  const now = moment().toDate();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const per_handleShow =()=>{
     setPer_show(true)
   }
+  const nowday = moment().toDate();
+  console.log(nowday)
   const per_handleClose =()=> setPer_show(false)
   const onSave =()=>{
     let errorCount = 0
@@ -189,9 +190,7 @@ const Permissionslider =()=>{
                   selected={startTime}
                   onChange={date => setStartTime(date)}
                   startTime={startTime}
-                  endTime={endTime}     
-                  minTime={moment().hours(9).minutes(30)}
-                  maxTime={moment().hours(23).minutes(45)}               
+                  endTime={endTime}             
                   showTimeSelect
                   showTimeSelectOnly
                   timeIntervals={60}      

@@ -15,7 +15,7 @@ export const UserLeaveList =()=>{
         {field:'to_date', header:'End Date'},
         {field:'type_of_leave',header:'Leave Type'},
         {field:'description',header:'Desc'},
-        {field:'status',header:'App Status'}
+        {field:'status',header:'Status'}
     ]
     const [order,setOrder]=useState('ASC');
     const [data, setData]=useState([])
