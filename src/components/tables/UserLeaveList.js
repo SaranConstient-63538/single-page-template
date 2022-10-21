@@ -1,6 +1,6 @@
 import {motion} from 'framer-motion'
 import {useEffect, useState} from 'react'
-import { Col, Modal, Table } from 'react-bootstrap'
+import { Col, Modal, Table, Card } from 'react-bootstrap'
 import instance from '../../service/service'
 import {Pagination} from './Pagination'
 import moment from 'moment'
@@ -76,14 +76,14 @@ export const UserLeaveList =()=>{
   }
     const onSorting = (col)=>{ 
         if(order === 'ASC'){
-            const sorted = [...curItem].sort((a,b)=>
-                a[col]>b[col] ? 1 :-1              
+            const sorted = [...data].sort((a,b)=>
+                a[col]<b[col] ? 1 :-1              
             )
             setData(sorted)
             setOrder('DSC')
         }
         if(order === 'DSC'){
-            const sorted = [...curItem].sort((a,b)=>
+            const sorted = [...data].sort((a,b)=>
                 a[col]>b[col]? 1 : -1
             )
             setData(sorted)
@@ -93,31 +93,16 @@ export const UserLeaveList =()=>{
     
     useEffect(()=>{
         instance.get(process.env.REACT_APP_USERS_LEAVELIST)
-            .then(res => {   
-            setData(res.data)
-            console.log(res.data)
+            .then(res => { 
+            setData(res.data)       
+            console.log(res.data)     
         }) 
         .catch( err =>{
             console.log(err.message);
         })       
     },[])
     console.log(curItem)
-    const handleDesc =(desc)=>{
-        setDesc_show(true)
-        console.log(desc,desc_show)
-        return(
-
-            <Modal show={desc_show} onClose={()=>setDesc_show(false)} size="md" centered>
-                <Modal.Header closeButton>
-                    Description             
-                </Modal.Header>
-                <Modal.Body>      
-                    <p>{desc} </p>    
-                </Modal.Body>
-            </Modal>
-        )  
-        
-    }
+   
     return(
         <>
             <Col className="px-3 py-3">
@@ -139,10 +124,10 @@ export const UserLeaveList =()=>{
                                     return(
                                         <tr key={idx} className="shadow rounded-pill">
                                             <td className="py-3">{(perPage *(currentPage-1))+idx +  1}</td>
-                                            <td className="py-3">{moment().utc(item.from_date).format('DD-MM-YYYY')}</td>
-                                            <td className="py-3">{moment().utc(item.to_date).format('DD-MM-YYYY')}</td>
+                                            <td className="py-3">{moment(item.from_date).format('DD-MM-YYYY')}</td>
+                                            <td className="py-3">{moment(item.to_date).format('DD-MM-YYYY')}</td>
                                             <td className="py-3">{item.type_of_leave === 'sick_leave'? 'Sick Leave': item.type_of_leave === 'casual_leave' ? 'Casual Leave':item.type_of_leave === 'work_from_home' ? 'Work From Home':item.type_of_leave === 'permission' ? 'Permission' : ''  }</td>                                      
-                                            <td className="py-3" >{item.description.length > 10 ? (<a onClick={handleDesc}>...desc</a>):item.description}</td>
+                                            <td className="py-3" >{item.description.length > 10 ? (<Handledesc desc={item.description}/>):item.description}</td>
                                             <td className="py-3">
                                                 {item.status === 0 ?(
                                                     <p className='m-0 text-capitalize' >waiting for approval</p>
@@ -175,4 +160,25 @@ export const UserLeaveList =()=>{
                 </Col>
         </>
     )
+}
+const Handledesc =({desc})=>{
+    const[desc_show,setDesc_show]=useState(false)
+   console.log(desc)
+   const onDesc =()=>{
+        setDesc_show(true)
+   }
+    return(
+        <>
+            <a onClick={onDesc}>desc...</a>
+            <Modal show={desc_show} onHide={()=>setDesc_show(false)} size="md" centered>
+                <Modal.Header closeButton>
+                    Description             
+                </Modal.Header>
+                <Modal.Body>      
+                    <p>{desc}</p>
+                </Modal.Body>
+            </Modal> 
+        </>
+    )  
+    
 }

@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import { Table, Col} from 'react-bootstrap'
+import { Table, Col, Card} from 'react-bootstrap'
 import instance from '../../service/service'
 import moment from 'moment'
 import { Pagination } from './Pagination'
@@ -136,9 +136,9 @@ const LeaveListTable =({list,_key,setList})=>{
                                         return(
                                             <tr key={idx}>
                                                 <td>{(perPage *(currentPage-1))+idx+1}</td>
-                                                <td>{item.updated_by} </td>
-                                                <td>{moment().utc(item.from_date).format('DD-MM-YYYY')}</td>
-                                                <td>{moment().utc(item.to_date).format('DD-MM-YYYY')}</td>
+                                                <td><SpecifiCol item={item}/></td>
+                                                <td>{moment(item.from_date).format('DD-MM-YYYY')}</td>
+                                                <td>{moment(item.to_date).format('DD-MM-YYYY')}</td>
                                                 <td>{ item.no_of_days}</td>
                                                 <td>{item.description}</td>
                                                 <td>
@@ -159,12 +159,12 @@ const LeaveListTable =({list,_key,setList})=>{
                                   console.log(item.length,item.type_of_leave,_key)
                                   if(item.type_of_leave === _key  ){
                                       return(
-                                          <tr key={idx}>
-                                              <td>{idx+1}</td>
-                                              <td>{item.updated_by} </td>
-                                              <td>{moment().utc(item.from_date).format('DD-MM-YYYY')}</td>
-                                              <td>{ moment().utc(item.from_date).format('hh : mm')}</td>
-                                              <td>{ moment.utc(item.to_date).format('hh : mm')}</td>
+                                          <tr key={idx} >
+                                              <td >{idx+1}</td>
+                                              <td><SpecifiCol item={item}/></td>
+                                              <td>{moment(item.from_date).format('DD-MM-YYYY')}</td>
+                                              <td>{ moment(item.from_date).format('hh : mm')}</td>
+                                              <td>{ moment(item.to_date).format('hh : mm')}</td>
                                               <td>{ item.type_of_leave === 'permission'? item.no_of_hours: item.no_of_days}</td>
                                               <td>{item.description}</td>
                                               <td>
@@ -173,12 +173,7 @@ const LeaveListTable =({list,_key,setList})=>{
                                                       <Rejectbtn item={item}/>                                               
                                                   </>                                            
                                               </td>   
-                                              {/* <td>                                                
-                                                  
-                                                <><Viewbtn item={item}/></>                                                        
-                                                                                  
-                                              </td>                                                                                      */}
-                                          </tr>
+                                            </tr>
                                                               
                                       ) 
                                   }
@@ -187,8 +182,7 @@ const LeaveListTable =({list,_key,setList})=>{
                                 :(                       
                                     <tr><td colSpan='8' className='text-center'>
                                       No Record Founded</td></tr>                      
-                                )
-                            
+                                )                            
                         }
                     </tbody>
                 </Table>
@@ -209,4 +203,23 @@ const LeaveListTable =({list,_key,setList})=>{
 
     )
 }
+const SpecifiCol =({item})=>{
+  const[desc_show,setDesc_show]=useState(false)
+ console.log(item)
+ const onDesc =()=>{
+      setDesc_show(true)
+ }
+  return(
+      <>
+          <a onClick={onDesc} className="active">{item.updated_by}</a>
+          <Card>
+            <Card.Body>
+              <p>Card</p>
+            </Card.Body>
+          </Card>
+      </>
+  )  
+  
+}
+
 export default LeaveListTable;

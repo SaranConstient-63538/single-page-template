@@ -7,6 +7,7 @@ import instance from '../../service/service';
 import { motion } from 'framer-motion'
 import { toast } from 'react-toastify'
 import "./leave.css";
+import { Co2Sharp } from '@mui/icons-material';
 
 const Permissionslider =()=>{
   const format_date = "YYYY-MM-DD"
@@ -84,9 +85,10 @@ const Permissionslider =()=>{
     }
     
   }      
+  console.log(startTime)
   const _permission ={
-    from_date: moment(startDate).format(format_date),  
-    to_date: moment(startDate).format(format_date).concat(' '+ moment(endTime).format("hh:mm")+' '),  
+    from_date: moment(startDate,`YYYY-MM-DD ${moment(startTime,'hh:mm')}`),  
+    to_date: moment(startDate,"YYYY-MM-DD hh:mm A"),  
     start_time:parseFloat(start_time), 
     end_time:parseFloat(end_time),
     type_of_leave:'permission',

@@ -7,13 +7,13 @@ export const Pagination =(props)=>{
   console.log(props.currentPage)
   return(
     <ul className="page-number">
-    <li className='border-0 rounded-pill'>
+    {/* <li className='border-0 rounded-pill'>
       <button  className="border-0" onClick={handlePrevbtn} disabled={currentPage > minPage ? 'none' : 'visiable'}>Prev</button>
-    </li>
+    </li> */}
     {pageNumber}
-    <li className='border-0 rounded-pill'>
+    {/* <li className='border-0 rounded-pill'>
       <button className="border-0" onClick={handleNextbtn} disabled={currentPage < maxPage ?  'visiable':'none' }>Next</button>
-    </li>
+    </li> */}
   </ul>
     
   );

@@ -12,7 +12,7 @@ import { UserLeaveList } from '../tables/UserLeaveList';
 
 const EmpDashboard = () => {
     const user_list = ''
-    const [order,setOrder ]=useState('ASC')
+    const [order,setOrder ]=useState('DSC')
     const [sick_leave, setSick_leave]=useState('')
     const [casual_leave, setCasual_leave]=useState('')
     const [work_from_home, setWork_from_home]=useState('')
