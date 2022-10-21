@@ -2,13 +2,14 @@ import React,{useEffect, useState} from "react";
 import logimage from "../assets/images/logimage.svg";
 import cgsimg from "../assets/images/cgslogo.png";
 import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup';
+import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { Form, Container } from 'react-bootstrap';
+import ResetForm from './ResetForm';
 import { isLogin }  from './isLogin';
 import '../App.css';
 
-import {useNavigate} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import mailicon from "../assets/images/mailicon.svg";
 import passwordicon from "../assets/images/passwordicon.svg";
 import passwordshow from "../assets/images/passwordshow.svg";
@@ -19,18 +20,20 @@ import  { motion } from 'framer-motion'
 import { toast } from 'react-toastify'
 import { tokenService } from '../service/tokenService'
 
-const schema = yup.object().shape({
-  email: yup.string().email('must be valid e-mail address').required('* E-mail is required'),
-  password: yup.string().required('* password is required'),
-}).required();
 
 const LoginForm = () => {
   const navigate = useNavigate();
-  const { handleSubmit, register, formState:{errors}} = useForm({
+  const schema = Yup.object().shape({
+    email: Yup.string().email("must be valid e-mail address").required("E-mail is required"),
+    password: Yup.string().min(6).required("Password is required"),
+  })
+  const formOptions ={
     resolver: yupResolver(schema)
-  });
-
+  }
+  const { handleSubmit, register, formState} = useForm(formOptions);
+  const {errors} = formState;
   const[show,setShow]=useState(false);
+  const [reset, setReset] = useState(false);
 
 const handleShow=()=>{
   setShow(!show)
@@ -110,6 +113,7 @@ const handleShow=()=>{
               <button className="log-button border-0 w-25 py-1 text-uppercase rounded-pill shadow">login</button>
             </div>
           </Form>
+            
         </div>
       </div>
     </Container>
