@@ -6,10 +6,9 @@ import { Pagination } from './Pagination'
 import { Approvebtn, Rejectbtn, Viewbtn } from '../buttons/LeaveListBtn'
 import { loading } from '../loading'
 import * as Ai from 'react-icons/ai'
-import { useForm } from 'react-hook-form'
 import './pagination.css'
 
-const LeaveListTable =({list,_key,setList})=>{
+export const LeaveListTable =({list,_key,setList})=>{
     const [show, setShow] = useState(false)
     const [order, setOrder]=useState('ASC')
     console.log(list,_key)
@@ -128,66 +127,62 @@ const LeaveListTable =({list,_key,setList})=>{
                         </tr>            
                     </thead>
                     <tbody>   
-                        { 
-                            curItem.length > 0 ?
-                              curItem.type_of_leave !== "permission" ?
-                                curItem.map((item,idx)=>{
+                        {   loading &&
+                              curItem.length > 0 ?
+                                curItem.type_of_leave !== "permission" ?
+                                  curItem.map((item,idx)=>{
+                                      if(item.type_of_leave === _key  ){
+                                          return(
+                                              <tr key={idx}>
+                                                  <td>{(perPage *(currentPage-1))+idx+1}</td>
+                                                  <td><SpecifiCol item={item}/></td>
+                                                  <td>{moment(item.from_date).format('DD-MM-YYYY')}</td>
+                                                  <td>{moment(item.to_date).format('DD-MM-YYYY')}</td>
+                                                  <td>{ item.no_of_days}</td>
+                                                  <td>{item.description}</td>
+                                                  <td>
+                                                      <div className='d-flex flex-row'>
+                                                          <Approvebtn  item={item} _key={_key}/>
+                                                          <Rejectbtn item={item} _key={_key}/>                                               
+                                                      </div>
+                                                  </td>                                                                                     
+                                              </tr>                                                                
+                                          ) 
+                                      }}                   
+                                  ):
+                                  curItem.map((item,idx)=>{
+                                    console.log(item.length,item.type_of_leave,_key)
                                     if(item.type_of_leave === _key  ){
                                         return(
-                                            <tr key={idx}>
-                                                <td>{(perPage *(currentPage-1))+idx+1}</td>
+                                            <tr key={idx} >
+                                                <td >{idx+1}</td>
                                                 <td><SpecifiCol item={item}/></td>
                                                 <td>{moment(item.from_date).format('DD-MM-YYYY')}</td>
-                                                <td>{moment(item.to_date).format('DD-MM-YYYY')}</td>
-                                                <td>{ item.no_of_days}</td>
+                                                <td>{ moment(item.from_date).format('hh : mm')}</td>
+                                                <td>{ moment(item.to_date).format('hh : mm')}</td>
+                                                <td>{ item.type_of_leave === 'permission'? item.no_of_hours: item.no_of_days}</td>
                                                 <td>{item.description}</td>
                                                 <td>
-                                                    <div className='d-flex flex-row'>
+                                                    <>                                       
                                                         <Approvebtn  item={item} _key={_key}/>
-                                                        <Rejectbtn item={item} _key={_key}/>                                               
-                                                    </div>
+                                                        <Rejectbtn item={item}/>                                               
+                                                    </>                                            
                                                 </td>   
-                                                {/* <td>                                                
-                                                    <><Viewbtn item={item}/></>                                
-                                                </td>                                                                                      */}
-                                            </tr>
+                                              </tr>
                                                                 
                                         ) 
-                                    }}                   
-                                ):
-                                curItem.map((item,idx)=>{
-                                  console.log(item.length,item.type_of_leave,_key)
-                                  if(item.type_of_leave === _key  ){
-                                      return(
-                                          <tr key={idx} >
-                                              <td >{idx+1}</td>
-                                              <td><SpecifiCol item={item}/></td>
-                                              <td>{moment(item.from_date).format('DD-MM-YYYY')}</td>
-                                              <td>{ moment(item.from_date).format('hh : mm')}</td>
-                                              <td>{ moment(item.to_date).format('hh : mm')}</td>
-                                              <td>{ item.type_of_leave === 'permission'? item.no_of_hours: item.no_of_days}</td>
-                                              <td>{item.description}</td>
-                                              <td>
-                                                  <>                                       
-                                                      <Approvebtn  item={item} _key={_key}/>
-                                                      <Rejectbtn item={item}/>                                               
-                                                  </>                                            
-                                              </td>   
-                                            </tr>
-                                                              
-                                      ) 
-                                  }
-                                   }                   
-                              )                                
+                                    }
+                                    }                   
+                                )                                
                                 :(                       
                                     <tr><td colSpan='8' className='text-center'>
                                       No Record Founded</td></tr>                      
-                                )                            
+                                )                         
                         }
                     </tbody>
                 </Table>
             </Col>
-            {/* <Col>
+            <Col>
                   {curItem.length > 0 ? 
                         <Pagination 
                             curItem={curItem} 
@@ -198,7 +193,7 @@ const LeaveListTable =({list,_key,setList})=>{
                             handlePrevbtn={handlePrevbtn} 
                             handleNextbtn={handleNextbtn}
                         />: ''}
-            </Col> */}
+            </Col>
         </>
 
     )

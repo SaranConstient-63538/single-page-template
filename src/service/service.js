@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { tokenService } from './tokenService'
 
 
 const instance = axios.create({
@@ -9,8 +8,6 @@ const instance = axios.create({
         "Authorization" :`Bearer ${localStorage.getItem('token')}`
     },
 })
-
-
 export default instance
 
 

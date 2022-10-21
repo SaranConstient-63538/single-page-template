@@ -1,11 +1,11 @@
-import {motion} from 'framer-motion'
 import {useEffect, useState} from 'react'
-import { Col, Modal, Table, Card } from 'react-bootstrap'
+import { Col, Modal, Table } from 'react-bootstrap'
 import instance from '../../service/service'
 import {Pagination} from './Pagination'
 import moment from 'moment'
 import * as Ai from  'react-icons/ai'
 import "./pagination.css";
+import { loading } from '../loading'
 
 export const UserLeaveList =()=>{
    
@@ -23,7 +23,7 @@ export const UserLeaveList =()=>{
    
 
     const [currentPage, setCurrentpage]=useState(1)
-    const [perPage,setPerpage]=useState(6)
+    const [perPage]=useState(6)
 
   const [pageLimit]=useState(3)
   const [maxPage, setMaxpage]=useState(4)
@@ -33,8 +33,8 @@ export const UserLeaveList =()=>{
   const lastPage = currentPage * perPage;
   const firstPage = lastPage - perPage;
   const curItem = data.slice(firstPage,lastPage);
-  const handleClose = () => setDesc_show(false);
-  const handleShow = () => setDesc_show(true);
+//   const handleClose = () => setDesc_show(false);
+//   const handleShow = () => setDesc_show(true);
 
 //pagination
   const dataList = [];
@@ -117,32 +117,30 @@ export const UserLeaveList =()=>{
                             </tr>
                         </thead>                      
                         <tbody className="overflow-auto">
-                            { curItem?.length ?
-
-                                curItem.map((item,idx)=>{
-                                    console.log(moment.utc(item.from_date).format('DD-MM-YYYY'))
-                                    return(
-                                        <tr key={idx} className="shadow rounded-pill">
-                                            <td className="py-3">{(perPage *(currentPage-1))+idx +  1}</td>
-                                            <td className="py-3">{moment(item.from_date).format('DD-MM-YYYY')}</td>
-                                            <td className="py-3">{moment(item.to_date).format('DD-MM-YYYY')}</td>
-                                            <td className="py-3">{item.type_of_leave === 'sick_leave'? 'Sick Leave': item.type_of_leave === 'casual_leave' ? 'Casual Leave':item.type_of_leave === 'work_from_home' ? 'Work From Home':item.type_of_leave === 'permission' ? 'Permission' : ''  }</td>                                      
-                                            <td className="py-3" >{item.description.length > 10 ? (<Handledesc desc={item.description}/>):item.description}</td>
-                                            <td className="py-3">
-                                                {item.status === 0 ?(
-                                                    <p className='m-0 text-capitalize' >waiting for approval</p>
-                                                ):(
-                                                    <p className='m-0 text-capitalize'>approved</p>
-                                                )
-                                            } 
-                                            </td>
-                                            
-                                        </tr>
-                                    )
-                                }):(
+                            { 
+                                loading && curItem.length > 0 ?
+                                    curItem.map((item,idx)=>{
+                                        return(
+                                            <tr key={idx} className="shadow rounded-pill">
+                                                <td className="py-3">{(perPage *(currentPage-1))+idx +  1}</td>
+                                                <td className="py-3">{moment(item.from_date).format('DD-MM-YYYY')}</td>
+                                                <td className="py-3">{moment(item.to_date).format('DD-MM-YYYY')}</td>
+                                                <td className="py-3">{item.type_of_leave === 'sick_leave'? 'Sick Leave': item.type_of_leave === 'casual_leave' ? 'Casual Leave':item.type_of_leave === 'work_from_home' ? 'Work From Home':item.type_of_leave === 'permission' ? 'Permission' : ''  }</td>                                      
+                                                <td className="py-3" >{item.description.length > 10 ? (<Handledesc desc={item.description}/>):item.description}</td>
+                                                <td className="py-3">
+                                                    {item.status === 0 ?(
+                                                        <p className='m-0 text-capitalize' >waiting for approval</p>
+                                                    ):(
+                                                        <p className='m-0 text-capitalize'>approved</p>
+                                                    )
+                                                } 
+                                                </td>                                            
+                                            </tr>
+                                        )
+                                    }):(
                                     <tr><td colSpan='8'>No Record Founded</td></tr>
                                 )
-                                }                      
+                            }                      
                         </tbody>   
                     </Table>
                 </Col>

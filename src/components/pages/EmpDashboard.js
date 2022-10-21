@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { Row, Col,Card, Table } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import Permissionslider    from './Permissionslider';
 import './leave.css'
 import WorkFromHome from './WorkFromHome';
@@ -7,16 +7,13 @@ import CasualLeavel from './CasualLeave';
 import SickLeave from './SickLeave';
 import instance from '../../service/service';
 import { motion } from 'framer-motion';
-import moment  from 'moment'
 import { UserLeaveList } from '../tables/UserLeaveList';
 
 const EmpDashboard = () => {
     const user_list = ''
-    const [order,setOrder ]=useState('DSC')
     const [sick_leave, setSick_leave]=useState('')
     const [casual_leave, setCasual_leave]=useState('')
     const [work_from_home, setWork_from_home]=useState('')
-    const [permission, setPermission]=useState('')
     const [userList, setUserList]=useState([])
    
     
@@ -41,7 +38,6 @@ const EmpDashboard = () => {
             console.log(err.message)
         })  
     },[user_list])
-    
 
   return (
     <motion.div initial={{opacity: 1}} animate={{y:0}} className="p-0">

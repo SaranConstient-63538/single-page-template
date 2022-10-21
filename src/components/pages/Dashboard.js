@@ -16,12 +16,14 @@ const Dashboard = () => {
     <>
       <Col >
           <Row className="justify-content-around pt-5 mt-5 px-md-5">    
-            { items.role === "trainee" && items.token !== null ?
+          
+            { items.token !== null ?
+                items.role === "trainee" ?
                 (
                     <EmpDashboard  />
                 ):(
                     <TlDashboard  />
-                )
+                ): ''
             }    
           </Row>                
       </Col>

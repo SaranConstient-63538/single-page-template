@@ -1,6 +1,5 @@
 
-import {Form, Col,InputGroup} from 'react-bootstrap'
-import * as Bi from 'react-icons/bi'
+import { Form } from 'react-bootstrap'
 import './topbar.css'
 
 const SearchBarTop =()=>{
