@@ -1,21 +1,18 @@
 import {  Row, Col, Modal, Card, Button, Form} from 'react-bootstrap'
 import DatePicker from "react-datepicker";
-import {lazy} from 'react'
 
 import React,{useState} from 'react'
 import './leave.css'
 
 import moment from 'moment';
 import instance from '../../service/service';
-import { motion } from 'framer-motion'
 import { toast } from 'react-toastify'
-import {useDropzone} from 'react-dropzone'
 
 
 const SickLeave =({sick_leave})=>{
-    const {acceptedFiles, getRootProps, getInputProps} = useDropzone();
-    const format_date = "YYYY-MM-DD"
-    console.log(acceptedFiles)
+    // const {acceptedFiles, getRootProps, getInputProps} = useDropzone();
+    // const format_date = "YYYY-MM-DD"
+    // console.log(acceptedFiles)
     const [file_upload, setFile_upload] = useState([]);
   
     
@@ -51,7 +48,7 @@ const SickLeave =({sick_leave})=>{
                 return{...prevState,endDate:''}
             })
         }
-        if(sick_reason==''){
+        if(sick_reason ===''){
             errorCount++
             setInputErrors((prevState)=>{
                 return{...prevState,sick_reason:'* Reason Is Required'}
@@ -72,7 +69,7 @@ const SickLeave =({sick_leave})=>{
                 return{...prevState,per_reason:''}
             })
         }
-        if(errorCount==0){
+        if(errorCount ===0){
             const applyForm = {startDate,endDate,sick_reason,file_upload}
             console.log(applyForm)
             setSick_show(true);
@@ -223,15 +220,15 @@ const SickLeave =({sick_leave})=>{
                         />    
                         {inputErrors.sick_reason && <p className='text-danger'>{inputErrors.sick_reason}</p>} 
                         <h6 className='mb-3 mt-3'>Doc Upload </h6>
-                        {/* <Form.Control className="mb-2" type="file" onChange={handleDrop} multiple />     */}
-                        <Dropzone onDrop={handleDrop}>
+                        <Form.Control className="mb-2" type="file" onChange={handleDrop} multiple />    
+                        {/* <Dropzone onDrop={handleDrop}>
                             {({ getRootProps, getInputProps }) => (
                             <div {...getRootProps({ className: "dropzone" })}>
                                 <input {...getInputProps()} />
                                 <p>Drag'n'drop files, or click to select files</p>
                             </div>
                             )}
-                        </Dropzone>
+                        </Dropzone> */}
                         {inputErrors.sick_reason && <p className='text-danger'>{inputErrors.file_upload}</p>} 
                         <div className='text-end'>
                         <Button onClick={sick_handleShow} className="m-1 p-2 rounded-4">Submit</Button>     

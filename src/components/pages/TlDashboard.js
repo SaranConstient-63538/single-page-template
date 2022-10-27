@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import { Row, Col,Card, Table, Button, Modal } from 'react-bootstrap';
+import { Row, Col,Card, Button, Modal } from 'react-bootstrap';
 import Permissionslider    from './Permissionslider';
 import './leave.css'
 import WorkFromHome from './WorkFromHome';
@@ -7,20 +7,14 @@ import CasualLeavel from './CasualLeave';
 import SickLeave from './SickLeave';
 import instance from '../../service/service'
 import LeaveListTab from './LeaveListTab'
-import moment from 'moment'
 import { motion } from 'framer-motion'
-import * as Ai from 'react-icons/ai'
 import { UserLeaveList } from '../tables/UserLeaveList';
 
 const TlDashboard = () => {   
     // let user_list;
-    const [order,setOrder ]=useState('ASC')
-    const [_key, setKey]=useState('casual_leave')
     const [sick_leave, setSick_leave]=useState('')
     const [casual_leave, setCasual_leave]=useState("")
     const [work_from_home, setWork_from_home]=useState('')
-    const [list, setList]=useState([])
-    const [userList, setUserList]=useState([])
     const items = JSON.parse(localStorage.getItem('data'))
     const [btn_req_show, setBtn_req_show]=useState(false)
 
@@ -29,16 +23,7 @@ const TlDashboard = () => {
     }
     const req_handleClose =()=> setBtn_req_show(false)
     // console.log(btn_req)
-    useEffect(()=>{     
-        instance.get(`${process.env.REACT_APP_APPROVALIST}?type_of_leave=${_key}`).then( res =>{
-            console.log('hi',_key,res.data.result); 
-           
-            if(res && res.data && res.data.result && res.data.result.length > 0){
-                setList(res.data.result)  
-            }else{
-                setList([])
-            }   
-          })    
+    useEffect(()=>{       
             instance.post(process.env.REACT_APP_LEAVELIST,).then(res =>{
                 console.log( res.data);
                 for( var i=0; i< res.data.result.length;i++){
@@ -53,20 +38,8 @@ const TlDashboard = () => {
             }).catch( err =>{
                 console.log(err.message)
             }) 
-            instance.get(process.env.REACT_APP_USERS_LEAVELIST).then(res => {
-                console.log(res.data)
-                setUserList(res.data)
-                // user_list = res.data
-                // console.log('api',user_list)
-                // user_list.sort((a,b)=> a.from_date.localeCompare(b.from_date))
-                // setUserList(user_list)
-            }) 
+           
           
-    },[])
-    useEffect(()=>{
-        
-        
-      
     },[])
     
     

@@ -1,7 +1,6 @@
 
 import {useState} from 'react'
 import  { Button, Modal, Form } from 'react-bootstrap'
-import { useForm } from 'react-hook-form'
 import moment from 'moment';
 import instance from '../../service/service';
 import { toast } from 'react-toastify';
@@ -63,7 +62,7 @@ const ApprovedModals =({show, setShow, btn_status,item})=>{
     
     const [desc,setDesc]=useState('')
 
-    const [frm_date,setfrm_date]=useState(moment.utc(item.from_date).format('DD-MM-YYYY'))
+    // const [frm_date,setfrm_date]=useState(moment.utc(item.from_date).format('DD-MM-YYYY'))
     
     const onSubmit =()=>{
         
@@ -79,10 +78,10 @@ const ApprovedModals =({show, setShow, btn_status,item})=>{
         .then( res =>{
             if(res.status === 200 ){
                 toast.success('Successfully Approved',{       
-                    position: toast.POSITION.BOTTOM_LEFT,
+                    position: toast.POSITION.TOP_RIGHT,
                 }) 
                 setDesc('')
-                setfrm_date('')
+                // setfrm_date('')
                 setShow(false);
                 
             }
@@ -91,16 +90,16 @@ const ApprovedModals =({show, setShow, btn_status,item})=>{
     }
     return(
         <Modal show={show} onHide={()=> setShow(false)}>
-            <Modal.Header closeButton></Modal.Header>
+            <Modal.Header closeButton>Approval</Modal.Header>
             <Modal.Body>
                 <Form>
-                    <Form.Label>Status Description</Form.Label>
+                    <Form.Label>Status</Form.Label>
                     <Form.Control 
                         value={desc} onChange={ e => setDesc(e.target.value)} className="mb-3"/>
-                    <Form.Label>From Date</Form.Label>
-                    <Form.Control value={frm_date} onChange={e => setfrm_date(e.target.value)} setDate className="mb-3" />
-                    <div className=" p-1 m-2 ">
-                        <Button value="Save" onClick={onSubmit} className="btn btn-primary rounded-4 w-auto">Save</Button>
+                    {/* <Form.Label>From Date</Form.Label>
+                    <Form.Control value={frm_date} onChange={e => setfrm_date(e.target.value)} setDate className="mb-3" /> */}
+                    <div className=" p-1 m-2 text-end">
+                        <Button value="Save" onClick={onSubmit} className="btn btn-primary rounded-4 w-auto">Apply</Button>
                     </div>
                     
                 </Form>                    
@@ -112,8 +111,6 @@ const ApprovedModals =({show, setShow, btn_status,item})=>{
 const RejectedModals =({show, setShow, btn_status,item})=>{
     
     const [desc,setDesc]=useState('')
-
-    const [frm_date,setfrm_date]=useState(moment.utc(item.from_date).format('DD-MM-YYYY'))
     
     const onSubmit =()=>{        
         const appStatus={
@@ -121,7 +118,7 @@ const RejectedModals =({show, setShow, btn_status,item})=>{
             type_of_leave: item.type_of_leave,
             status_description: desc,
             leave_master_id: item.leave_master_id,
-            from_date: moment.utc(item.from_date).format('YYYY-MM-DD'),
+            from_date: moment(item.from_date).format('YYYY-MM-DD'),
         }          
         instance.post(process.env.REACT_APP_APPROVALUPDATE,appStatus)
         .then( res =>{
@@ -130,7 +127,6 @@ const RejectedModals =({show, setShow, btn_status,item})=>{
                     position: toast.POSITION.BOTTOM_LEFT,
                 }) 
                 setDesc('');
-                setfrm_date('');
                 setShow(false);                
             }
         })
@@ -142,16 +138,16 @@ const RejectedModals =({show, setShow, btn_status,item})=>{
     }
     return(
         <Modal show={show} onHide={()=> setShow(false)}>
-            <Modal.Header closeButton></Modal.Header>
+            <Modal.Header closeButton> Rejection </Modal.Header>
             <Modal.Body>
                 <Form>
-                    <Form.Label>Status Description</Form.Label>
+                    <Form.Label>Status</Form.Label>
                     <Form.Control 
                         value={desc} onChange={ e => setDesc(e.target.value)} className="mb-3"/>
-                    <Form.Label>From Date</Form.Label>
-                    <Form.Control value={frm_date} onChange={e => setfrm_date(e.target.value)} setDate className="mb-3" />
-                    <div className=" p-1 m-2 ">
-                        <Button value="Save" onClick={onSubmit} className="btn btn-primary rounded-4 w-auto">Save</Button>
+                    {/* <Form.Label>From Date</Form.Label>
+                    <Form.Control value={frm_date} onChange={e => setfrm_date(e.target.value)} setDate className="mb-3" /> */}
+                    <div className=" p-1 m-2 text-end ">
+                        <Button value="Save" onClick={onSubmit} className="btn btn-primary rounded-4 w-auto">Apply</Button>
                     </div>
                     
                 </Form>                    

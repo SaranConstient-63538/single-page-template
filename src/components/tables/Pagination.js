@@ -1,9 +1,8 @@
 
-import {useState} from 'react'
 import "./pagination.css";
 
 export const Pagination =(props)=>{
-  const {pageNumber, handleNextbtn, handlePrevbtn , maxPage, currentPage, minPage, curItem} = props;
+  const {pageNumber, handleNextbtn, handlePrevbtn , maxPage, currentPage, minPage} = props;
   console.log(props.currentPage)
   return(
     <ul className="page-number border-0">

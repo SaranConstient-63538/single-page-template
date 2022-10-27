@@ -1,44 +1,17 @@
 import React,{useState, useEffect} from 'react'
-import { Col, Table, Tabs, Tab, Button, Modal, Form} from 'react-bootstrap'
+import { Col,Tabs, Tab} from 'react-bootstrap'
 import instance from '../../service/service'
-import moment from 'moment'
-import { useForm } from 'react-hook-form'
 
 import LeaveListTable from '../tables/LeaveListTable'
+// import { toast } from 'react-toastify'
 
 const LeaveListTab = () => {
-    //header columns
-    const leavelistCol =[
-        {field:'id',header:'S.No'},
-        {field:'updated_by',header:'Emp Name'},
-        {field:'from_date',header:'Start Date'},
-        {field:'to_date',header:'End Date'},
-        {field:'no_of_days',header:'Days'},
-        {field:'description',header:'Reason'},
-        {field:'button',header:'Approval status'},
-        {field:'action',header:'Action'},
-    ]
     
     const [_key, setKey]=useState('casual_leave')
     const [list, setList]=useState([])
-    const [view,setView]=useState([]);
-    const [id,setId]=useState('')
-
-    const [cas_len, setCas_len] = useState('')
-    const [sic_len, setSic_len] = useState('')
-    const [wfh_len, setWfh_len] = useState('')
-    const [per_len, setPer_len] = useState('')
     
-    const [show, setShow]=useState(false)
-    const [_show, _setShow]=useState(false)
+    // const [_show, _setShow]=useState(false)
     const [count, setCount]=useState([])
-    const [spec_show, setSpec_show] =useState(false)
-
-    const [leavetype, setLeavetype]=useState('')
-    const [btn_status, setBtn_status]=useState(0);// status
-    const [status_des, setStatus_des]=useState('');//description
-    const [frm_date,setFrom_date]=useState('')//from date
-    const [emp_id, setEmp_id]=useState('') //emp id 
 
     
     useEffect(() => {   
@@ -76,50 +49,8 @@ const LeaveListTab = () => {
 
     
 
-    const onApproved =()=>{
-        const appStatus={
-            status: btn_status,
-            type_of_leave: leavetype,
-            status_description: status_des,
-            leave_master_id: emp_id,
-            from_date: frm_date,
-        }       
-        const approved = list.filter( item => item.from_date === frm_date && item.type_of_leave === leavetype)
-        if(approved){
-            instance.post(process.env.REACT_APP_APPROVALUPDATE,appStatus)
-            .then( res =>{
-                // console.log(res.data);
-                setStatus_des('')
-                setFrom_date('')
-            }).catch(err =>{
-                console.log(err.message)
-            })
-        }
-       
-    }
-    const onRejected =()=>{
-        
-        const appStus={
-            status: btn_status,
-            type_of_leave: leavetype,
-            status_description: status_des,
-            leave_master_id: emp_id,
-            from_date: frm_date,
-        }       
-       const rejected = list.filter( item => item.from_date === frm_date && item.type_of_leave === leavetype)
-        console.log(rejected,appStus)
-        if(rejected){
-             instance.post(process.env.REACT_APP_APPROVALUPDATE,appStus)
-            .then( res =>{
-                // console.log(res.data,'test');
-                setStatus_des('')
-                setFrom_date('')
-            }).catch(err =>{
-                console.log(err.message)
-            })
-        }
-      
-    }
+    
+    
     
   return (
     <Col className="px-3 py-3 mt-3 mb-3">     

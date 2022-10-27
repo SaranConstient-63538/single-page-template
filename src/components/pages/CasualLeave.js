@@ -3,15 +3,14 @@ import DatePicker from "react-datepicker";
 import React,{useState} from 'react'
 import moment from 'moment'
 import instance from '../../service/service'
-import { motion } from 'framer-motion'
 import { toast } from 'react-toastify'
 
 
 const CasualLeavel =({casual_leave})=>{
   
-    const format_date = "DD-MM-YYYY"
-    const [day_count, setDaycount] = useState(0)
-    const [tot_day_count, setTot_day_count]=useState(12)  
+    // const format_date = "DD-MM-YYYY"
+    // const [day_count, setDaycount] = useState(0)
+    // const [tot_day_count, setTot_day_count]=useState(12)  
     
 
     const addDays = (date, period) => {

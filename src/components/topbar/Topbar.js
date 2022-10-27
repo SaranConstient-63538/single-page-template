@@ -1,11 +1,10 @@
 import React from 'react';
-import { Navbar, Nav, Button, Dropdown } from 'react-bootstrap'
+import { Navbar, Nav,  Dropdown } from 'react-bootstrap'
 import * as Ai from 'react-icons/ai'
 import logoImg from '../../assets/images/cgstopbar-logo.svg'
 import SearchBarTop from './SearchBarTop';
 import './topbar.css';
-import { useNavigate } from 'react-router-dom'
-import {NotificationsNoneOutlined,  MessageOutlined} from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 import instance from '../../service/service'
 import { tokenService } from '../../service/tokenService';
 

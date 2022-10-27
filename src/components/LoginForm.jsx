@@ -50,7 +50,7 @@ const LoginForm = () => {
     }    
     instance.post(process.env.REACT_APP_LOGIN,login_data).then( res =>{ 
       if( res.status === 200){
-        console.log(res,res.data.responseResult.token)
+        // console.log(res,res.data.responseResult.token)
         localStorage.setItem('token',res.data.responseResult.token)
         localStorage.setItem('data',JSON.stringify( res.data.responseResult))
         navigate('/home') 

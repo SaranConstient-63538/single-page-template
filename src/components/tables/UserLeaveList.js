@@ -1,4 +1,4 @@
-import {motion} from 'framer-motion'
+
 import {useEffect, useState} from 'react'
 import { Col, Modal, Table } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
@@ -25,7 +25,7 @@ export const UserLeaveList =()=>{
    
 
     const [currentPage, setCurrentpage]=useState(1)
-    const [perPage,setPerpage]=useState(10)
+    const [perPage]=useState(10)
 
   const [pageLimit]=useState(50)
   const [maxPage, setMaxpage]=useState(50)

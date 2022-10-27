@@ -27,8 +27,7 @@ const LeaveListTable =({list,_key,setList})=>{
         {field:'id',header:'S.No'},
         {field:'updated_by',header:'Emp Name'},
         {field:'from_date',header:'Date'},
-        {field:'frm_time',header:'Start Time'},
-        {field:'end_time',header:'End Time'},
+        {field:'frm_time',header:'Time'},
         {field:'no_of_hours',header:'Hours'},
         {field:'description',header:'Reason'},
         {field:'button',header:'Status'},
@@ -118,13 +117,13 @@ const LeaveListTable =({list,_key,setList})=>{
                                 <th key={head.field} onClick={() => onSorting(head.header)}>
                                   {head.header}{<span><Ai.AiOutlineArrowUp /> <Ai.AiOutlineArrowDown /></span>}
                                 </th>
-                              )):
-                              perleavelistCol.map((head)=>(
+                              ))
+                              :perleavelistCol.map((head)=>(
                                 <th key={head.field} onClick={() => onSorting(head.header)}>
                                   {head.header}{<span><Ai.AiOutlineArrowUp /> <Ai.AiOutlineArrowDown /></span>}
                                 </th>
-                              ))
-                          }
+                              ))                             
+                            }
                         </tr>            
                     </thead>
                     <tbody>   
@@ -160,12 +159,12 @@ const LeaveListTable =({list,_key,setList})=>{
                                   if(item.type_of_leave === _key  ){
                                       return(
                                           <tr key={idx}>
-                                              <td>{idx+1}</td>
+                                              <td>{idx + 1}</td>
                                               <td>{item.updated_by} </td>
-                                              <td>{moment().utc(item.from_date).format('DD-MM-YYYY')}</td>
-                                              <td>{ moment().utc(item.from_date).format('hh : mm')}</td>
-                                              <td>{ moment.utc(item.to_date).format('hh : mm')}</td>
-                                              <td>{ item.type_of_leave === 'permission'? item.no_of_hours: item.no_of_days}</td>
+                                              <td>{moment(item.from_date).format('DD-MM-YYYY')}</td>
+                                              <td>{ moment(item.from_date).format('hh : mm')}</td>
+                                              <td>{ moment(item.to_date).format('hh : mm')}</td>
+                                              <td>{ item.type_of_leave === 'permission' ? item.no_of_hours : item.no_of_days}</td>
                                               <td>{item.description}</td>
                                               <td>
                                                   <>                                       

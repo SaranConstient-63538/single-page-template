@@ -15,14 +15,16 @@ const Dashboard = () => {
   return (
     <>
       <Col >
-          <Row className="justify-content-around pt-5 mt-5 px-md-5">    
-            { items.role === "trainee" && items.token !== null ?
-                (
-                    <EmpDashboard  />
-                ):(
-                    <TlDashboard  />
-                )
-            }    
+          <Row className="justify-content-around pt-5 mt-5 px-md-5">   
+          {items.token !== null ?
+            items.role === "trainee" ?
+              (
+                  <EmpDashboard  />
+              ):(
+                  <TlDashboard  />
+              ):''
+          } 
+       
           </Row>                
       </Col>
     </>

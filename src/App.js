@@ -1,7 +1,6 @@
-import React, { Suspense, useState, lazy} from 'react';
+import React, { Suspense,  lazy} from 'react';
 import { ToastContainer } from 'react-toastify'
 import { Routes, Route, BrowserRouter }  from 'react-router-dom';
-import { Spinner } from 'react-bootstrap';
 import PrivateRoute from './components/PrivateRoute';
 import {loading} from './components/loading'
 import 'react-toastify/dist/ReactToastify.css';

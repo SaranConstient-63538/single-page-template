@@ -4,26 +4,25 @@ import { Modal,Card, Button, Form, Col,Row } from 'react-bootstrap';
 import DatePicker from 'react-datepicker'
 import moment from 'moment';
 import instance from '../../service/service';
-import { motion } from 'framer-motion'
 import { toast } from 'react-toastify'
 import "./leave.css";
 
 const Permissionslider =()=>{
   const format_date = "YYYY-MM-DD"
-  const format_time = "hh:mm"
+  // const format_time = "hh:mm"
 
   const [startDate,setStartDate]=useState('')
   const [startTime, setStartTime]=useState(new Date().setHours(new Date().setMinutes(30),9))
   const [endTime, setEndTime]=useState('')
-  let start_time = moment(startTime).format(format_time)
-  let end_time = moment(endTime).format(format_time)
-const dt =new Date();
+  const dt =new Date();
   const [show,setShow]=useState(false)
   const [per_show, setPer_show]=useState(false)
   const [per_reason,setPer_reason]=useState('')
+  const start_time= moment(startTime).format('hh:mm')
+  const end_time = moment(endTime).format('hh:mm')
 
   const [inputErrors,setInputErrors] = useState({startDate:'',startTime:'',endTime:'',per_reason:''})
-  const now = moment().toDate();
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -75,23 +74,24 @@ const dt =new Date();
     }
    
     if(errorCount === 0 && startTime <= endTime){
-      const applyForm = {startDate,startTime,endTime,per_reason}
-      console.log(applyForm)
+      // const applyForm = {startDate,startTime,endTime,per_reason}
+      // console.log(applyForm)
       per_handleShow()
     }else{
-      console.log('please select the valid time ')
+      toast.error('please select the valid time',{
+          position: toast.POSITION.TOP_RIGHT,
+      })
     }
     
   }      
   const _permission ={
     from_date: moment(startDate).format(format_date).concat(' '+ moment(startTime).format('hh:mm a')+' '),  
     to_date: moment(startDate).format(format_date).concat(' '+ moment(endTime).format("hh:mm a")+' '),  
-    start_time:parseFloat(moment(startTime).format('hh:mm')), 
-    end_time:parseFloat(moment(endTime).format('hh:mm')),
+    start_time:parseFloat(start_time), 
+    end_time:parseFloat(end_time),
     type_of_leave:'permission',
     description: per_reason,
   }
-  console.log(_permission)
   
   const onCancel =()=>{
     setStartDate('')
@@ -106,12 +106,12 @@ const dt =new Date();
   };
 
   const onPermission =()=>{
-    console.log("hello world")
-    const user = JSON.parse(localStorage.getItem('data'));      
+    const user = JSON.parse(localStorage.getItem('data')); 
+         
     if(user.role === "trainee" && user.token !== null){
       instance.post(process.env.REACT_APP_PERMISSION, _permission)
       .then(res =>{
-        console.log(res.data, 'success')        
+        // console.log(res)        
         setStartDate('')
         setStartTime('')
         setEndTime('')
@@ -119,18 +119,18 @@ const dt =new Date();
         per_handleClose()
         handleClose()
         toast.success('Successfully apply the Permission',{
-          position: toast.POSITION.BOTTOM_LEFT,
+          position: toast.POSITION.TOP_RIGHT,
         })
       }).catch( err =>{
         toast.error(`${err.message}`,{
           position: toast.POSITION.TOP_RIGHT,
         })
-        console.log(err.message)
+        // console.log(err.message)
       })
     }else{
       instance.post(process.env.REACT_APP_PERMISSION, _permission)
       .then(res =>{
-        console.log(res.data, 'success')      
+        // console.log(res)      
         setStartDate('')
         setStartTime('')
         setEndTime('')
@@ -144,20 +144,20 @@ const dt =new Date();
         toast.error(`${err.message}`,{
           position: toast.POSITION.TOP_RIGHT,
         })
-        console.log(err.message)
+        // console.log(err.message)
       })
     }    
   } 
-  const addDays = (date, period) =>{        
-    return date.setDate(date.getDate() + period)        
-  } 
+  // const addDays = (date, period) =>{        
+  //   return date.setDate(date.getDate() + period)        
+  // } 
   
-    const filterPassedTime = (time) => {
-      const currentDate = new Date();
-      const selectedDate = new Date(time);
+    // const filterPassedTime = (time) => {
+    //   const currentDate = new Date();
+    //   const selectedDate = new Date(time);
   
-      return currentDate.getTime() < selectedDate.getTime();
-    };
+    //   return currentDate.getTime() < selectedDate.getTime();
+    // };
   
   return(
     <>
@@ -262,7 +262,7 @@ const dt =new Date();
           
           <Row>
           <Col className='text-start'>
-                <Button  className="btn text-capitalize btn-success p-2 m-2 rounded-4 fs-6">apply</Button>
+                <Button onClick={onPermission} className="btn text-capitalize btn-success p-2 m-2 rounded-4 fs-6">apply</Button>
             </Col>
             <Col className='text-end'>
                 <Button className="btn btn-danger p-2 m-2 rounded-4 fs-6 text-capitalize" onClick={onCancel}>Cancel</Button>
