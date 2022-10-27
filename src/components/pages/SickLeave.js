@@ -9,12 +9,13 @@ import moment from 'moment';
 import instance from '../../service/service';
 import { motion } from 'framer-motion'
 import { toast } from 'react-toastify'
-// const Dropzone = lazy(()=> import('react-dropzone'))
+import {useDropzone} from 'react-dropzone'
 
 
 const SickLeave =({sick_leave})=>{
+    const {acceptedFiles, getRootProps, getInputProps} = useDropzone();
     const format_date = "YYYY-MM-DD"
-    
+    console.log(acceptedFiles)
     const [file_upload, setFile_upload] = useState([]);
   
     
@@ -176,13 +177,13 @@ const SickLeave =({sick_leave})=>{
       </Card>
             <Modal show={show} onHide={handleClose} size="lg" centered>
                 <Modal.Header closeButton>
-                    <Modal.Title>Sick Leave</Modal.Title>
+                    <Modal.Title className="text-secondary">Sick Leave</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Col xs> 
                         <Row>                            
                             <Col md sm={6} className='mb-3'>  
-                                <h6 className="mb-3 mt-1 text-capitalize">from:</h6>
+                                <h6 className="mb-3 mt-1 text-capitalize fw-bold">from:</h6>
                                 <DatePicker     className='form-control mb-2'                               
                                    selected={startDate}
                                    onChange={(date) => setStartdate(date)}
@@ -199,7 +200,7 @@ const SickLeave =({sick_leave})=>{
                             </Col>
                             
                             <Col md sm={6} className='mb-3'>
-                            <h6 className="mb-3 mt-1 text-capitalize">to:</h6>
+                            <h6 className="mb-3 mt-1 text-capitalize fw-bold">to:</h6>
                                 <DatePicker className='form-control mb-2'
                                      selected={endDate}
                                      onChange={(date) => setEnddate(date)}
@@ -221,17 +222,17 @@ const SickLeave =({sick_leave})=>{
                             value={sick_reason} onChange={onSickReason} 
                         />    
                         {inputErrors.sick_reason && <p className='text-danger'>{inputErrors.sick_reason}</p>} 
-                        {/* <h6 className='mb-3 mt-3'>Doc Upload </h6>
-                        <Form.Control className="mb-2" type="file" onChange={handleDrop} multiple />     */}
-                        {/* <Dropzone onDrop={handleDrop}>
+                        <h6 className='mb-3 mt-3'>Doc Upload </h6>
+                        {/* <Form.Control className="mb-2" type="file" onChange={handleDrop} multiple />     */}
+                        <Dropzone onDrop={handleDrop}>
                             {({ getRootProps, getInputProps }) => (
                             <div {...getRootProps({ className: "dropzone" })}>
                                 <input {...getInputProps()} />
                                 <p>Drag'n'drop files, or click to select files</p>
                             </div>
                             )}
-                        </Dropzone> */}
-                        {/* {inputErrors.sick_reason && <p className='text-danger'>{inputErrors.file_upload}</p>}  */}
+                        </Dropzone>
+                        {inputErrors.sick_reason && <p className='text-danger'>{inputErrors.file_upload}</p>} 
                         <div className='text-end'>
                         <Button onClick={sick_handleShow} className="m-1 p-2 rounded-4">Submit</Button>     
                         </div>                                                            

@@ -14,15 +14,11 @@ import { toast } from 'react-toastify'
 const Topbar = ({handleShow}) => {   
     const navigate = useNavigate();
     const Logout =()=>{
-        
+        tokenService.removeAccessToken();
         instance.post(process.env.REACT_APP_LOGOUT)
         .then( res =>{    
-            tokenService.removeAccessToken()
-            tokenService.removeUser()
-            // if(res.status === 200){
-                localStorage.clear();
-                navigate('/')
-            // }
+
+            navigate('/')
             console.log(res.data, 'data')
 
         }).catch(err =>{
@@ -38,28 +34,13 @@ const Topbar = ({handleShow}) => {
                 <Navbar.Brand href="#home" className="logoIcon text-center">
                     <img src={logoImg} alt="logo"  className='text-sm-center'/>
                 </Navbar.Brand> 
-            </div>  
-            {/* <Button className="btn text-white menubox-btn" onClick={handleShow}>                    */}
-                {/* <Ai.AiOutlineMenu aria-controls="#basic-navbar-nav" size={20} />  */}
+            </div> 
                 <span className="btn menubox-btn fs-2 border-0" onClick={handleShow}><i class="bi bi-list"></i></span>
-            {/* </Button>                */}
+           
             <Navbar.Collapse id="basic-navbar-nav d-md-block">                
                 <SearchBarTop />
                 <Nav className="flex-sm-column flex-md-row">                     
                     <div className='d-flex justify-content-between py-2 px-4 align-items-center'>
-                        {/* <Nav.Item className="p-2"> */}
-                            {/* <Nav.Link href="#link" className='mssg-btn'> */}
-                                {/* <MessageOutlined /> */}
-                                {/* <span className='fs-4'><i class="bi bi-chat"></i></span> */}
-                            {/* </Nav.Link> */}
-                        {/* </Nav.Item> */}
-                        
-                        {/* <Nav.Item className="p-2"   > */}
-                            {/* <Nav.Link href="#link" className='notify-btn'> */}
-                                {/* <NotificationsNoneOutlined  className="dropdown-toggle"/> */}
-                                {/* <span className='fs-4'><i class="bi bi-bell"></i></span> */}
-                            {/* </Nav.Link> */}
-                        {/* </Nav.Item>                            */}
                         <Nav.Item>
                             <Nav.Link >   
                                 <Dropdown>

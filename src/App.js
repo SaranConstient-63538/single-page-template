@@ -7,7 +7,8 @@ import {loading} from './components/loading'
 import 'react-toastify/dist/ReactToastify.css';
 
 const  LoginForm = lazy(()=> import('./components/LoginForm'));
-const MainPage =lazy(()=> import('./components/MainPage'));
+const MainPage = lazy(()=> import('./components/MainPage'));
+const ResetForm = lazy(()=> import('./components/ResetForm'));
 
 const App = () => {
   // const access_token =localStorage.getItem('token')
@@ -21,7 +22,7 @@ const App = () => {
           {/* <PrivateRoute exact path="/" element={<LoginForm />} restricted={true} /> */}
           {/*  <Route exact element={<LoginForm />} path="/" name="Login Page"  />                 */}
           <Route exact element={<LoginForm />} path="/login" name="Login Page"  />
-          
+          <Route exact element={<ResetForm />} path="/reset" name="Reset Page" />
           <Route path="/" element={ <LoginForm /> } />
             <Route path="/home" 
               element={

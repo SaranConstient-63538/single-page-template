@@ -21,33 +21,44 @@ import { tokenService } from '../service/tokenService'
 
 const schema = yup.object().shape({
   email: yup.string().email('must be valid e-mail address').required('E-mail is required'),
-  password: yup.string().min(8).required('password is required'),
-  newpassword: yup.string().min(8).required("New Password is required"),
-  conformpassword: yup.string().min(8).required("New Password is required").oneOf([yup.ref('newpassword')],"New password does not match"),
+  password: yup.string().required('password is required'),
+  newpassword: yup.string().required("New Password is required"),
+  confirmpassword: yup.string().required("New Password is required").oneOf([yup.ref('newpassword')],"New password does not match"),
 })
 
 const ResetForm = () => {
   const navigate = useNavigate();
-  const { handleSubmit, register, formState:{errors}} = useForm({
+  const { handleSubmit, register, formState:{errors},reset} = useForm({
     resolver: yupResolver(schema)
   });
+  const[pwdshow,setPwdShow]=useState(false);
+  const[newpwdshow,setNewpwdShow]=useState(false);
+  const[confrompwdshow,setConformpwdShow]=useState(false);
 
-  const[show,setShow]=useState(false);
-
-const handleShow=()=>{
-  setShow(!show)
+const handlePwdShow=()=>{
+  setPwdShow(!pwdshow)
+}
+const handleNewPwdShow=()=>{
+  setNewpwdShow(!newpwdshow)
+}
+const handleConformPwdShow=()=>{
+  setConformpwdShow(!confrompwdshow)
 }
   
-  useEffect(()=>{
-    if(isLogin())navigate('/home');
-  },[])
-  
   const onSubmit = (data)=>{        
-    let login_data={
+    let reset_data={
       email:data.email,
       password:data.password,
-      
+      changePassword: data.newpassword,
+      confirmPassword: data.confirmpassword,      
     }
+    instance.post(process.env.REACT_APP_PASSWORD_CHANGE,reset_data)
+    .then( res =>{
+      console.log(res.data)
+      navigate('/')
+      reset()
+    })
+    console.log(reset_data)
     
     
   }   
@@ -56,44 +67,68 @@ const handleShow=()=>{
         <div className="swing py-1 shadow-md m-auto my-5 rounded-3">
             <img src={cgsimg} alt="cgs image" className="fs-3 px-3 py-2" />
         </div>
-        <div className=" text-center m-auto py-2 position-relative">
-            <span className="mailinput position-absolute"><img src={mailicon} className="mailcon"/></span>
+        
+        <div className=" text-center mx-5 px-5 py-2 position-relative">
+            <span className="mailinput position-absolute">
+              <img src={mailicon} className="mailcon"/>
+            </span>
             <input type="text" 
                 {...register('email')}
                 placeholder="Email" 
                 className="log-input form-control border-0 shadow-none rounded-pill text-center"
             />
-            <p className="text-danger m-0">{errors.email?.message}</p>
+            <p className="text-danger m-2">{errors.email?.message}</p>
         </div>
-        <div className="text-center m-auto py-2 position-relative">
-            <span className="mailinput position-absolute"><img src={passwordicon}  className="passcon"/></span>
-            <span className="btn mailinput1 position-absolute border-0" onClick={handleShow}><img src={passwordshow} className="passshowcon"/></span>   
-            <input type={show?"text":"password"}
-            {...register('newpassword')}
-                className="log-input form-control border-0 shadow-none rounded-pill text-center" placeholder="Password"                 
-                />   
+        <div className="text-center mx-5 px-5 py-2 position-relative">
+            <span className="mailinput position-absolute">
+              <img src={passwordicon} className="passcon" alt="password icon" />
+            </span>
+            <span className="btn mailinput1 position-absolute border-0" 
+              onClick={handlePwdShow}
+            >
+              <img src={passwordshow} className="passshowcon"  alt="password eye icon"/>
+            </span>
+            <input type={pwdshow?"text":"password"}
+              {...register('password')}
+              className="log-input form-control border-0 shadow-none rounded-pill text-center" 
+              placeholder="Password"                 
+            />   
             <p className="text-danger m-0">{errors.password?.message}</p>           
         </div>
-        <div className="text-center m-auto py-2 position-relative">
-            <span className="mailinput position-absolute"><img src={passwordicon}  className="passcon"/></span>
-            <span className="btn mailinput1 position-absolute border-0" onClick={handleShow}><img src={passwordshow} className="passshowcon"/></span>   
-            <input type={show?"text":"password"}
-            {...register('password')}
-                className="log-input form-control border-0 shadow-none rounded-pill text-center" placeholder="Password"                 
-                />   
-            <p className="text-danger m-0">{errors.password?.message}</p>           
+        <div className="text-center mx-5 px-5 py-2 position-relative">
+            <span className="mailinput position-absolute">
+              <img src={passwordicon}  className="passcon" alt="password icon"/>
+            </span>
+            <span className="btn mailinput1 position-absolute border-0" 
+              onClick={handleNewPwdShow}
+            >
+              <img src={passwordshow} className="passshowcon" alt="password eye icon"/>
+            </span>   
+            <input type={newpwdshow?"text":"password"}
+              {...register('newpassword')}
+              className="log-input form-control border-0 shadow-none rounded-pill text-center" 
+              placeholder="New Password"                 
+            />   
+            <p className="text-danger m-0">{errors.newpassword?.message}</p>           
         </div>
-        <div className="text-center m-auto py-2 position-relative">
-            <span className="mailinput position-absolute"><img src={passwordicon}  className="passcon"/></span>
-            <span className="btn mailinput1 position-absolute border-0" onClick={handleShow}><img src={passwordshow} className="passshowcon"/></span>   
-            <input type={show?"text":"password"}
-            {...register('conformpassword')}
-                className="log-input form-control border-0 shadow-none rounded-pill text-center" placeholder="Password"                 
-                />   
-            <p className="text-danger m-0">{errors.password?.message}</p>           
+        <div className="text-center mx-5 px-5 py-2 position-relative">
+            <span className="mailinput position-absolute">
+              <img src={passwordicon}  className="passcon" alt="password icon"/>
+            </span>
+            <span className="btn mailinput1 position-absolute border-0" 
+              onClick={handleConformPwdShow}
+            >
+              <img src={passwordshow} className="passshowcon"/>
+            </span>   
+            <input type={confrompwdshow?"text":"password"}
+              {...register('confirmpassword')}
+              className="log-input form-control border-0 shadow-none rounded-pill text-center" 
+              placeholder=" ConfirmPassword"                 
+            />   
+            <p className="text-danger m-0">{errors.confirmpassword?.message}</p>           
         </div>
         <div className="text-center py-4 mb-2">
-            <button className="log-button border-0 w-25 py-1 text-uppercase rounded-pill shadow">login</button>
+            <button className="log-button border-0 w-25 py-1 text-uppercase rounded-pill shadow">Reset</button>
         </div>
         </Form>
   );

@@ -100,11 +100,11 @@ const CasualLeavel =({casual_leave})=>{
                         casual_handleClose()
                         handleClose()
                         toast.success('Successfully apply the Casual Leave',{
-                            position: toast.POSITION.BOTTOM_LEFT,
+                            position: toast.POSITION.TOP_RIGHT,
                         })
                     }else{
                         toast.warning('Please check leave availablity',{
-                            position: toast.POSITION.BOTTOM_LEFT,
+                            position: toast.POSITION.TOP_RIGHT,
                         })
                     }
                     
@@ -131,7 +131,7 @@ const CasualLeavel =({casual_leave})=>{
                     casual_handleClose()
                     handleClose()
                     toast.success('Successfully apply the Casual Leave',{
-                        position: toast.POSITION.BOTTOM_LEFT,
+                        position: toast.POSITION.TOP_RIGHT,
                     })
                 }).catch( err =>{
                     toast.error(`${err.message}`,{

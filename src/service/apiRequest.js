@@ -1,16 +1,13 @@
+import { configure } from '@testing-library/react';
 import instance from './service'
 import { tokenService } from './tokenService'
 
 instance.interceptors.request.use(
     async config =>{
-        const token = tokenService.getAccessToken()
+        const token =localStorage.getItem('token')
         if(token){
-            config.headers={
-                'Authorization' : `Bearer ${token}`,
-                // 'Accept': 'application/json',
-                "Content-type": "application/json", 
-                // 'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            config.headers['Authorization']=`Bearer ${token}`;
+            // config.headers['x-access-token'] = token;            
         }
         
         return config;

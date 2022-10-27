@@ -4,8 +4,7 @@
         return token;
     }
     const removeAccessToken =()=>{
-        localStorage.removeItem('token'); 
-        localStorage.clear()      
+        localStorage.removeItem('token');     
     }
     const setAccessToken =(token)=>{
         const _token = JSON.stringify(token)
